@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo de Participantes • Checklist Academia Vonex</title>
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+
+  <!-- ==========================================
+       ESTILOS DEL SISTEMA LIQUID GLASS PREMIUM
+  ========================================== -->
+  <style>
+    :root {
+      --c-primary: #2563eb;
+      --c-primary-hover: #1d4ed8;
+      --c-accent: #ffe001;
+      --c-emerald: #10b981;
+      --c-blue: #3b82f6;
+      --c-red: #ef4444;
+      --c-amber: #f59e0b;
+      --c-purple: #8b5cf6;
+
+      --c-bg: #dbeafe;
+      --c-text: #0f172a;
+      --c-text-muted: #64748b;
+      --c-text-sub: #475569;
+
+      --glass-header-bg: rgba(255, 255, 255, 0.55);
+      --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.35) 100%);
+      --glass-card-border: rgba(255, 255, 255, 0.85);
+      --glass-card-shadow: 0 12px 36px -4px rgba(37, 99, 235, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+      --glass-panel-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.3) 100%);
+
+      --input-bg: rgba(255, 255, 255, 0.7);
+      --input-border: rgba(255, 255, 255, 0.95);
+      --input-focus-border: #3b82f6;
+      --input-focus-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+
+      --orb-1: rgba(147, 197, 253, 0.75);
+      --orb-2: rgba(191, 219, 254, 0.7);
+      --orb-3: rgba(224, 231, 255, 0.65);
+      --bg-grad-1: rgba(191, 219, 254, 0.5);
+      --bg-grad-2: rgba(224, 231, 255, 0.5);
+      --bg-grad-3: rgba(186, 230, 253, 0.5);
+    }
+
+    body[data-palette="fuchsia"] {
+      --c-primary: #db2777;
+      --c-primary-hover: #be185d;
+      --c-bg: #fdf2f8;
+      --glass-card-shadow: 0 10px 30px 0 rgba(219, 39, 119, 0.08);
+      --input-focus-border: #db2777;
+      --input-focus-shadow: 0 0 0 3px rgba(219, 39, 119, 0.25);
+      --orb-1: rgba(244, 114, 182, 0.75);
+      --orb-2: rgba(232, 121, 249, 0.7);
+      --orb-3: rgba(192, 132, 252, 0.65);
+      --bg-grad-1: rgba(252, 231, 243, 0.6);
+      --bg-grad-2: rgba(243, 232, 255, 0.6);
+      --bg-grad-3: rgba(251, 207, 232, 0.55);
+    }
+
+    body[data-palette="butter"] {
+      --c-primary: #d97706;
+      --c-primary-hover: #b45309;
+      --c-bg: #fefce8;
+      --glass-card-shadow: 0 10px 30px 0 rgba(217, 119, 6, 0.08);
+      --input-focus-border: #d97706;
+      --input-focus-shadow: 0 0 0 3px rgba(217, 119, 6, 0.25);
+      --orb-1: rgba(254, 240, 138, 0.85);
+      --orb-2: rgba(253, 230, 138, 0.75);
+      --orb-3: rgba(254, 215, 170, 0.7);
+      --bg-grad-1: rgba(254, 249, 195, 0.6);
+      --bg-grad-2: rgba(254, 243, 199, 0.6);
+      --bg-grad-3: rgba(255, 237, 213, 0.55);
+    }
+
+    body[data-theme="dark"] {
+      --c-bg: #090e1a;
+      --c-text: #f8fafc;
+      --c-text-muted: #94a3b8;
+      --c-text-sub: #cbd5e1;
+      --glass-header-bg: rgba(15, 23, 42, 0.65);
+      --glass-card-bg: linear-gradient(135deg, rgba(30, 41, 59, 0.65) 0%, rgba(15, 23, 42, 0.5) 100%);
+      --glass-card-border: rgba(255, 255, 255, 0.16);
+      --glass-card-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+      --glass-panel-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.45) 100%);
+
+      --input-bg: rgba(15, 23, 42, 0.65);
+      --input-border: rgba(255, 255, 255, 0.15);
+      --input-focus-border: #60a5fa;
+      --input-focus-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+
+      --orb-1: rgba(30, 58, 138, 0.55);
+      --orb-2: rgba(67, 56, 202, 0.48);
+      --orb-3: rgba(109, 40, 217, 0.42);
+      --bg-grad-1: rgba(30, 58, 138, 0.35);
+      --bg-grad-2: rgba(67, 56, 202, 0.35);
+      --bg-grad-3: rgba(15, 23, 42, 0.6);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--c-bg);
+      color: var(--c-text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      background-image:
+        radial-gradient(at 0% 0%, var(--bg-grad-1) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, var(--bg-grad-2) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, var(--bg-grad-3) 0px, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    .blur-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: 0;
+      opacity: 0.85;
+      pointer-events: none;
+    }
+    .orb-a {
+      width: 480px; height: 480px;
+      background: var(--orb-1);
+      top: -10%; right: -5%;
+    }
+    .orb-b {
+      width: 420px; height: 420px;
+      background: var(--orb-2);
+      bottom: -10%; left: -5%;
+    }
+
+    .glass-header {
+      background: var(--glass-header-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-card-border);
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+    }
+    .glass-card {
+      background: var(--glass-card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-card-border);
+      box-shadow: var(--glass-card-shadow);
+      border-radius: 1.25rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .pill-btn {
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      color: var(--c-text);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .pill-btn:hover {
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateY(-1px);
+    }
+    body[data-theme="dark"] .pill-btn {
+      background: rgba(30, 41, 59, 0.7);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+    }
+
+    .pill-tag {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      padding: 0.35rem 0.9rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    body[data-theme="dark"] .pill-tag {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .badge-estado-cumplido {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+    .badge-estado-proceso {
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+    .badge-notif-enviado {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+    .badge-notif-pendiente {
+      background: #ffedd5;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-action-registrar {
+      background: white;
+      border: 1.5px solid #2563eb;
+      color: #2563eb;
+      padding: 0.4rem 0.95rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);
+    }
+    .btn-action-registrar:hover {
+      background: #2563eb;
+      color: white;
+      transform: translateY(-1px);
+    }
+    .btn-action-archivado {
+      background: rgba(241, 245, 249, 0.8);
+      border: 1px solid #cbd5e1;
+      color: #64748b;
+      padding: 0.4rem 0.95rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen relative pb-12">
+
+  <!-- ORBES DE FONDO -->
+  <div class="blur-orb orb-a"></div>
+  <div class="blur-orb orb-b"></div>
+
+  <!-- ==========================================
+       CABECERA GLASS SUPERIOR
+       ========================================== -->
+  <header class="glass-header sticky top-0 z-40 px-4 sm:px-8 py-3 mb-5 transition-all">
+    <div class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+      
+      <!-- LOGO Y TÍTULO -->
+      <div class="flex items-center gap-3.5 w-full sm:w-auto">
+        <button onclick="window.history.back()" type="button" class="pill-btn !p-2 !rounded-xl" title="Volver">
+          <i class="fa-solid fa-arrow-left text-slate-600 dark:text-slate-300"></i>
+        </button>
+
+        <div style="display: flex; align-items: center; justify-content: center; height: 36px; padding: 4px 14px; border-radius: 10px; background-color: #FFE001; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1.5px solid rgba(255,255,255,0.8);">
+          <span style="font-family:'Outfit', sans-serif; font-weight:900; font-size:18px; color:#004691; letter-spacing:-0.5px;">V<span style="color:#0f172a;">ONEX</span></span>
+        </div>
+
+        <div style="width: 1px; height: 26px; background: rgba(15, 23, 42, 0.12);" class="hidden sm:block"></div>
+
+        <div>
+          <h1 class="font-extrabold text-sm sm:text-base tracking-tight text-slate-900 dark:text-slate-100 leading-tight">
+            Módulo de Participantes
+          </h1>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            Registro de actividades, cumplimiento de hitos y envío de evidencias por sede.
+          </p>
+        </div>
+      </div>
+
+      <!-- ACCIONES: TEMA / PALETA -->
+      <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+        <button onclick="cyclePalette()" type="button" class="pill-btn" title="Cambiar Paleta">
+          <i class="fa-solid fa-palette text-indigo-500"></i>
+          <span id="txt-paleta">Tema</span>
+        </button>
+
+        <button id="btn-theme-toggle" onclick="toggleTheme()" type="button" class="pill-btn" title="Modo Claro / Oscuro">
+          <i id="ico-theme" class="fa-solid fa-sun text-amber-500"></i>
+          <span id="txt-theme">Modo Claro</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==========================================
+       CONTENIDO PRINCIPAL
+       ========================================== -->
+  <main class="w-full max-w-7xl mx-auto px-4 sm:px-8 space-y-5 relative z-10">
+
+    <!-- CÁPSULAS SUPERIORES DE SELECCIÓN Y PROGRESO -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+      
+      <!-- IZQUIERDA: BADGES CONTEXTUALES + TÍTULO DEL CRONOGRAMA -->
+      <div class="lg:col-span-8 glass-card p-5 space-y-4 flex flex-col justify-between">
+        
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="pill-tag text-blue-700 dark:text-blue-300">
+            <i class="fa-solid fa-calendar-day"></i>
+            <select class="bg-transparent border-none font-bold text-xs outline-none cursor-pointer">
+              <option>UNMSM (AMBOS) - 26/10/2026</option>
+              <option>UNI (PRESENCIAL) - 10/08/2026</option>
+              <option>UNHEVAL (PRESENCIAL) - 09/09/2026</option>
+            </select>
+          </div>
+
+          <div class="pill-tag text-slate-700 dark:text-slate-200">
+            <i class="fa-solid fa-building-columns text-blue-600"></i>
+            <span>UNMSM</span>
+          </div>
+
+          <div class="pill-tag text-amber-700 dark:text-amber-300">
+            <i class="fa-solid fa-tag text-amber-500"></i>
+            <span>PRESENCIAL • 2026-II</span>
+          </div>
+
+          <div class="pill-tag text-indigo-700 dark:text-indigo-300">
+            <i class="fa-solid fa-shield-halved text-indigo-500"></i>
+            <span>CHK-2026102601</span>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-blue-900 dark:text-blue-100 tracking-tight">
+            GP | CRONOGRAMA DE GESTIÓN DE INICIO DE CLASES - UNMSM - 26/10/2026
+          </h2>
+        </div>
+
+        <!-- 5 KPIS HORIZONTALES -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-2 border-t border-white/50 dark:border-white/10">
+          <div>
+            <div class="text-lg font-black text-slate-800 dark:text-slate-100">11</div>
+            <div class="text-[9px] font-extrabold uppercase text-slate-500 tracking-wider">Hitos Totales</div>
+          </div>
+          <div>
+            <div class="text-lg font-black text-amber-600 dark:text-amber-400">7</div>
+            <div class="text-[9px] font-extrabold uppercase text-slate-500 tracking-wider">Pendientes</div>
+          </div>
+          <div>
+            <div class="text-lg font-black text-emerald-600 dark:text-emerald-400">4</div>
+            <div class="text-[9px] font-extrabold uppercase text-slate-500 tracking-wider">Completados</div>
+          </div>
+          <div>
+            <div class="text-lg font-black text-blue-600 dark:text-blue-400">3</div>
+            <div class="text-[9px] font-extrabold uppercase text-slate-500 tracking-wider">A Tiempo</div>
+          </div>
+          <div>
+            <div class="text-lg font-black text-red-500">1</div>
+            <div class="text-[9px] font-extrabold uppercase text-slate-500 tracking-wider">Con Retraso</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- DERECHA: FECHA DEL CONCURSO + TARJETA DE PROGRESO -->
+      <div class="lg:col-span-4 grid grid-cols-2 gap-3 items-stretch">
+        
+        <!-- TARJETA FECHA CLAVE -->
+        <div class="glass-card p-4 flex flex-col justify-between items-center text-center">
+          <div class="text-[10px] font-black uppercase tracking-wider text-slate-500">
+            Fecha de Inicio
+          </div>
+          <div class="text-xl sm:text-2xl font-black text-blue-700 dark:text-blue-400">
+            26/10/2026
+          </div>
+          <button type="button" class="pill-btn !py-1 !px-2.5 !text-[11px] text-emerald-600 font-extrabold">
+            <i class="fa-solid fa-folder-open text-emerald-500"></i>
+            <span>Repositorio</span>
+          </button>
+        </div>
+
+        <!-- TARJETA PROGRESO CIRCULAR / PORCENTAJE -->
+        <div class="glass-card p-4 flex flex-col justify-between items-center text-center">
+          <div class="text-[10px] font-black uppercase tracking-wider text-slate-500">
+            Progreso
+          </div>
+          
+          <!-- ANILLO INDICADOR -->
+          <div class="relative w-16 h-16 flex items-center justify-center">
+            <div class="w-16 h-16 rounded-full border-4 border-slate-200 dark:border-slate-700"></div>
+            <div class="absolute w-16 h-16 rounded-full border-4 border-blue-600 border-t-transparent -rotate-45" style="border-right-color: transparent;"></div>
+            <span class="absolute font-black text-base text-blue-700 dark:text-blue-300">36%</span>
+          </div>
+
+          <div class="text-[10px] font-black uppercase text-slate-500">
+            Avance Ponderado
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ==========================================
+         TABLA: LÍNEA DE ACTIVIDADES Y ENTREGABLES
+         ========================================== -->
+    <div class="glass-card p-5 sm:p-6 space-y-4">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-white/50 dark:border-white/10">
+        <div class="flex items-center gap-2.5">
+          <div class="w-7 h-7 rounded-lg bg-blue-500/15 text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm font-black">
+            <i class="fa-solid fa-list-check"></i>
+          </div>
+          <h3 class="font-black text-sm tracking-tight text-slate-800 dark:text-slate-100">
+            Línea de Actividades y Entregables
+          </h3>
+        </div>
+        <span class="text-xs text-slate-500 font-semibold">11 actividades registradas</span>
+      </div>
+
+      <!-- TABLA DETALLADA -->
+      <div class="overflow-x-auto rounded-xl border border-white/60 dark:border-white/10">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-white/40 dark:bg-slate-800/40 text-[10.5px] font-black uppercase text-slate-500 tracking-wider border-b border-white/60 dark:border-white/10">
+            <tr>
+              <th class="py-3 px-3 text-center w-8">#</th>
+              <th class="py-3 px-3 w-48">Responsable</th>
+              <th class="py-3 px-3 w-48">Actividad</th>
+              <th class="py-3 px-3 w-28 text-center">Fecha Pactada</th>
+              <th class="py-3 px-3">Evidencias</th>
+              <th class="py-3 px-3 text-center w-24">Ejecución</th>
+              <th class="py-3 px-3 text-center w-28">Notificación</th>
+              <th class="py-3 px-3 text-center w-28">Estado</th>
+              <th class="py-3 px-3 text-center w-28">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/40 dark:divide-white/10 font-medium">
+
+            <!-- FILA 1: PENDIENTE / EN PROCESO -->
+            <tr class="hover:bg-white/30 dark:hover:bg-slate-800/30 transition-all">
+              <td class="py-3.5 px-3 text-center font-bold text-slate-500">1</td>
+              <td class="py-3.5 px-3">
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs font-black">
+                    <i class="fa-solid fa-chart-line"></i>
+                  </div>
+                  <div>
+                    <div class="font-bold text-slate-900 dark:text-slate-100">Jefa de Ventas</div>
+                    <div class="text-[10px] text-slate-500 font-medium">jpinedo@vonex.edu.pe</div>
+                  </div>
+                </div>
+              </td>
+              <td class="py-3.5 px-3 font-semibold text-slate-800 dark:text-slate-200">
+                Enviar Cronograma de actividades
+              </td>
+              <td class="py-3.5 px-3 text-center text-slate-600 dark:text-slate-300">
+                <span class="inline-flex items-center gap-1 font-bold text-[11px]">
+                  <i class="fa-regular fa-clock text-slate-400"></i>
+                  13/10/2026
+                </span>
+              </td>
+              <td class="py-3.5 px-3 space-y-1.5">
+                <textarea rows="2" placeholder="Agregar observaciones o bitácora..." class="w-full bg-white/60 dark:bg-slate-800/60 border border-white/80 dark:border-white/10 rounded-lg p-2 text-xs outline-none focus:border-blue-500 transition-all"></textarea>
+                <input type="url" placeholder="URL de evidencia..." class="w-full bg-white/60 dark:bg-slate-800/60 border border-white/80 dark:border-white/10 rounded-lg py-1 px-2 text-[11px] outline-none focus:border-blue-500 transition-all">
+              </td>
+              <td class="py-3.5 px-3 text-center font-bold text-slate-400">—</td>
+              <td class="py-3.5 px-3 text-center">
+                <span class="badge-notif-pendiente">Pendiente</span>
+              </td>
+              <td class="py-3.5 px-3 text-center">
+                <span class="badge-estado-proceso">En Proceso</span>
+              </td>
+              <td class="py-3.5 px-3 text-center">
+                <button type="button" class="btn-action-registrar">
+                  <i class="fa-solid fa-paper-plane"></i>
+                  <span>Registrar</span>
+                </button>
+              </td>
+            </tr>
+
+            <!-- FILA 2: CUMPLIDO / ARCHIVADO -->
+            <tr class="hover:bg-white/30 dark:hover:bg-slate-800/30 transition-all bg-emerald-500/5">
+              <td class="py-3.5 px-3 text-center font-bold text-slate-500">2</td>
+              <td class="py-3.5 px-3">
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-xs font-black">
+                    <i class="fa-solid fa-laptop-code"></i>
+                  </div>
+                  <div>
+                    <div class="font-bold text-slate-900 dark:text-slate-100">Soporte de Sistemas</div>
+                    <div class="text-[10px] text-slate-500 font-medium">wquispe@vonex.edu.pe</div>
+                  </div>
+                </div>
+              </td>
+              <td class="py-3.5 px-3">
+                <div class="font-semibold text-slate-800 dark:text-slate-200">
+                  Habilitar links para la inscripción del examen de Becas
+                </div>
+                <button type="button" class="text-[10px] font-black text-blue-600 uppercase mt-0.5 hover:underline">
+                  Expandir Detalle
+                </button>
+              </td>
+              <td class="py-3.5 px-3 text-center text-slate-600 dark:text-slate-300">
+                <span class="inline-flex items-center gap-1 font-bold text-[11px]">
+                  <i class="fa-regular fa-clock text-slate-400"></i>
+                  14/10/2026
+                </span>
+              </td>
+              <td class="py-3.5 px-3 text-[11px] text-slate-600 dark:text-slate-300">
+                <div class="bg-white/50 dark:bg-slate-800/50 p-2 rounded-lg border border-white/60 dark:border-white/10 text-[11px]">
+                  Link del formulario: <a href="#" class="text-blue-600 underline">https://forms.gle/czl...</a>
+                </div>
+              </td>
+              <td class="py-3.5 px-3 text-center font-bold text-slate-700 dark:text-slate-300">13/10/2026</td>
+              <td class="py-3.5 px-3 text-center">
+                <span class="badge-notif-enviado">Enviado</span>
+              </td>
+              <td class="py-3.5 px-3 text-center">
+                <span class="badge-estado-cumplido">Cumplido</span>
+              </td>
+              <td class="py-3.5 px-3 text-center">
+                <button type="button" class="btn-action-archivado" disabled>
+                  <i class="fa-solid fa-lock"></i>
+                  <span>Archivado</span>
+                </button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    /* ==========================================
+       CONTROL DE TEMAS Y PALETAS (CASCARÓN)
+       ========================================== */
+    const PALETTES = ['ocean', 'fuchsia', 'butter'];
+    let currentPaletteIdx = 0;
+
+    function cyclePalette() {
+      currentPaletteIdx = (currentPaletteIdx + 1) % PALETTES.length;
+      const p = PALETTES[currentPaletteIdx];
+      document.body.setAttribute('data-palette', p);
+      document.getElementById('txt-paleta').textContent = p.toUpperCase();
+    }
+
+    function toggleTheme() {
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
+      document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('ico-theme').className = isDark ? "fa-solid fa-sun text-amber-500" : "fa-solid fa-moon text-indigo-400";
+      document.getElementById('txt-theme').textContent = isDark ? "Modo Claro" : "Modo Oscuro";
+    }
+  </script>
+
+</body>
+</html>

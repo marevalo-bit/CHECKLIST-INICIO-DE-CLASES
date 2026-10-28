@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo Base Universal - Academia Vonex</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+
+  <!-- Chart.js & Datalabels Plugin (UMD) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+
+  <!-- ==========================================
+       ESTILOS DEL SISTEMA LIQUID GLASS PREMIUM
+  ========================================== -->
+  <style>
+    :root {
+      --c-primary: #2563eb;
+      --c-primary-hover: #1d4ed8;
+      --c-accent: #ffe001;
+      --c-emerald: #10b981;
+      --c-blue: #3b82f6;
+      --c-red: #ef4444;
+      --c-amber: #f59e0b;
+      --c-purple: #8b5cf6;
+
+      /* FONDO BASE CLARO (PALETA AZUL ICE DEFAULT) */
+      --c-bg: #dbeafe;
+      --c-text: #0f172a;
+      --c-text-muted: #64748b;
+      --c-text-sub: #475569;
+
+      /* LIQUID GLASS CLARO (MÁS TRASLÚCIDO Y BRILLANTE) */
+      --glass-header-bg: rgba(255, 255, 255, 0.45);
+      --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.3) 100%);
+      --glass-card-border: rgba(255, 255, 255, 0.75);
+      --glass-card-shadow: 0 12px 36px -4px rgba(37, 99, 235, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+      --glass-panel-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.25) 100%);
+
+      /* INPUTS & ELEMENTOS */
+      --input-bg: rgba(255, 255, 255, 0.6);
+      --input-border: rgba(255, 255, 255, 0.9);
+      --input-focus-border: #3b82f6;
+      --input-focus-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+
+      /* ORBES AZUL ICE */
+      --orb-1: rgba(147, 197, 253, 0.75);
+      --orb-2: rgba(191, 219, 254, 0.7);
+      --orb-3: rgba(224, 231, 255, 0.65);
+      --bg-grad-1: rgba(191, 219, 254, 0.5);
+      --bg-grad-2: rgba(224, 231, 255, 0.5);
+      --bg-grad-3: rgba(186, 230, 253, 0.5);
+    }
+
+    /* PALETA 2: FUCSIA SUAVE */
+    body[data-palette="fuchsia"] {
+      --c-primary: #db2777;
+      --c-primary-hover: #be185d;
+      --c-bg: #fdf2f8;
+      --glass-card-shadow: 0 10px 30px 0 rgba(219, 39, 119, 0.08);
+      --input-focus-border: #db2777;
+      --input-focus-shadow: 0 0 0 3px rgba(219, 39, 119, 0.25);
+      --orb-1: rgba(244, 114, 182, 0.75);
+      --orb-2: rgba(232, 121, 249, 0.7);
+      --orb-3: rgba(192, 132, 252, 0.65);
+      --bg-grad-1: rgba(252, 231, 243, 0.6);
+      --bg-grad-2: rgba(243, 232, 255, 0.6);
+      --bg-grad-3: rgba(251, 207, 232, 0.55);
+    }
+
+    /* PALETA 3: AMARILLO VONEX PASTEL */
+    body[data-palette="butter"] {
+      --c-primary: #d97706;
+      --c-primary-hover: #b45309;
+      --c-bg: #fefce8;
+      --glass-card-shadow: 0 10px 30px 0 rgba(217, 119, 6, 0.08);
+      --input-focus-border: #d97706;
+      --input-focus-shadow: 0 0 0 3px rgba(217, 119, 6, 0.25);
+      --orb-1: rgba(254, 240, 138, 0.85);
+      --orb-2: rgba(253, 230, 138, 0.75);
+      --orb-3: rgba(254, 215, 170, 0.7);
+      --bg-grad-1: rgba(254, 249, 195, 0.6);
+      --bg-grad-2: rgba(254, 243, 199, 0.6);
+      --bg-grad-3: rgba(255, 237, 213, 0.55);
+    }
+
+    /* MODO OSCURO (GLOBAL) */
+    body[data-theme="dark"] {
+      --c-bg: #090e1a;
+      --c-text: #f8fafc;
+      --c-text-muted: #94a3b8;
+      --c-text-sub: #cbd5e1;
+      --glass-header-bg: rgba(15, 23, 42, 0.55);
+      --glass-card-bg: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.45) 100%);
+      --glass-card-border: rgba(255, 255, 255, 0.16);
+      --glass-card-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+      --glass-panel-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.55) 0%, rgba(30, 41, 59, 0.4) 100%);
+
+      --input-bg: rgba(15, 23, 42, 0.6);
+      --input-border: rgba(255, 255, 255, 0.15);
+      --input-focus-border: #60a5fa;
+      --input-focus-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+
+      --orb-1: rgba(30, 58, 138, 0.55);
+      --orb-2: rgba(67, 56, 202, 0.48);
+      --orb-3: rgba(109, 40, 217, 0.42);
+      --bg-grad-1: rgba(30, 58, 138, 0.35);
+      --bg-grad-2: rgba(67, 56, 202, 0.35);
+      --bg-grad-3: rgba(15, 23, 42, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--c-bg);
+      background-image:
+        radial-gradient(at 0% 0%, var(--bg-grad-1) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, var(--bg-grad-2) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, var(--bg-grad-3) 0px, transparent 50%);
+      color: var(--c-text);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.4s ease, color 0.3s ease;
+      overflow-x: hidden;
+    }
+
+    /* ORBES FLOTANTES */
+    .blur-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: -1;
+      opacity: 0.88;
+      pointer-events: none;
+      transition: background 0.6s ease;
+    }
+
+    .orb-a {
+      width: 65vw;
+      height: 65vw;
+      max-width: 750px;
+      max-height: 750px;
+      background: var(--orb-1);
+      top: -15%;
+      right: -10%;
+      animation: floatOrbA 13s infinite ease-in-out alternate;
+    }
+
+    .orb-b {
+      width: 60vw;
+      height: 60vw;
+      max-width: 650px;
+      max-height: 650px;
+      background: var(--orb-2);
+      bottom: -15%;
+      left: -10%;
+      animation: floatOrbB 15s infinite ease-in-out alternate;
+      animation-delay: -3s;
+    }
+
+    .orb-c {
+      width: 50vw;
+      height: 50vw;
+      max-width: 520px;
+      max-height: 520px;
+      background: var(--orb-3);
+      top: 30%;
+      left: 25%;
+      animation: floatOrbC 11s infinite ease-in-out alternate;
+      animation-delay: -5s;
+    }
+
+    @keyframes floatOrbA {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+      33% { transform: translate(-14%, 12%) scale(1.18) rotate(45deg); }
+      66% { transform: translate(10%, 18%) scale(0.92) rotate(90deg); }
+      100% { transform: translate(-8%, -10%) scale(1.12) rotate(135deg); }
+    }
+
+    @keyframes floatOrbB {
+      0% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(16%, -14%) scale(1.15); }
+      66% { transform: translate(-12%, -8%) scale(0.88); }
+      100% { transform: translate(10%, 12%) scale(1.1); }
+    }
+
+    @keyframes floatOrbC {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-18%, -15%) scale(1.22); }
+      100% { transform: translate(15%, 15%) scale(0.85); }
+    }
+
+    /* HEADER GLASS */
+    .glass-header {
+      background: var(--glass-header-bg);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-bottom: 1px solid var(--glass-card-border);
+      box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.04);
+    }
+
+    /* BOTONES PILL */
+    .glass-pill {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.35) 100%);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-top: 1px solid rgba(255, 255, 255, 0.95);
+      border-left: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+      border-radius: 9999px;
+      padding: 0.5rem 1.1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      color: var(--c-text-sub);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body[data-theme="dark"] .glass-pill {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.65) 0%, rgba(15, 23, 42, 0.45) 100%);
+      border-color: rgba(255, 255, 255, 0.14);
+      border-top-color: rgba(255, 255, 255, 0.25);
+      border-left-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+    }
+
+    .glass-pill:hover {
+      transform: translateY(-2px) scale(1.02);
+      filter: brightness(1.06);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15), inset 0 1px 2px rgba(255, 255, 255, 1);
+      color: var(--c-primary);
+    }
+
+    body[data-theme="dark"] .glass-pill:hover {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+
+    .glass-pill-active {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+      color: var(--c-primary) !important;
+      box-shadow: 0 6px 20px -2px rgba(37, 99, 235, 0.3), inset 0 1px 0 #ffffff !important;
+      border-color: rgba(255, 255, 255, 1) !important;
+    }
+
+    body[data-theme="dark"] .glass-pill-active {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+      color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.3) !important;
+      box-shadow: 0 6px 20px -2px rgba(59, 130, 246, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    /* CARDS Y CONTENEDORES GLASS */
+    .glass-card {
+      background: var(--glass-card-bg);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--glass-card-border);
+      border-top: 1px solid rgba(255, 255, 255, 0.85);
+      border-left: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow: var(--glass-card-shadow);
+      border-radius: 1.25rem;
+      transition: all 0.25s ease;
+    }
+
+    body[data-theme="dark"] .glass-card {
+      border-top-color: rgba(255, 255, 255, 0.22);
+      border-left-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .glass-panel {
+      background: var(--glass-panel-bg);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      border: 1px solid var(--glass-card-border);
+      border-top: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: var(--glass-card-shadow);
+      border-radius: 1.25rem;
+    }
+
+    /* TOAST NOTIFICACIÓN */
+    #app-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #app-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* INPUTS & SELECTS GLASS */
+    .glass-input {
+      width: 100%;
+      background: var(--input-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--input-border);
+      border-radius: 0.75rem;
+      padding: 0.55rem 0.85rem;
+      font-size: 0.813rem;
+      font-weight: 600;
+      color: var(--c-text);
+      outline: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    .glass-input:focus {
+      border-color: var(--input-focus-border);
+      box-shadow: var(--input-focus-shadow);
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    body[data-theme="dark"] .glass-input:focus {
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    select option {
+      background-color: #ffffff;
+      color: #0f172a;
+    }
+
+    body[data-theme="dark"] select option {
+      background-color: #1e293b;
+      color: #f8fafc;
+    }
+
+    .form-label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.688rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--c-text-sub);
+      margin-bottom: 0.35rem;
+    }
+
+    /* BOTÓN SUBMIT PRINCIPAL */
+    .btn-submit-premium {
+      background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-hover) 100%);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.875rem;
+      letter-spacing: 0.5px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.875rem;
+      width: 100%;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.4);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-submit-premium:hover:not(:disabled) {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+      box-shadow: 0 12px 26px -4px rgba(37, 99, 235, 0.5);
+    }
+
+    .btn-submit-premium:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-vonex-secondary {
+      background: rgba(255, 255, 255, 0.6);
+      color: var(--c-text);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      padding: 0.55rem 1.25rem;
+      border-radius: 0.875rem;
+      font-size: 0.813rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-vonex-secondary:hover {
+      background: rgba(255, 255, 255, 0.85);
+      transform: translateY(-1px);
+    }
+    body[data-theme="dark"] .btn-vonex-secondary {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+    }
+
+    /* KPI STAT CARDS (OPTIMIZADAS Y CHATAS) */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.65rem;
+    }
+
+    .stat-card {
+      background: var(--glass-card-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--glass-card-border);
+      border-radius: 0.875rem;
+      padding: 0.65rem 0.95rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--glass-card-shadow);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.12);
+      border-color: rgba(255, 255, 255, 0.95);
+    }
+
+    body[data-theme="dark"] .stat-card:hover {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .stat-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.85rem;
+      color: var(--c-text-muted);
+      opacity: 0.14;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover .stat-icon {
+      opacity: 0.25;
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .stat-val {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--c-text);
+      line-height: 1;
+    }
+
+    .stat-lbl {
+      font-size: 0.625rem;
+      font-weight: 800;
+      color: var(--c-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-top: 0.2rem;
+    }
+
+    .stat-pct {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--c-primary);
+      margin-left: 0.35rem;
+    }
+
+    /* ESTILOS DE LA TABLA LIQUID GLASS */
+    .table-container-glass {
+      border-radius: 1.15rem;
+      overflow: hidden;
+      border: 1px solid var(--glass-card-border);
+      background: var(--glass-card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .table-modulo {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .table-modulo thead {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    body[data-theme="dark"] .table-modulo thead {
+      background: rgba(15, 23, 42, 0.45);
+    }
+
+    .table-modulo th {
+      color: var(--c-text);
+      font-size: 0.625rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 0.65rem 0.5rem;
+      text-align: center;
+      border-bottom: 1px solid var(--glass-card-border);
+      border-right: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    body[data-theme="dark"] .table-modulo th {
+      border-right-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .table-modulo th:last-child {
+      border-right: none;
+    }
+
+    .table-modulo tbody tr {
+      transition: background 0.15s ease;
+    }
+
+    .table-modulo tbody tr:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    body[data-theme="dark"] .table-modulo tbody tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .table-modulo td {
+      padding: 0.55rem 0.6rem;
+      font-size: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+      color: var(--c-text);
+      text-align: center;
+    }
+
+    body[data-theme="dark"] .table-modulo td {
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+
+    /* WHATSAPP FLOTANTE CON RIPPLE */
+    .whatsapp-btn {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.45), 0 8px 10px -6px rgba(34, 197, 94, 0.2);
+    }
+    .whatsapp-btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 15px 30px -5px rgba(34, 197, 94, 0.6), 0 10px 15px -5px rgba(34, 197, 94, 0.3);
+    }
+    .whatsapp-btn:active {
+      transform: translateY(-1px) scale(0.98);
+    }
+
+    /* SCROLLBAR ESTILIZADA */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.45);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(100, 116, 139, 0.65);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen relative selection:bg-indigo-500 selection:text-white pb-10">
+
+  <!-- ==========================================
+       1. ORBES ANIMADOS DE FONDO
+  ========================================== -->
+  <div class="blur-orb orb-a"></div>
+  <div class="blur-orb orb-b"></div>
+  <div class="blur-orb orb-c"></div>
+
+  <!-- ==========================================
+       2. TOAST FLOTANTE PARA MENSAJES
+  ========================================== -->
+  <div id="app-toast" class="glass-panel px-5 py-3.5 rounded-2xl flex items-center gap-3 border border-white/60 shadow-2xl text-slate-800 dark:text-slate-100">
+    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-xs shadow-md">
+      <i class="fa-solid fa-bell"></i>
+    </div>
+    <span id="app-toast-message" class="text-xs font-bold">Notificación</span>
+  </div>
+
+  <!-- ==========================================
+       3. CABECERA GLASS SUPERIOR CON LOGO OFICIAL
+  ========================================== -->
+  <header class="glass-header sticky top-0 z-40 px-3 sm:px-6 py-2.5 transition-all mb-4">
+    <div class="w-full max-w-[98%] 2xl:max-w-[96%] mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
+
+      <!-- LOGO Y TÍTULO -->
+      <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
+        <div class="flex items-center gap-3">
+          <!-- Contenedor Oficial Logo Vonex en fondo amarillo #FFE001 -->
+          <div style="display: flex; align-items: center; justify-content: center; height: 36px; padding: 4px 14px; border-radius: 10px; background-color: #FFE001; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1.5px solid rgba(255,255,255,0.8);">
+            <img src="https://i.postimg.cc/138RvdNQ/a0ab0510-47c6-4b1c-b84b-5c2d8aa7988a.png" 
+                 alt="Academia Vonex" 
+                 style="height: 26px; width: auto; object-fit: contain;">
+          </div>
+
+          <div style="width: 1px; height: 24px; background: rgba(15, 23, 42, 0.12);" class="hidden sm:block"></div>
+
+          <div>
+            <div class="text-[10px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 leading-tight">Academia Vonex</div>
+            <h1 class="font-extrabold text-sm sm:text-base tracking-tight text-slate-900 dark:text-slate-100 leading-tight">
+              <span>Panel de Módulo Institucional</span>
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTONES DE CONTROL DE VISTA, TEMA Y PALETA -->
+      <div class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end">
+        <!-- Botón Guía para Usuarios (Foquito Visible) -->
+        <button onclick="abrirGuiaUsuario()" type="button" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-400/25 via-amber-300/20 to-yellow-400/20 hover:from-amber-400/35 hover:to-yellow-400/35 border-2 border-amber-400/80 text-amber-950 dark:text-amber-200 font-black text-xs shadow-md hover:shadow-lg transition-all cursor-pointer group" title="Guía para usuarios e indicaciones del módulo">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+          </span>
+          <i class="fa-solid fa-lightbulb text-amber-500 text-sm group-hover:scale-115 transition-transform animate-pulse"></i>
+          <span>Guía Módulo</span>
+        </button>
+
+        <!-- Botón Recargar / Sync -->
+        <button onclick="loadData()" type="button" class="glass-pill hover:bg-white/80" title="Sincronizar y recargar datos">
+          <i class="fa-solid fa-rotate text-blue-500"></i>
+          <span>Actualizar</span>
+        </button>
+
+        <!-- Paleta (Azul Ice / Fucsia / Amarillo) -->
+        <button onclick="cycleThemePalette()" type="button" class="glass-pill text-indigo-700 dark:text-indigo-300 hover:bg-white/80" title="Cambiar paleta cromática">
+          <i class="fa-solid fa-palette text-indigo-500"></i>
+          <span id="palette-btn-text">Tema</span>
+        </button>
+
+        <!-- Modo Claro / Oscuro -->
+        <button id="btnThemeToggle" onclick="toggleTheme()" type="button" class="glass-pill text-amber-700 dark:text-yellow-300 hover:bg-white/80" title="Alternar entre modo Claro y Oscuro">
+          <i id="theme-icon" class="fa-solid fa-sun text-amber-500"></i>
+          <span id="theme-text">Claro</span>
+        </button>
+
+        <!-- Botón de Acción Principal -->
+        <button onclick="moduloAccionPrincipal()" type="button" class="btn-submit-premium !w-auto !py-2 !px-4 !text-xs">
+          <i class="fa-solid fa-plus"></i>
+          <span>Nuevo Registro</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==========================================
+       4. CONTENEDOR PRINCIPAL DEL MÓDULO
+  ========================================== -->
+  <div class="w-full max-w-[98%] 2xl:max-w-[96%] mx-auto px-2 sm:px-4 lg:px-6 space-y-5">
+
+    <!-- PESTAÑAS PRINCIPALES DE NAVEGACIÓN -->
+    <div class="flex items-center justify-center py-1">
+      <nav class="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-full bg-slate-200/50 dark:bg-slate-800/50 border border-white/40 shadow-inner">
+        <button id="tab-btn-registro" onclick="switchTab('registro')" type="button" class="glass-pill glass-pill-active font-extrabold">
+          <i class="fa-solid fa-table-columns text-primary"></i>
+          <span>REGISTRO Y GESTIÓN</span>
+        </button>
+        <button id="tab-btn-dashboard" onclick="switchTab('dashboard')" type="button" class="glass-pill font-semibold text-slate-700 dark:text-slate-300">
+          <i class="fa-solid fa-chart-pie text-emerald-600 dark:text-emerald-400"></i>
+          <span>DASHBOARD ANALÍTICO</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- ==========================================
+         VISTA 1: REGISTRO Y GESTIÓN
+    ========================================== -->
+    <div id="view-registro" class="space-y-5">
+
+      <!-- TARJETAS DE INDICADORES (KPIS CHATAS INTERACTIVAS) -->
+      <div class="stats-grid">
+        <div onclick="filtrarPorMetrica('todos')" class="stat-card">
+          <i class="fa-solid fa-folder-open stat-icon"></i>
+          <span class="stat-val">128</span>
+          <span class="stat-lbl">Total Registros</span>
+        </div>
+
+        <div onclick="filtrarPorMetrica('completados')" class="stat-card border-l-4 border-l-emerald-500">
+          <i class="fa-solid fa-circle-check stat-icon text-emerald-500"></i>
+          <div class="flex items-baseline">
+            <span class="stat-val text-emerald-600 dark:text-emerald-400">94</span>
+            <span class="stat-pct text-emerald-500">73.4%</span>
+          </div>
+          <span class="stat-lbl">Completados</span>
+        </div>
+
+        <div onclick="filtrarPorMetrica('proceso')" class="stat-card border-l-4 border-l-amber-500">
+          <i class="fa-solid fa-clock stat-icon text-amber-500"></i>
+          <div class="flex items-baseline">
+            <span class="stat-val text-amber-600 dark:text-amber-400">26</span>
+            <span class="stat-pct text-amber-500">20.3%</span>
+          </div>
+          <span class="stat-lbl">En Proceso</span>
+        </div>
+
+        <div onclick="filtrarPorMetrica('observados')" class="stat-card border-l-4 border-l-red-500">
+          <i class="fa-solid fa-circle-xmark stat-icon text-red-500"></i>
+          <div class="flex items-baseline">
+            <span class="stat-val text-red-600 dark:text-red-400">8</span>
+            <span class="stat-pct text-red-500">6.3%</span>
+          </div>
+          <span class="stat-lbl">Observados</span>
+        </div>
+      </div>
+
+      <!-- FORMULARIO DE REGISTRO SUPERIOR COMPACTO -->
+      <div id="card-formulario" class="glass-card p-3.5 sm:p-5 space-y-3">
+        <!-- Cabecera del Formulario -->
+        <div class="flex items-center justify-between pb-2 border-b border-white/40 dark:border-white/10 gap-2 flex-wrap sm:flex-nowrap">
+          <div class="flex items-center gap-2.5">
+            <h2 class="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-slate-100 flex items-center gap-1.5 whitespace-nowrap">
+              <i class="fa-solid fa-circle-plus text-primary text-sm"></i>
+              <span>Nuevo Registro</span>
+            </h2>
+            <span class="text-[11px] font-bold text-slate-400 hidden sm:inline">Completa la información requerida</span>
+          </div>
+
+          <!-- Conmutador de Modo / Tipo -->
+          <div class="flex items-center p-0.5 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/60 dark:border-white/10 shadow-inner gap-1">
+            <button id="btn-mode-simple" type="button" onclick="setModoForm('simple')" class="glass-pill glass-pill-active !text-xs !px-3 !py-1">
+              Individual
+            </button>
+            <button id="btn-mode-multiple" type="button" onclick="setModoForm('multiple')" class="glass-pill !text-xs !px-3 !py-1">
+              Múltiple / Lote
+            </button>
+          </div>
+        </div>
+
+        <!-- Campos del Formulario -->
+        <form id="form-modulo" onsubmit="guardarRegistro(event)" class="space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div>
+              <label class="form-label">
+                <i class="fa-solid fa-hashtag text-blue-500"></i> Código / Clave <span class="text-red-500">*</span>
+              </label>
+              <input type="text" id="campoCodigo" required placeholder="Ej: MAT-2026-X" class="glass-input">
+            </div>
+
+            <div>
+              <label class="form-label">
+                <i class="fa-solid fa-layer-group text-blue-500"></i> Ciclo / Categoría <span class="text-red-500">*</span>
+              </label>
+              <select id="campoCategoria" required class="glass-input">
+                <option value="">Seleccione...</option>
+                <option value="Semianual">Semianual</option>
+                <option value="Anual">Anual</option>
+                <option value="Repaso">Repaso</option>
+                <option value="Intensivo">Intensivo</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">
+                <i class="fa-regular fa-calendar text-blue-500"></i> Fecha de Aplicación <span class="text-red-500">*</span>
+              </label>
+              <input type="date" id="campoFecha" required class="glass-input">
+            </div>
+
+            <div>
+              <label class="form-label">
+                <i class="fa-solid fa-user-check text-blue-500"></i> Responsable
+              </label>
+              <input type="text" id="campoResponsable" placeholder="Docente o tutor" class="glass-input">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="sm:col-span-2">
+              <label class="form-label">
+                <i class="fa-solid fa-align-left text-blue-500"></i> Observación / Descripción
+              </label>
+              <input type="text" id="campoDescripcion" placeholder="Describe brevemente el detalle o motivo..." class="glass-input">
+            </div>
+
+            <div>
+              <label class="form-label">
+                <i class="fa-solid fa-paperclip text-blue-500"></i> Enlace de Evidencia / Documento
+              </label>
+              <input type="url" id="campoEvidencia" placeholder="https://drive.google.com/..." class="glass-input">
+            </div>
+          </div>
+
+          <!-- Botones del Formulario -->
+          <div class="flex flex-wrap items-center justify-end gap-2 pt-2 border-t border-white/40 dark:border-white/10">
+            <button type="button" onclick="limpiarFormulario()" class="btn-vonex-secondary">
+              <i class="fa-solid fa-eraser text-amber-500"></i>
+              <span>Limpiar</span>
+            </button>
+            <button type="submit" id="btn-guardar" class="btn-submit-premium !w-auto !py-2.5 !px-6">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Enviar Registro</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- TABLA DE RESULTADOS CON BARRA DE HERRAMIENTAS GLASS -->
+      <div class="glass-card p-3.5 sm:p-5 space-y-3">
+        <!-- Barra de Herramientas -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pb-2 border-b border-white/40 dark:border-white/10">
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <i class="fa-solid fa-list-check text-primary text-base"></i>
+            <h3 class="font-extrabold text-xs sm:text-sm text-slate-800 dark:text-slate-100 whitespace-nowrap">
+              Historial de Registros
+            </h3>
+            <span id="badge-contador" class="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300">
+              128 items
+            </span>
+          </div>
+
+          <!-- Filtros y Buscador Inline -->
+          <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
+            <div class="relative w-full sm:w-56">
+              <input type="text" id="input-busqueda" oninput="filtrarTabla()" placeholder="Buscar código, curso..." class="glass-input !py-1.5 !text-xs !pl-8">
+              <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            </div>
+
+            <select id="filtro-estado" onchange="filtrarTabla()" class="glass-input !w-auto !py-1.5 !text-xs">
+              <option value="">Todos los Estados</option>
+              <option value="Completado">Completados</option>
+              <option value="En Proceso">En Proceso</option>
+              <option value="Observado">Observados</option>
+            </select>
+
+            <button type="button" onclick="limpiarFiltros()" class="glass-pill text-amber-600 dark:text-amber-400 !py-1.5 !px-3" title="Restablecer filtros">
+              <i class="fa-solid fa-filter-circle-xmark"></i>
+              <span class="hidden md:inline">Limpiar</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Contenedor Responsive de Tabla -->
+        <div class="table-container-glass overflow-x-auto">
+          <table class="table-modulo" id="tabla-modulo">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Ciclo / Categoría</th>
+                <th>Fecha</th>
+                <th>Responsable</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-modulo" class="divide-y divide-white/40 dark:divide-white/10 font-medium">
+              <!-- Filas de ejemplo -->
+              <tr>
+                <td class="font-extrabold text-blue-600 dark:text-blue-400">MAT-2026-001</td>
+                <td>Semianual</td>
+                <td>22/10/2026</td>
+                <td>Prof. Carlos Mendoza</td>
+                <td class="text-left max-w-xs truncate">Revisión de claves y enunciados de boletín semana 4</td>
+                <td>
+                  <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+                    Completado
+                  </span>
+                </td>
+                <td>
+                  <div class="flex items-center justify-center gap-1.5">
+                    <button type="button" onclick="verDetalle('MAT-2026-001')" class="glass-pill !p-1.5 !text-xs text-blue-600" title="Ver Detalle">
+                      <i class="fa-solid fa-eye"></i>
+                    </button>
+                    <button type="button" onclick="editarRegistro('MAT-2026-001')" class="glass-pill !p-1.5 !text-xs text-amber-600" title="Editar">
+                      <i class="fa-solid fa-pen"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="font-extrabold text-blue-600 dark:text-blue-400">MAT-2026-002</td>
+                <td>Anual</td>
+                <td>21/10/2026</td>
+                <td>Lic. Diana Ramos</td>
+                <td class="text-left max-w-xs truncate">Falta gráfico complementario en pregunta de Física</td>
+                <td>
+                  <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300">
+                    En Proceso
+                  </span>
+                </td>
+                <td>
+                  <div class="flex items-center justify-center gap-1.5">
+                    <button type="button" onclick="verDetalle('MAT-2026-002')" class="glass-pill !p-1.5 !text-xs text-blue-600" title="Ver Detalle">
+                      <i class="fa-solid fa-eye"></i>
+                    </button>
+                    <button type="button" onclick="editarRegistro('MAT-2026-002')" class="glass-pill !p-1.5 !text-xs text-amber-600" title="Editar">
+                      <i class="fa-solid fa-pen"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==========================================
+         VISTA 2: DASHBOARD ANALÍTICO (CHARTS)
+    ========================================== -->
+    <div id="view-dashboard" class="hidden space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- Gráfico 1: Estado de Registros -->
+        <div class="glass-card p-4 sm:p-5 space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-white/40 dark:border-white/10">
+            <h4 class="font-extrabold text-xs sm:text-sm text-slate-800 dark:text-slate-100 flex items-center gap-2">
+              <i class="fa-solid fa-chart-pie text-emerald-500"></i>
+              <span>Distribución por Estado</span>
+            </h4>
+            <span class="text-xs text-slate-400">En tiempo real</span>
+          </div>
+          <div class="relative h-64 flex items-center justify-center">
+            <canvas id="chartEstados"></canvas>
+          </div>
+        </div>
+
+        <!-- Gráfico 2: Registros por Categoría / Ciclo -->
+        <div class="glass-card p-4 sm:p-5 space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-white/40 dark:border-white/10">
+            <h4 class="font-extrabold text-xs sm:text-sm text-slate-800 dark:text-slate-100 flex items-center gap-2">
+              <i class="fa-solid fa-chart-column text-blue-500"></i>
+              <span>Registros por Ciclo</span>
+            </h4>
+            <span class="text-xs text-slate-400">Total acumulado</span>
+          </div>
+          <div class="relative h-64 flex items-center justify-center">
+            <canvas id="chartCiclos"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==========================================
+       5. PIE DE PÁGINA INSTITUCIONAL GLASS
+  ========================================== -->
+  <footer class="w-full max-w-[98%] 2xl:max-w-[96%] mx-auto mt-8 mb-6 text-center">
+    <div class="glass-panel py-3 px-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400 font-semibold shadow-md border border-white/60 dark:border-white/10">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-graduation-cap text-primary text-sm"></i>
+        <span>Módulo Institucional &copy; 2026 Academia Vonex</span>
+      </div>
+
+      <div class="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+        <i class="fa-solid fa-laptop-code text-blue-500"></i>
+        <span>Realizado por <strong class="text-primary font-black">Gestión de Procesos Academica</strong></span>
+      </div>
+
+      <div>
+        <a href="https://wa.me/51924240970?text=Hola%2C%20tengo%20una%20consulta%20sobre%20el%20m%C3%B3dulo%20institucional"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs shadow-sm hover:shadow-md transition-all hover:scale-105"
+           title="Escríbenos por WhatsApp (924240970)">
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+          <span>Escríbenos &bull; 924240970</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       6. BOTÓN FLOTANTE WHATSAPP: 924240970
+  ========================================== -->
+  <aside class="fixed bottom-6 right-6 z-50 flex items-center gap-2 group">
+    <span class="hidden group-hover:inline-block glass-panel px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-200 border border-white/60 dark:border-white/10 shadow-md animate-fade-in pointer-events-none">
+      ¿Consultas o Soporte? Escríbenos
+    </span>
+    
+    <a href="https://wa.me/51924240970?text=Hola%2C%20tengo%20una%20consulta%20sobre%20el%20m%C3%B3dulo%20institucional" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       aria-label="Contacto de Soporte WhatsApp 924240970"
+       title="Soporte WhatsApp: 924240970"
+       class="whatsapp-btn w-13 h-13 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center text-2xl cursor-pointer">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </aside>
+
+  <!-- ==========================================
+       7. JAVASCRIPT GLOBAL: GESTIÓN DE TEMA Y UI
+  ========================================== -->
+  <script>
+    /**
+     * Sistema de Gestión de Tema y Paleta Cromática
+     * Persistencia en localStorage sincronizada con VISTA.html
+     */
+    let currentPalette = 'ocean';
+    let chartInstEstados = null;
+    let chartInstCiclos = null;
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('vonex_theme_pref');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.body.setAttribute('data-theme', 'dark');
+        updateThemeUI(true);
+      } else {
+        document.body.removeAttribute('data-theme');
+        updateThemeUI(false);
+      }
+
+      const savedPalette = localStorage.getItem('vonex_palette_theme') || 'ocean';
+      applyPalette(savedPalette);
+    }
+
+    function toggleTheme() {
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
+      if (!isDark) {
+        document.body.setAttribute('data-theme', 'dark');
+        localStorage.setItem('vonex_theme_pref', 'dark');
+        updateThemeUI(true);
+        showToast("Modo Oscuro activado");
+      } else {
+        document.body.removeAttribute('data-theme');
+        localStorage.setItem('vonex_theme_pref', 'light');
+        updateThemeUI(false);
+        showToast("Modo Claro activado");
+      }
+
+      if (chartInstEstados) initCharts();
+    }
+
+    function updateThemeUI(isDark) {
+      const icon = document.getElementById('theme-icon');
+      const text = document.getElementById('theme-text');
+      if (icon) icon.className = isDark ? 'fa-solid fa-moon text-indigo-300' : 'fa-solid fa-sun text-yellow-500';
+      if (text) text.innerText = isDark ? 'Oscuro' : 'Claro';
+    }
+
+    function cycleThemePalette() {
+      const palettes = ['ocean', 'fuchsia', 'butter'];
+      const currentIdx = palettes.indexOf(currentPalette);
+      const nextIdx = (currentIdx + 1) % palettes.length;
+      currentPalette = palettes[nextIdx];
+
+      applyPalette(currentPalette);
+      localStorage.setItem('vonex_palette_theme', currentPalette);
+
+      const names = {
+        'ocean': 'Azul Ice Vonex',
+        'fuchsia': 'Fucsia Suave',
+        'butter': 'Amarillo Vonex'
+      };
+      showToast("Tema: " + names[currentPalette]);
+    }
+
+    function applyPalette(paletteName) {
+      currentPalette = paletteName;
+      if (paletteName === 'ocean') {
+        document.body.removeAttribute('data-palette');
+      } else {
+        document.body.setAttribute('data-palette', paletteName);
+      }
+
+      const btnText = document.getElementById('palette-btn-text');
+      if (btnText) {
+        if (paletteName === 'fuchsia') btnText.innerText = 'Fucsia';
+        else if (paletteName === 'butter') btnText.innerText = 'Amarillo';
+        else btnText.innerText = 'Tema';
+      }
+    }
+
+    function showToast(message, duration = 3000) {
+      const toast = document.getElementById('app-toast');
+      const toastMsg = document.getElementById('app-toast-message');
+      if (!toast || !toastMsg) return;
+      toastMsg.innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), duration);
+    }
+
+    function switchTab(tabId) {
+      const viewReg = document.getElementById('view-registro');
+      const viewDash = document.getElementById('view-dashboard');
+      const tabReg = document.getElementById('tab-btn-registro');
+      const tabDash = document.getElementById('tab-btn-dashboard');
+
+      if (tabId === 'registro') {
+        viewReg.classList.remove('hidden');
+        viewDash.classList.add('hidden');
+        tabReg.classList.add('glass-pill-active');
+        tabDash.classList.remove('glass-pill-active');
+        showToast("Vista: Registro y Gestión");
+      } else {
+        viewReg.classList.add('hidden');
+        viewDash.classList.remove('hidden');
+        tabDash.classList.add('glass-pill-active');
+        tabReg.classList.remove('glass-pill-active');
+        showToast("Vista: Dashboard Analítico");
+        setTimeout(initCharts, 150);
+      }
+    }
+
+    function setModoForm(modo) {
+      const btnSimple = document.getElementById('btn-mode-simple');
+      const btnMulti = document.getElementById('btn-mode-multiple');
+      if (modo === 'simple') {
+        btnSimple.classList.add('glass-pill-active');
+        btnMulti.classList.remove('glass-pill-active');
+        showToast("Modo: Registro Individual");
+      } else {
+        btnMulti.classList.add('glass-pill-active');
+        btnSimple.classList.remove('glass-pill-active');
+        showToast("Modo: Registro Múltiple / Lote");
+      }
+    }
+
+    function guardarRegistro(e) {
+      e.preventDefault();
+      const codigo = document.getElementById('campoCodigo').value;
+      showToast("Guardando registro " + codigo + "...");
+      
+      // Conexión Google Apps Script:
+      // if (typeof google !== 'undefined' && google.script && google.script.run) {
+      //   google.script.run
+      //     .withSuccessHandler(() => { showToast("¡Registro guardado con éxito!"); limpiarFormulario(); })
+      //     .withFailureHandler(err => showToast("Error: " + err.message))
+      //     .guardarReporte({ codigo: ... });
+      // } else {
+        setTimeout(() => {
+          showToast("¡Registro guardado con éxito!");
+          limpiarFormulario();
+        }, 600);
+      // }
+    }
+
+    function limpiarFormulario() {
+      document.getElementById('form-modulo').reset();
+      showToast("Formulario limpiado");
+    }
+
+    function filtrarTabla() {
+      const texto = document.getElementById('input-busqueda').value.toLowerCase();
+      const estado = document.getElementById('filtro-estado').value.toLowerCase();
+      const filas = document.querySelectorAll('#tbody-modulo tr');
+
+      let contador = 0;
+      filas.forEach(fila => {
+        const contenido = fila.textContent.toLowerCase();
+        const coincideTexto = !texto || contenido.includes(texto);
+        const coincideEstado = !estado || contenido.includes(estado);
+
+        if (coincideTexto && coincideEstado) {
+          fila.style.display = '';
+          contador++;
+        } else {
+          fila.style.display = 'none';
+        }
+      });
+
+      const badge = document.getElementById('badge-contador');
+      if (badge) badge.innerText = contador + " items";
+    }
+
+    function limpiarFiltros() {
+      document.getElementById('input-busqueda').value = '';
+      document.getElementById('filtro-estado').value = '';
+      filtrarTabla();
+      showToast("Filtros restablecidos");
+    }
+
+    function filtrarPorMetrica(tipo) {
+      const selectEstado = document.getElementById('filtro-estado');
+      if (tipo === 'todos') selectEstado.value = '';
+      else if (tipo === 'completados') selectEstado.value = 'Completado';
+      else if (tipo === 'proceso') selectEstado.value = 'En Proceso';
+      else if (tipo === 'observados') selectEstado.value = 'Observado';
+      filtrarTabla();
+      showToast("Filtrando: " + tipo);
+    }
+
+    function loadData() {
+      showToast("Sincronizando datos...");
+      // if (typeof google !== 'undefined' && google.script && google.script.run) {
+      //   google.script.run.withSuccessHandler(onDataLoaded).obtenerDatos();
+      // }
+    }
+
+    function moduloAccionPrincipal() {
+      document.getElementById('campoCodigo').focus();
+      showToast("Listo para registrar nueva entrada");
+    }
+
+    function abrirGuiaUsuario() {
+      showToast("Guía: Completa los campos obligatorios (*) y pulsa Enviar");
+    }
+
+    function verDetalle(id) {
+      showToast("Visualizando detalle de " + id);
+    }
+
+    function editarRegistro(id) {
+      showToast("Cargando " + id + " para edición");
+    }
+
+    function initCharts() {
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
+      const textColor = isDark ? '#f8fafc' : '#0f172a';
+
+      // Chart 1: Estados (Doughnut)
+      const ctx1 = document.getElementById('chartEstados');
+      if (ctx1) {
+        if (chartInstEstados) chartInstEstados.destroy();
+        chartInstEstados = new Chart(ctx1, {
+          type: 'doughnut',
+          data: {
+            labels: ['Completados', 'En Proceso', 'Observados'],
+            datasets: [{
+              data: [94, 26, 8],
+              backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+              borderWidth: 2,
+              borderColor: isDark ? '#1e293b' : '#ffffff'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: { color: textColor, font: { weight: 'bold', size: 11 } }
+              }
+            }
+          }
+        });
+      }
+
+      // Chart 2: Ciclos (Bar)
+      const ctx2 = document.getElementById('chartCiclos');
+      if (ctx2) {
+        if (chartInstCiclos) chartInstCiclos.destroy();
+        chartInstCiclos = new Chart(ctx2, {
+          type: 'bar',
+          data: {
+            labels: ['Semianual', 'Anual', 'Repaso', 'Intensivo'],
+            datasets: [{
+              label: 'Registros',
+              data: [52, 41, 23, 12],
+              backgroundColor: '#3b82f6',
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: { ticks: { color: textColor } },
+              x: { ticks: { color: textColor } }
+            },
+            plugins: {
+              legend: { display: false }
+            }
+          }
+        });
+      }
+    }
+
+    // Inicialización inmediata y en DOMContentLoaded
+    initTheme();
+    document.addEventListener('DOMContentLoaded', initTheme);
+  </script>
+</body>
+
+</html>

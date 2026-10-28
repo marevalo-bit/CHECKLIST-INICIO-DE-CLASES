@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vista Previa - Recordatorios Vonex (Cristal & WhatsApp)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #004691;
+      --primary-light: #1d4ed8;
+      --vonex-yellow: #FFCC00;
+      --bg-gradient: linear-gradient(135deg, #dbeafe 0%, #eff6ff 40%, #e0e7ff 100%);
+      --glass-bg: rgba(255, 255, 255, 0.76);
+      --glass-border: rgba(255, 255, 255, 0.9);
+      --glass-shadow: 0 20px 45px -10px rgba(0, 70, 145, 0.12), 0 10px 20px -5px rgba(0, 0, 0, 0.04);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --danger: #ef4444;
+      --danger-bg: #fee2e2;
+      --danger-border: #fecaca;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      color: var(--text-main);
+      padding: 24px 16px 60px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* TOP BAR NAVEGACIÓN ESTILO VONEX */
+    .top-bar {
+      width: 100%;
+      max-width: 920px;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 20px;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0, 70, 145, 0.06);
+      margin-bottom: 24px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-badge {
+      background: var(--vonex-yellow);
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 15px;
+      padding: 6px 14px;
+      border-radius: 12px;
+      letter-spacing: -0.5px;
+      box-shadow: 0 4px 12px rgba(255, 204, 0, 0.35);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.3px;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* SELECTOR DE VISTA (TABS TIPO DOCK CRISTAL) */
+    .view-selector-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 26px;
+    }
+
+    .glass-dock {
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      padding: 5px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 12px 30px rgba(0, 70, 145, 0.08);
+      display: inline-flex;
+      gap: 6px;
+    }
+
+    .dock-btn {
+      border: none;
+      background: transparent;
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .dock-btn.active {
+      background: linear-gradient(135deg, #004691 0%, #1d4ed8 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(0, 70, 145, 0.3);
+    }
+
+    .dock-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--primary);
+    }
+
+    /* CONTENEDOR PRINCIPAL DE CONTENIDOS */
+    .views-wrapper {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .view-container {
+      display: none;
+      width: 100%;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .view-container.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========================================================
+       DISEÑO 1: CORREO ELECTRÓNICO ESTILO CRISTAL (5 TAREAS)
+       ======================================================== */
+    .email-outer-glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      border-radius: 28px;
+      box-shadow: var(--glass-shadow);
+      padding: 36px 36px 30px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .email-outer-glass::before {
+      content: "";
+      position: absolute;
+      top: -120px;
+      right: -120px;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.24) 0%, rgba(255, 255, 255, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .email-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.65);
+    }
+
+    .email-logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .v-badge {
+      background: var(--primary);
+      color: var(--vonex-yellow);
+      font-weight: 800;
+      font-size: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 70, 145, 0.25);
+    }
+
+    .email-title-group h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.4px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .email-title-group span {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .pill-urgent {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid var(--danger-border);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.12);
+    }
+
+    /* TARJETA CRISTAL INFO DE LA SEDE */
+    .sede-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 247, 255, 0.88) 100%);
+      border: 1px solid rgba(219, 234, 254, 0.9);
+      border-radius: 20px;
+      padding: 18px 24px;
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 16px rgba(0, 70, 145, 0.03);
+    }
+
+    .sede-info-block .label {
+      font-size: 10px;
+      font-weight: 800;
+      color: #0284c7;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .sede-info-block .value {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+    }
+
+    .director-block {
+      text-align: right;
+    }
+
+    .director-block .label {
+      font-size: 10px;
+      font-weight: 800;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .director-block .value {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .tasks-header-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding: 0 4px;
+    }
+
+    .tasks-header-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .tasks-counter-badge {
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    /* LISTA DE 5 ACTIVIDADES EN TARJETAS TIPO CRISTAL */
+    .task-card {
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.02);
+      transition: all 0.2s ease;
+    }
+
+    .task-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 70, 145, 0.07);
+      border-color: #cbd5e1;
+      background: #ffffff;
+    }
+
+    .task-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      flex: 1;
+      padding-right: 16px;
+    }
+
+    .task-num-bubble {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #004691 0%, #1d4ed8 100%);
+      color: white;
+      font-weight: 800;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      box-shadow: 0 3px 8px rgba(0, 70, 145, 0.25);
+    }
+
+    .task-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.35;
+      margin-bottom: 3px;
+    }
+
+    .task-desc {
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    .task-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .task-time-badge {
+      background: #fff1f2;
+      color: #ef4444;
+      border: 1px solid #ffe4e6;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 30px;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .task-status-pill {
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* BOTÓN CTA CRISTAL CON SOMBRA LUMINOSA */
+    .cta-container {
+      text-align: center;
+      margin: 32px 0 16px 0;
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #004691 0%, #1d4ed8 100%);
+      color: #ffffff;
+      padding: 16px 38px;
+      border-radius: 50px;
+      font-size: 14.5px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 12px 28px rgba(0, 70, 145, 0.32);
+      letter-spacing: 0.3px;
+      transition: all 0.25s ease;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .btn-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 34px rgba(0, 70, 145, 0.42);
+      background: linear-gradient(135deg, #003875 0%, #1742be 100%);
+    }
+
+    .email-footer {
+      text-align: center;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(226, 232, 240, 0.7);
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    /* ========================================================
+       DISEÑO 2: SIMULADOR DE CHAT WHATSAPP (5 TAREAS)
+       ======================================================== */
+    .wsp-mockup-wrapper {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      border: 6px solid #1e293b;
+    }
+
+    .wsp-phone-notch {
+      background: #1e293b;
+      height: 22px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wsp-camera-dot {
+      width: 8px;
+      height: 8px;
+      background: #334155;
+      border-radius: 50%;
+    }
+
+    .wsp-header {
+      background: #005c4b;
+      color: #ffffff;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wsp-avatar {
+      width: 40px;
+      height: 40px;
+      background: #25d366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #ffffff;
+      font-size: 16px;
+    }
+
+    .wsp-header-info h4 {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .wsp-header-info p {
+      font-size: 11px;
+      opacity: 0.8;
+    }
+
+    .wsp-chat-body {
+      background: #efeae2;
+      background-image: radial-gradient(#d1c7b7 0.75px, transparent 0.75px);
+      background-size: 12px 12px;
+      padding: 18px 12px;
+      min-height: 480px;
+    }
+
+    .wsp-bubble {
+      background: #ffffff;
+      border-radius: 12px 12px 12px 2px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      max-width: 98%;
+      position: relative;
+      font-size: 12.8px;
+      line-height: 1.48;
+      color: #111b21;
+    }
+
+    .wsp-badge-alert {
+      display: inline-block;
+      background: #ffebee;
+      color: #c62828;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .wsp-divider {
+      border: 0;
+      border-top: 1px dashed #b0bec5;
+      margin: 10px 0;
+    }
+
+    .wsp-item {
+      margin-bottom: 9px;
+      padding-left: 2px;
+    }
+
+    .wsp-item-title {
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .wsp-item-sub {
+      font-size: 11.5px;
+      color: #54656f;
+      display: block;
+      margin-left: 20px;
+      margin-top: 1px;
+    }
+
+    .wsp-link-box {
+      margin-top: 12px;
+      background: #e8f5e9;
+      border: 1px solid #c8e6c9;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .wsp-time-stamp {
+      text-align: right;
+      font-size: 10px;
+      color: #667781;
+      margin-top: 8px;
+    }
+
+    .wsp-action-bar {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .btn-wsp-test {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #25d366;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 13.5px;
+      text-decoration: none;
+      box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-wsp-test:hover {
+      background: #1eb956;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR CON IDENTIDAD VONEX -->
+  <div class="top-bar">
+    <div class="brand-wrap">
+      <div class="logo-badge">VONEX</div>
+      <div>
+        <div class="brand-title">Checklist Inicio de Clases - Octubre 2026</div>
+        <div class="brand-sub">Módulo de Vigilancia y Recordatorios Operativos</div>
+      </div>
+    </div>
+    <div style="font-size: 12px; font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 6px 14px; border-radius: 20px;">
+      📅 Jueves, 22 de Octubre
+    </div>
+  </div>
+
+  <!-- DOCK SELECTOR DE VISTAS TIPO CRISTAL -->
+  <div class="view-selector-wrap">
+    <div class="glass-dock">
+      <button class="dock-btn active" onclick="switchView('email', this)">
+        <span>📧</span> Recordatorio por Correo (Estética Cristal)
+      </button>
+      <button class="dock-btn" onclick="switchView('whatsapp', this)">
+        <span>💬</span> Recordatorio por WhatsApp (Chat Móvil)
+      </button>
+    </div>
+  </div>
+
+  <!-- CONTENEDOR DE LAS VISTAS -->
+  <div class="views-wrapper">
+
+    <!-- ==============================================
+         VISTA 1: CORREO ELECTRÓNICO ESTILO CRISTAL (5 TAREAS)
+         ============================================== -->
+    <div id="view-email" class="view-container active">
+      <div class="email-outer-glass">
+        
+        <!-- HEADER -->
+        <div class="email-header">
+          <div class="email-logo-area">
+            <div class="v-badge">V</div>
+            <div class="email-title-group">
+              <h2>ACADEMIA VONEX</h2>
+              <span>Gestión de Procesos y Operaciones</span>
+            </div>
+          </div>
+          <div class="pill-urgent">
+            <span>🚨</span> VENCE HOY 18:00 HRS
+          </div>
+        </div>
+
+        <!-- TARJETA DE LA SEDE -->
+        <div class="sede-card">
+          <div class="sede-info-block">
+            <div class="label">Sede Asignada</div>
+            <div class="value">San Juan de Lurigancho (SJL)</div>
+          </div>
+          <div class="director-block">
+            <div class="label">Director(a) de Sede</div>
+            <div class="value">Mg. Carlos Gómez</div>
+          </div>
+        </div>
+
+        <!-- BANNER DE CONTEO DE TAREAS -->
+        <div class="tasks-header-banner">
+          <div class="tasks-header-title">
+            Actividades operativas asignadas para cumplir el día de hoy:
+          </div>
+          <div class="tasks-counter-badge">
+            5 actividades pendientes
+          </div>
+        </div>
+
+        <!-- ================= ACTIVIDAD 1 ================= -->
+        <div class="task-card">
+          <div class="task-left">
+            <div class="task-num-bubble">1</div>
+            <div>
+              <div class="task-title">Envío Formato de asignación de tutores</div>
+              <div class="task-desc">
+                Enviar correo con formato a: <em>materiales@hnc.pe, helpdesk@hnc.pe, evaluacion@hnc.pe, almacen@hnc.pe, evelasquez@hnc.pe, jpinedo@hnc.pe, auditoria@hnc.pe, procesos@hnc.pe</em>.
+              </div>
+            </div>
+          </div>
+          <div class="task-right">
+            <div class="task-time-badge"><span>⏰</span> 6:00 p. m.</div>
+            <div class="task-status-pill">○ PENDIENTE</div>
+          </div>
+        </div>
+
+        <!-- ================= ACTIVIDAD 2 ================= -->
+        <div class="task-card">
+          <div class="task-left">
+            <div class="task-num-bubble">2</div>
+            <div>
+              <div class="task-title">Actualizar el croquis con la numeración de cada aula</div>
+              <div class="task-desc">
+                Distribución oficial y numeración clara de todas las aulas de la sede.
+              </div>
+            </div>
+          </div>
+          <div class="task-right">
+            <div class="task-time-badge"><span>⏰</span> 6:00 p. m.</div>
+            <div class="task-status-pill">○ PENDIENTE</div>
+          </div>
+        </div>
+
+        <!-- ================= ACTIVIDAD 3 ================= -->
+        <div class="task-card">
+          <div class="task-left">
+            <div class="task-num-bubble">3</div>
+            <div>
+              <div class="task-title">Actualizar lista de salones (Tutor / Ciclo / Aula)</div>
+              <div class="task-desc">
+                Incluir el Nombre del tutor / Ciclo / Aula (ubicado al costado del croquis).
+              </div>
+            </div>
+          </div>
+          <div class="task-right">
+            <div class="task-time-badge"><span>⏰</span> 6:00 p. m.</div>
+            <div class="task-status-pill">○ PENDIENTE</div>
+          </div>
+        </div>
+
+        <!-- ================= ACTIVIDAD 4 ================= -->
+        <div class="task-card">
+          <div class="task-left">
+            <div class="task-num-bubble">4</div>
+            <div>
+              <div class="task-title">Colocar un mural del croquis en la puerta de la sede</div>
+              <div class="task-desc">
+                Instalar mural visible en el ingreso con los números de aulas correspondientes a cada ciclo.
+              </div>
+            </div>
+          </div>
+          <div class="task-right">
+            <div class="task-time-badge"><span>⏰</span> 6:00 p. m.</div>
+            <div class="task-status-pill">○ PENDIENTE</div>
+          </div>
+        </div>
+
+        <!-- ================= ACTIVIDAD 5 ================= -->
+        <div class="task-card">
+          <div class="task-left">
+            <div class="task-num-bubble">5</div>
+            <div>
+              <div class="task-title">Colocar en cada piso la lista correspondiente de salones</div>
+              <div class="task-desc">
+                Publicar en cada piso la lista de salones indicando el piso respectivo al que pertenece.
+              </div>
+            </div>
+          </div>
+          <div class="task-right">
+            <div class="task-time-badge"><span>⏰</span> 6:00 p. m.</div>
+            <div class="task-status-pill">○ PENDIENTE</div>
+          </div>
+        </div>
+
+        <!-- BOTÓN PRINCIPAL CON GLOW -->
+        <div class="cta-container">
+          <a href="https://docs.google.com/spreadsheets/d/1yGizP7Ngd8qtw5sdsWGaYRXn2hmGkHiOHDk5rDiyajA/edit?gid=47299654#gid=47299654" target="_blank" class="btn-cta">
+            REGISTRAR CUMPLIMIENTO EN EL CHECKLIST →
+          </a>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="email-footer">
+          Sistema Integrado de Control Operativo © 2026 Academia Vonex | Todos los derechos reservados.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==============================================
+         VISTA 2: SIMULADOR DE MENSAJE WHATSAPP (5 TAREAS)
+         ============================================== -->
+    <div id="view-whatsapp" class="view-container">
+      <div class="wsp-mockup-wrapper">
+        <div class="wsp-phone-notch">
+          <div class="wsp-camera-dot"></div>
+        </div>
+        
+        <div class="wsp-header">
+          <div class="wsp-avatar">V</div>
+          <div class="wsp-header-info">
+            <h4>Gestión de Procesos Vonex</h4>
+            <p>en línea</p>
+          </div>
+        </div>
+
+        <div class="wsp-chat-body">
+          <div class="wsp-bubble">
+            <span class="wsp-badge-alert">🚨 RECORDATORIO DE GESTIÓN</span><br>
+            🏛 <strong>Sede:</strong> San Juan de Lurigancho<br>
+            👤 <strong>Director(a):</strong> Mg. Carlos Gómez<br>
+            📋 <strong>Ciclo:</strong> UNMSM Octubre 2026<br>
+            <hr class="wsp-divider">
+            Estimado(a) Director(a), le recordamos que <strong>HOY a las 6:00 p. m.</strong> vence el plazo para el cumplimiento de las siguientes actividades en su sede:<br><br>
+
+            📌 <strong>Actividades por cumplir hoy:</strong><br>
+            <div class="wsp-item">
+              1️⃣ <span class="wsp-item-title">Envío Formato de asignación de tutores</span>
+              <span class="wsp-item-sub">└ Enviar a materiales@, helpdesk@, evaluacion@, procesos@</span>
+            </div>
+            <div class="wsp-item">
+              2️⃣ <span class="wsp-item-title">Actualizar el croquis con la numeración de cada aula</span>
+              <span class="wsp-item-sub">└ Distribución y numeración oficial de aulas</span>
+            </div>
+            <div class="wsp-item">
+              3️⃣ <span class="wsp-item-title">Actualizar lista de salones</span>
+              <span class="wsp-item-sub">└ Incluir Nombre del tutor / Ciclo / Aula al costado del croquis</span>
+            </div>
+            <div class="wsp-item">
+              4️⃣ <span class="wsp-item-title">Colocar un mural del croquis en la puerta de la sede</span>
+              <span class="wsp-item-sub">└ Con los números de aulas correspondientes de cada ciclo</span>
+            </div>
+            <div class="wsp-item">
+              5️⃣ <span class="wsp-item-title">Colocar en cada piso la lista correspondiente de salones</span>
+              <span class="wsp-item-sub">└ En cada piso con el piso al que pertenece</span>
+            </div>
+
+            <hr class="wsp-divider">
+
+            <div class="wsp-link-box">
+              🔗 <strong>Enlace al Checklist Oficial:</strong><br>
+              <a href="https://docs.google.com/spreadsheets/d/1yGizP7Ngd8qtw5sdsWGaYRXn2hmGkHiOHDk5rDiyajA/edit?gid=47299654#gid=47299654" target="_blank" style="color: #004691; font-weight: 700; word-break: break-all; font-size: 11px;">
+                Abrir Checklist UNMSM
+              </a>
+            </div>
+            
+            <p style="margin-top: 10px; font-size: 11.5px; color: #54656f;">
+              <em>Por favor, marque la casilla correspondiente en el checklist al culminar cada actividad para actualizar el avance general. ¡Gracias!</em>
+            </p>
+
+            <div class="wsp-time-stamp">
+              14:28 ✓✓
+            </div>
+          </div>
+
+          <div class="wsp-action-bar">
+            <a href="https://api.whatsapp.com/send?text=%F0%9F%9A%A8%20*RECORDATORIO%20DE%20GESTI%C3%93N%20VONEX*%20%7C%20SJL%0A%0AEstimado(a)%20Director(a)%2C%20le%20recordamos%20que%20*HOY%20a%20las%206%3A00%20p.%20m.*%20vence%20el%20plazo%20para%20las%20siguientes%205%20actividades%3A%0A1%EF%B8%8F%E2%83%A3%20Env%C3%ADo%20Formato%20de%20asignaci%C3%B3n%20de%20tutores%0A2%EF%B8%8F%E2%83%A3%20Actualizar%20el%20croquis%20con%20la%20numeraci%C3%B3n%20de%20cada%20aula%0A3%EF%B8%8F%E2%83%A3%20Actualizar%20lista%20de%20salones%20(Tutor%20%2F%20Ciclo%20%2F%20Aula)%0A4%EF%B8%8F%E2%83%A3%20Colocar%20mural%20del%20croquis%20en%20la%20puerta%20de%20la%20sede%0A5%EF%B8%8F%E2%83%A3%20Colocar%20en%20cada%20piso%20la%20lista%20de%20salones" target="_blank" class="btn-wsp-test">
+              <span>📲</span> Probar enlace en WhatsApp Web
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function switchView(viewName, btnElement) {
+      document.querySelectorAll('.dock-btn').forEach(btn => btn.classList.remove('active'));
+      btnElement.classList.add('active');
+
+      document.querySelectorAll('.view-container').forEach(view => view.classList.remove('active'));
+      document.getElementById('view-' + viewName).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
