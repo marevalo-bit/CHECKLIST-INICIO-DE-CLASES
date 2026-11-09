@@ -392,7 +392,7 @@
       background: rgba(15, 23, 42, 0.9);
     }
 
-    /* SMART MATRIX CARDS (VISTA TARJETAS COMPACTAS 4-6 COLUMNAS) */
+    /* SMART MATRIX CARDS (VISTA TARJETAS AGRUPADAS POR ACTIVIDAD) */
     .smart-card {
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
@@ -408,44 +408,63 @@
       box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
     }
     .smart-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.08);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.09);
       border-color: rgba(59, 130, 246, 0.4);
     }
     .smart-card.card-completada-total {
       border-color: rgba(16, 185, 129, 0.4);
-      background: linear-gradient(180deg, rgba(236, 253, 245, 0.6) 0%, var(--glass-card-bg) 100%);
+      background: linear-gradient(180deg, rgba(236, 253, 245, 0.5) 0%, var(--glass-card-bg) 100%);
     }
     body[data-theme="dark"] .smart-card.card-completada-total {
       border-color: rgba(16, 185, 129, 0.3);
-      background: linear-gradient(180deg, rgba(6, 78, 59, 0.25) 0%, var(--glass-card-bg) 100%);
+      background: linear-gradient(180deg, rgba(6, 78, 59, 0.2) 0%, var(--glass-card-bg) 100%);
+    }
+
+    /* FILA DE SUBACTIVIDAD DENTRO DE LA TARJETA */
+    .subactividad-row {
+      border-radius: 0.65rem;
+      border: 1px solid rgba(226, 232, 240, 0.7);
+      background: rgba(248, 250, 252, 0.65);
+      padding: 0.45rem 0.55rem;
+      transition: all 0.15s ease;
+    }
+    body[data-theme="dark"] .subactividad-row {
+      border-color: rgba(255, 255, 255, 0.06);
+      background: rgba(15, 23, 42, 0.45);
+    }
+    .subactividad-row:hover {
+      border-color: rgba(59, 130, 246, 0.35);
+      background: rgba(239, 246, 255, 0.5);
+    }
+    body[data-theme="dark"] .subactividad-row:hover {
+      background: rgba(30, 58, 138, 0.2);
     }
 
     /* GRID SEDES MINI-MATRIX BAR */
     .mini-matrix-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 3px;
+      gap: 2.5px;
     }
     .mini-sede-cell {
-      padding: 3px 2px;
-      border-radius: 5px;
-      font-size: 9.5px;
+      padding: 2.5px 2px;
+      border-radius: 4px;
+      font-size: 9px;
       font-weight: 800;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       text-align: center;
       cursor: pointer;
       user-select: none;
-      transition: all 0.15s ease;
+      transition: all 0.12s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 2px;
+      gap: 1.5px;
       line-height: 1;
       border: 1px solid transparent;
     }
     .mini-sede-cell.pending {
-      background: rgba(241, 245, 249, 0.9);
+      background: rgba(255, 255, 255, 0.9);
       border-color: #cbd5e1;
       color: #475569;
     }
@@ -464,7 +483,7 @@
       background: #10b981;
       border-color: #059669;
       color: #ffffff;
-      box-shadow: 0 1px 4px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 1px 3px rgba(16, 185, 129, 0.3);
     }
     .mini-sede-cell.done:hover {
       filter: brightness(1.1);
@@ -1125,9 +1144,9 @@
     </section>
 
     <!-- ==========================================
-         LISTADO DE TARJETAS DE TAREA (VISTA ULTRA-COMPACTA INTELIGENTE 4 A 6 COLUMNAS)
+         LISTADO DE TARJETAS DE ACTIVIDADES (RESPONSIVO INTELIGENTE 4 A 6 COLS)
          ========================================== -->
-    <section id="contenedor-tarjetas-tareas" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2.5 items-stretch">
+    <section id="contenedor-tarjetas-tareas" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 items-start">
       <!-- Se inyecta dinámicamente con JS -->
     </section>
 
@@ -1649,7 +1668,7 @@
     }
 
     // ==========================================
-    // RENDERIZADO REACTIVO DE TARJETAS (ESTÉTICA ELEGANTE Y VISIBLE)
+    // RENDERIZADO REACTIVO DE TARJETAS (AGRUPADAS POR ACTIVIDAD EN 4 A 6 COLS)
     // ==========================================
     function filtrarTarjetas() {
       const cont = document.getElementById("contenedor-tarjetas-tareas");
@@ -1662,7 +1681,7 @@
 
       const esVistaMultisede = (fSede === "TODAS");
 
-      let visibles = 0;
+      let visiblesActividades = 0;
       let totalPuntosAplicables = 0;
       let totalPuntosCumplidos = 0;
       let countTodas = 0;
@@ -1675,7 +1694,10 @@
 
       const actividades = PARTICIPANTE_STATE.actividades || [];
 
-      actividades.forEach(act => {
+      actividades.forEach((act, actIdx) => {
+        // 1. Filtrar las subtareas que corresponden según los criterios activos
+        const subtareasFiltradas = [];
+
         (act.tareas || []).forEach(t => {
           // Filtro por rol si está en modo "MIO"
           if (PARTICIPANTE_STATE.modoVista === "MIO") {
@@ -1694,7 +1716,7 @@
             if (!descNorm.includes(fTxt) && !nomNorm.includes(fTxt) && !respNorm.includes(fTxt)) return;
           }
 
-          // Calcular avance de sedes de esta tarea
+          // Calcular estado de sedes para cómputos globales
           let estadoParaFiltro = "PENDIENTE";
           let conteoCumplidasMulti = 0;
           let conteoNoAplicaMulti = 0;
@@ -1743,37 +1765,57 @@
           // Filtro de Urgencia activo
           if (fUrg !== "TODAS" && urg.cod !== fUrg) return;
 
-          visibles++;
+          // Pasa todos los filtros
+          subtareasFiltradas.push({
+            t: t,
+            urg: urg,
+            estadoParaFiltro: estadoParaFiltro,
+            conteoCumplidasMulti: conteoCumplidasMulti
+          });
+        });
 
-          // ==========================================
-          // GENERAR SMART MATRIX CARD (ULTRA-COMPACTA 4-6 COLS)
-          // ==========================================
+        // Si la actividad no tiene subactividades bajo los filtros actuales, no se renderiza la tarjeta
+        if (subtareasFiltradas.length === 0) return;
+
+        visiblesActividades++;
+
+        // 2. CONSTRUIR LA TARJETA AGRUPADA POR ACTIVIDAD
+        const numActividad = act.numero || (actIdx + 1);
+        const nombreActividad = act.nombre || `Actividad ${numActividad}`;
+        const etapaPrincipal = subtareasFiltradas[0].t.etapa || "ANTES";
+
+        let etapaColorBadge = "bg-blue-50/90 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border-blue-200/80";
+        if (etapaPrincipal === "DURANTE") etapaColorBadge = "bg-emerald-50/90 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200/80";
+        if (etapaPrincipal === "DESPUES") etapaColorBadge = "bg-purple-50/90 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 border-purple-200/80";
+
+        // Cómputo de cumplimiento de la tarjeta de actividad
+        let totalPuntosActividad = 0;
+        let totalCumplidosActividad = 0;
+
+        subtareasFiltradas.forEach(item => {
+          if (esVistaMultisede) {
+            totalPuntosActividad += SEDES_OFICIALES.length;
+            totalCumplidosActividad += item.conteoCumplidasMulti;
+          } else {
+            totalPuntosActividad += 1;
+            if (item.estadoParaFiltro === "COMPLETADA") totalCumplidosActividad += 1;
+          }
+        });
+
+        const esActividadCompletadaTotal = (totalCumplidosActividad === totalPuntosActividad && totalPuntosActividad > 0);
+        const pctActividad = totalPuntosActividad > 0 ? Math.round((totalCumplidosActividad / totalPuntosActividad) * 100) : 0;
+
+        // Renderizado interno de las subactividades
+        const subactividadesHtml = subtareasFiltradas.map(({ t, urg, estadoParaFiltro, conteoCumplidasMulti }) => {
           const correspondeRol = coincideRolUsuario(PARTICIPANTE_STATE.usuario.rol, t.responsable, act.area || act.nombre);
           const esSoloLectura = (!correspondeRol && PARTICIPANTE_STATE.modoVista === "TODOS");
 
-          // Formateo de fecha y hora oficial
           const fechaFormateada = formatearFechaEspanolMatriz(t.fecha, t.diasRelativos, (PARTICIPANTE_STATE.checklist && PARTICIPANTE_STATE.checklist.fechaInicio));
           const horaFormateada = formatearHoraEspanol(t.hora);
-
-          // Área limpia sin redundancia
-          let areaLimpia = (t.responsable || act.area || "Procesos").replace(" - Vonex", "").replace("Gestión de ", "");
-          let tituloLimpio = act.nombre || "Actividad";
-
-          let etapaColorBadge = "bg-blue-50/90 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border-blue-200/80";
-          if (t.etapa === "DURANTE") etapaColorBadge = "bg-emerald-50/90 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200/80";
-          if (t.etapa === "DESPUES") etapaColorBadge = "bg-purple-50/90 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 border-purple-200/80";
-
-          const card = document.createElement("div");
+          let respLimpio = (t.responsable || act.area || "Procesos").replace(" - Vonex", "").replace("Gestión de ", "");
 
           if (esVistaMultisede) {
-            // MODO MULTISEDE: TARJETA SMART MATRIX CON MINI-GRID 4x2
-            const todasCompletadas = (conteoCumplidasMulti === SEDES_OFICIALES.length);
-            const pctTarea = Math.round((conteoCumplidasMulti / SEDES_OFICIALES.length) * 100);
-
-            card.className = `smart-card p-2.5 flex flex-col justify-between gap-2 ${
-              todasCompletadas ? 'card-completada-total' : ''
-            } ${esSoloLectura ? 'opacity-40 grayscale-[30%] select-none' : ''}`;
-
+            const todasComp = (conteoCumplidasMulti === SEDES_OFICIALES.length);
             const cellsHtml = SEDES_OFICIALES.map(s => {
               const sObj = (t.estadoSede && t.estadoSede[s]) ? t.estadoSede[s] : { estado: "PENDIENTE" };
               const esComp = sObj.estado === "COMPLETADA";
@@ -1782,7 +1824,7 @@
               if (esSoloLectura) {
                 return `
                   <div class="mini-sede-cell ${esComp ? 'done' : (esNoAp ? 'noaplica' : 'pending')} cursor-not-allowed pointer-events-none"
-                       title="Sede ${s}: ${esComp ? 'Completada' : (esNoAp ? 'No Aplica' : 'Pendiente')} (Solo lectura)">
+                       title="Sede ${s}: ${esComp ? 'Completada' : (esNoAp ? 'No Aplica' : 'Pendiente')}">
                     <span>${s}</span>
                     ${esComp ? '<svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
                   </div>
@@ -1814,71 +1856,46 @@
               }
             }).join("");
 
-            card.innerHTML = `
-              <div class="space-y-1.5">
-                <!-- TOP HEADER ULTRA-COMPACTO: ETAPA + URGENCIA DOT -->
-                <div class="flex items-center justify-between gap-1">
-                  <span class="text-[9px] font-black uppercase px-1.5 py-0.5 rounded-full border truncate max-w-[140px] ${etapaColorBadge}" title="${t.etapa} • ${tituloLimpio}">
-                    ${t.etapa} · ${tituloLimpio}
+            return `
+              <div class="subactividad-row space-y-1.5 ${esSoloLectura ? 'opacity-50 select-none' : ''}">
+                <div class="flex items-start justify-between gap-1">
+                  <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 truncate max-w-[125px]" title="Responsable: ${respLimpio}">
+                    👤 ${respLimpio}
                   </span>
                   <div class="flex items-center gap-1 shrink-0">
-                    <span class="text-[8.5px] font-black px-1.5 py-0.2 rounded-full ${urg.badgeClass}" title="${urg.label}">
+                    <span class="text-[8px] font-black px-1.5 py-0.2 rounded-full ${urg.badgeClass}" title="${urg.label}">
                       ${urg.label}
                     </span>
-                    ${t.requiereEvidencia ? `
-                      <span class="text-amber-500 text-[10px]" title="Requiere Evidencia">📎</span>
-                    ` : ''}
+                    ${t.requiereEvidencia ? `<span class="text-amber-500 text-[10px]" title="Requiere evidencia">📎</span>` : ''}
                   </div>
                 </div>
 
-                <!-- DESCRIPCIÓN CONCISA Y LEGIBLE (MÁX 2 LÍNEAS) -->
-                <h4 class="text-[11.5px] font-bold text-slate-800 dark:text-slate-100 leading-tight line-clamp-2" title="${t.descripcion}">
+                <p class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-snug line-clamp-2" title="${t.descripcion}">
                   ${t.descripcion}
-                </h4>
+                </p>
 
-                <!-- MICRO METADATOS: FECHA Y RESPONSABLE -->
-                <div class="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 font-semibold pt-0.5">
-                  <span class="truncate max-w-[120px]" title="Responsable: ${areaLimpia}">👤 ${areaLimpia}</span>
-                  <span class="font-mono text-[9.5px] shrink-0" title="Fecha límite: ${fechaFormateada} ${horaFormateada}">📅 ${fechaFormateada.split(',')[0] || fechaFormateada}</span>
-                </div>
-
-                <!-- MINI-MATRIX DE SEDES (4x2 COMPACTO Y CLICKEABLE) -->
-                <div class="mini-matrix-grid pt-1">
+                <!-- MINI-MATRIX SEDES 4x2 -->
+                <div class="mini-matrix-grid pt-0.5">
                   ${cellsHtml}
                 </div>
-              </div>
 
-              <!-- FOOTER DE ACCIÓN ULTRA-RÁPIDA -->
-              <div class="pt-1.5 border-t border-slate-200/60 dark:border-white/10 space-y-1.5">
-                <!-- PROGRESO SMART -->
-                <div class="flex items-center justify-between text-[9px] font-bold text-slate-500">
-                  <span>${conteoCumplidasMulti}/8 Sedes</span>
-                  <span class="font-mono ${todasCompletadas ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600 dark:text-blue-400'}">${pctTarea}%</span>
-                </div>
-                <div class="smart-progress-track">
-                  <div class="smart-progress-fill ${todasCompletadas ? 'bg-emerald-500' : 'bg-blue-600'}" style="width: ${pctTarea}%;"></div>
-                </div>
-
-                <!-- BOTONES RÁPIDOS -->
-                <div class="flex items-center justify-between gap-1 pt-0.5">
+                <!-- ACCIONES RÁPIDAS DE SUBACTIVIDAD -->
+                <div class="flex items-center justify-between pt-1 border-t border-slate-200/50 dark:border-white/5 text-[9.5px]">
                   ${esSoloLectura ? `
-                    <span class="text-[9px] text-slate-400 font-bold">🔒 Solo lectura</span>
+                    <span class="text-slate-400 font-semibold">Solo lectura</span>
                   ` : `
-                    <button onclick="abrirModalNoAplica('${t.id}', 'TODAS')" type="button"
-                      class="text-[9.5px] font-bold text-red-600 dark:text-red-400 hover:underline py-0.5" title="Declarar excepción">
+                    <button onclick="abrirModalNoAplica('${t.id}', 'TODAS')" type="button" class="text-red-600 dark:text-red-400 font-bold hover:underline">
                       No Aplica
                     </button>
-
-                    ${todasCompletadas ? `
-                      <span class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 flex items-center gap-0.5">
-                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span>100% Listo</span>
+                    ${todasComp ? `
+                      <span class="text-emerald-600 dark:text-emerald-400 font-extrabold flex items-center gap-0.5">
+                        <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        8 Sedes
                       </span>
                     ` : `
                       <button onclick="marcarTodasFlash('${t.id}')" type="button"
-                        class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-all flex items-center gap-1 active:scale-95"
-                        title="Completar en las 8 sedes a la vez">
-                        <span>⚡ 8 Sedes</span>
+                        class="px-1.5 py-0.2 rounded-full text-[9px] font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs">
+                        ⚡ 8 Sedes
                       </button>
                     `}
                   `}
@@ -1886,87 +1903,112 @@
               </div>
             `;
           } else {
-            // MODO SEDE INDIVIDUAL (LCE, SJL, IND, ETC.)
-            const estadoObj = (t.estadoSede && t.estadoSede[fSede]) ? t.estadoSede[fSede] : { estado: "PENDIENTE", evidencia: null, nota: "" };
+            // MODO SEDE INDIVIDUAL
+            const estadoObj = (t.estadoSede && t.estadoSede[fSede]) ? t.estadoSede[fSede] : { estado: "PENDIENTE", evidencia: null };
             const esComp = estadoObj.estado === "COMPLETADA";
-            const esNoAp = estadoObj.estado === "NO APLICA" || estadoObj.estado === "NO_APLICA";
-            const infoDiasCard = calcularInfoDiasRelativos(t.diasRelativos, (PARTICIPANTE_STATE.checklist && PARTICIPANTE_STATE.checklist.fechaInicio), t.fecha);
 
-            card.className = `smart-card p-2.5 flex flex-col justify-between gap-2 ${
-              esComp ? 'card-completada-total' : ''
-            } ${esSoloLectura ? 'opacity-40 grayscale-[30%] select-none' : ''}`;
-
-            card.innerHTML = `
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between gap-1">
-                  <span class="text-[9px] font-black uppercase px-1.5 py-0.5 rounded-full border truncate max-w-[130px] ${etapaColorBadge}" title="${t.etapa} • ${tituloLimpio}">
-                    ${t.etapa} · ${tituloLimpio}
+            return `
+              <div class="subactividad-row space-y-1.5 ${esSoloLectura ? 'opacity-50 select-none' : ''}">
+                <div class="flex items-start justify-between gap-1">
+                  <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 truncate max-w-[125px]">
+                    👤 ${respLimpio}
                   </span>
-                  <span class="text-[8.5px] font-black px-1.5 py-0.2 rounded-full ${urg.badgeClass}" title="${urg.label}">
+                  <span class="text-[8px] font-black px-1.5 py-0.2 rounded-full ${urg.badgeClass}">
                     ${urg.label}
                   </span>
                 </div>
 
-                <h4 class="text-[11.5px] font-bold text-slate-800 dark:text-slate-100 leading-tight line-clamp-2" title="${t.descripcion}">
+                <p class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-snug line-clamp-2" title="${t.descripcion}">
                   ${t.descripcion}
-                </h4>
-
-                <div class="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 font-semibold pt-0.5">
-                  <span class="truncate max-w-[110px]" title="${areaLimpia}">👤 ${areaLimpia}</span>
-                  <span class="font-mono font-bold text-blue-600 dark:text-blue-400 text-[9.5px]">📍 Sede ${fSede}</span>
-                </div>
-
-                <div class="flex items-center gap-1 text-[9.5px] font-bold pt-1">
-                  <span class="px-1.5 py-0.5 rounded border bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border-indigo-200">
-                    ${infoDiasCard.etiquetaRelativa}
-                  </span>
-                  <span class="px-1.5 py-0.5 rounded border ${infoDiasCard.colorClase}">
-                    ${infoDiasCard.etiquetaConteo}
-                  </span>
-                </div>
+                </p>
 
                 ${estadoObj.evidencia ? `
-                  <div class="p-1 rounded bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 text-[9.5px] flex items-center gap-1">
-                    <span class="text-emerald-600">📎</span>
-                    <a href="${estadoObj.evidencia}" target="_blank" class="text-blue-600 font-bold underline truncate">Ver Evidencia</a>
+                  <div class="text-[9px] flex items-center gap-1 text-blue-600 font-bold truncate">
+                    <span>📎</span>
+                    <a href="${estadoObj.evidencia}" target="_blank" class="underline truncate">Evidencia adjunta</a>
                   </div>
                 ` : ''}
-              </div>
 
-              <!-- FOOTER ACCIONES SEDE INDIVIDUAL -->
-              <div class="pt-1.5 border-t border-slate-200/60 dark:border-white/10 flex items-center justify-between gap-1">
-                ${esSoloLectura ? `
-                  <span class="text-[9px] text-slate-400 font-bold">🔒 Solo lectura</span>
-                ` : `
-                  <div class="flex items-center gap-1">
-                    <button onclick="abrirModalNoAplica('${t.id}', '${fSede}')" type="button"
-                      class="text-[9.5px] font-bold text-red-600 hover:underline">
-                      No Aplica
-                    </button>
-                    <button onclick="abrirModalEvidenciaDirecta('${t.id}', '${fSede}')" type="button"
-                      class="text-[9.5px] font-bold text-blue-600 hover:underline">
-                      📷 Evid.
-                    </button>
-                  </div>
-
-                  ${esComp ? `
-                    <span class="text-[10px] font-black text-emerald-600 flex items-center gap-0.5">
-                      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                      <span>Cumplido</span>
-                    </span>
+                <div class="flex items-center justify-between pt-1 border-t border-slate-200/50 dark:border-white/5 text-[9.5px]">
+                  ${esSoloLectura ? `
+                    <span class="text-slate-400 font-semibold">Solo lectura</span>
                   ` : `
-                    <button onclick="marcarSedeFlash('${t.id}', '${fSede}')" type="button"
-                      class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs">
-                      Completar
-                    </button>
+                    <div class="flex items-center gap-1.5">
+                      <button onclick="abrirModalNoAplica('${t.id}', '${fSede}')" type="button" class="text-red-600 font-bold hover:underline">
+                        No Aplica
+                      </button>
+                      <button onclick="abrirModalEvidenciaDirecta('${t.id}', '${fSede}')" type="button" class="text-blue-600 font-bold hover:underline">
+                        📷 Evid.
+                      </button>
+                    </div>
+
+                    ${esComp ? `
+                      <span class="text-emerald-600 font-extrabold flex items-center gap-0.5">
+                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        Listo
+                      </span>
+                    ` : `
+                      <button onclick="marcarSedeFlash('${t.id}', '${fSede}')" type="button"
+                        class="px-2 py-0.5 rounded-full text-[9.5px] font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs">
+                        Completar
+                      </button>
+                    `}
                   `}
-                `}
+                </div>
               </div>
             `;
           }
+        }).join("");
 
-          cont.appendChild(card);
-        });
+        // Tarjeta contenedor de la Actividad
+        const card = document.createElement("div");
+        card.className = `smart-card p-3 flex flex-col justify-between gap-2.5 ${
+          esActividadCompletadaTotal ? 'card-completada-total' : ''
+        }`;
+
+        card.innerHTML = `
+          <div class="space-y-2">
+            <!-- HEADER DE ACTIVIDAD: NÚMERO + ETAPA + PROGRESO -->
+            <div class="flex items-center justify-between gap-1 border-b border-slate-200/60 dark:border-white/10 pb-1.5">
+              <div class="flex items-center gap-1.5 truncate">
+                <span class="w-5 h-5 rounded-md bg-blue-600 text-white font-extrabold text-[10.5px] flex items-center justify-center shrink-0 shadow-xs">
+                  ${numActividad}
+                </span>
+                <span class="text-[9px] font-black uppercase px-1.5 py-0.2 rounded-full border ${etapaColorBadge}">
+                  ${etapaPrincipal}
+                </span>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <span class="text-[9.5px] font-mono font-extrabold ${esActividadCompletadaTotal ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600 dark:text-blue-400'}">
+                  ${pctActividad}%
+                </span>
+              </div>
+            </div>
+
+            <!-- TÍTULO DE LA ACTIVIDAD -->
+            <h3 class="text-xs font-black text-slate-900 dark:text-slate-100 leading-snug" title="${nombreActividad}">
+              ${nombreActividad}
+            </h3>
+
+            <!-- SUB-ACTIVIDADES AGRUPADAS -->
+            <div class="space-y-1.5 pt-0.5">
+              ${subactividadesHtml}
+            </div>
+          </div>
+
+          <!-- FOOTER DE ACTIVIDAD: BARRA DE PROGRESO DE LA ACTIVIDAD -->
+          <div class="pt-1 border-t border-slate-200/60 dark:border-white/10">
+            <div class="flex items-center justify-between text-[9px] font-bold text-slate-500 mb-1">
+              <span>${subtareasFiltradas.length} subactividad${subtareasFiltradas.length > 1 ? 'es' : ''}</span>
+              <span>${totalCumplidosActividad}/${totalPuntosActividad} puntos</span>
+            </div>
+            <div class="smart-progress-track">
+              <div class="smart-progress-fill ${esActividadCompletadaTotal ? 'bg-emerald-500' : 'bg-blue-600'}" style="width: ${pctActividad}%;"></div>
+            </div>
+          </div>
+        `;
+
+        cont.appendChild(card);
       });
 
       // ACTUALIZAR CONTADORES DE LAS PÍLDORAS
@@ -1987,9 +2029,9 @@
 
       document.getElementById("stat-hechas-total").textContent = `(${totalPuntosCumplidos} de ${baseEfectiva})`;
 
-      if (visibles === 0) {
+      if (visiblesActividades === 0) {
         cont.innerHTML = `
-          <div class="col-span-1 lg:col-span-2 text-center py-10 glass-panel text-slate-400 space-y-2">
+          <div class="col-span-full text-center py-10 glass-panel text-slate-400 space-y-2">
             <div class="text-2xl">✨</div>
             <div class="text-xs font-bold text-slate-700 dark:text-slate-200">No hay tareas pendientes en este filtro</div>
             <div class="text-[11px] text-slate-500">Pruebe seleccionando "Todas" o cambiando la sede.</div>
