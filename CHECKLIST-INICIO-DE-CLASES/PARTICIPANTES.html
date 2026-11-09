@@ -402,6 +402,8 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      min-height: 290px;
+      height: 100%;
     }
     body[data-theme="dark"] .smart-card {
       border-color: rgba(255, 255, 255, 0.09);
@@ -418,6 +420,18 @@
     body[data-theme="dark"] .smart-card.card-completada-total {
       border-color: rgba(16, 185, 129, 0.3);
       background: linear-gradient(180deg, rgba(6, 78, 59, 0.2) 0%, var(--glass-card-bg) 100%);
+    }
+
+    /* CRISTAL ROJO EN TARJETAS VENCIDAS (ALERTA TÁCTICA) */
+    .smart-card.card-vencida-alerta {
+      border: 1.5px solid rgba(239, 68, 68, 0.55) !important;
+      background: linear-gradient(180deg, rgba(254, 226, 226, 0.7) 0%, rgba(255, 241, 242, 0.5) 100%) !important;
+      box-shadow: 0 4px 18px rgba(239, 68, 68, 0.15) !important;
+    }
+    body[data-theme="dark"] .smart-card.card-vencida-alerta {
+      border: 1.5px solid rgba(239, 68, 68, 0.45) !important;
+      background: linear-gradient(180deg, rgba(127, 29, 29, 0.35) 0%, rgba(15, 23, 42, 0.75) 100%) !important;
+      box-shadow: 0 4px 20px rgba(220, 38, 38, 0.25) !important;
     }
 
     /* FILA DE SUBACTIVIDAD DENTRO DE LA TARJETA (ESTRUCTURA TÁCTICA Y COMPACTA) */
@@ -1066,13 +1080,6 @@
             <span class="px-1.5 py-0.2 rounded-full bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 text-[10px]" id="badge-cnt-hoy">0</span>
           </button>
 
-          <button type="button" onclick="aplicarFiltroUrgenciaPill('PROXIMA')" id="pill-urg-PROXIMA"
-            class="glass-pill pill-urg-proxima !text-xs !py-1 !px-3 font-extrabold">
-            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span>Próximas 48h</span>
-            <span class="px-1.5 py-0.2 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-[10px]" id="badge-cnt-proximas">0</span>
-          </button>
-
           <button type="button" onclick="aplicarFiltroUrgenciaPill('EN_PLAZO')" id="pill-urg-EN_PLAZO"
             class="glass-pill pill-urg-plazo !text-xs !py-1 !px-3 font-extrabold">
             <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
@@ -1572,6 +1579,35 @@
       };
     }
 
+    // CALCULAR TIEMPO RESTANTE EN TIEMPO REAL (HORAS Y MINUTOS)
+    function formatearTemporizadorLima(fechaStr, horaStr) {
+      if (!fechaStr) return { texto: "--:--", msDiff: 0, vencido: false };
+      const hoy = new Date();
+      let [y, m, d] = (fechaStr || "").split("-").map(Number);
+      if (!y || !m || !d) return { texto: "--:--", msDiff: 0, vencido: false };
+      let [hh, mm] = (horaStr || "18:00").split(":").map(Number);
+      if (isNaN(hh)) hh = 18;
+      if (isNaN(mm)) mm = 0;
+
+      const target = new Date(y, m - 1, d, hh, mm, 0);
+      const diffMs = target.getTime() - hoy.getTime();
+
+      if (diffMs <= 0) {
+        return { texto: "Vencido", msDiff: diffMs, vencido: true };
+      }
+
+      const totalMinutos = Math.floor(diffMs / (1000 * 60));
+      const horas = Math.floor(totalMinutos / 60);
+      const minutos = totalMinutos % 60;
+
+      const pad = (n) => String(n).padStart(2, "0");
+      return {
+        texto: `${pad(horas)}h ${pad(minutos)}m`,
+        msDiff: diffMs,
+        vencido: false
+      };
+    }
+
     // CALCULAR URGENCIA OPERATIVA (HORA LOCAL LIMA)
     function calcularUrgenciaOperativa(fechaStr, horaStr, estadoCumplimiento) {
       if (estadoCumplimiento === "COMPLETADA") {
@@ -1581,31 +1617,39 @@
         return { cod: "NO_APLICA", label: "NO APLICA", badgeClass: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400" };
       }
 
+      const countdown = formatearTemporizadorLima(fechaStr, horaStr);
+
+      if (countdown.vencido) {
+        return {
+          cod: "VENCIDA",
+          label: "🚨",
+          badgeClass: "bg-red-600 text-white font-black animate-pulse",
+          countdown: "Vencida",
+          esVencida: true
+        };
+      }
+
       const hoyLima = new Date();
       let [y, m, d] = (fechaStr || "2026-11-03").split("-").map(Number);
-      if (!y || !m || !d) { y = 2026; m = 11; d = 3; }
-      let [hh, mm] = (horaStr || "18:00").split(":").map(Number);
-      if (isNaN(hh)) hh = 18;
-      if (isNaN(mm)) mm = 0;
-
-      const fechaLimite = new Date(y, m - 1, d, hh, mm, 0);
-      const msDiff = fechaLimite.getTime() - hoyLima.getTime();
-      const horasDiff = msDiff / (1000 * 60 * 60);
-
-      if (msDiff < 0) {
-        return { cod: "VENCIDA", label: "VENCIDA", badgeClass: "bg-red-500 text-white font-black animate-pulse" };
-      }
-
       const esHoy = (hoyLima.getFullYear() === y && hoyLima.getMonth() === (m - 1) && hoyLima.getDate() === d);
+
       if (esHoy) {
-        return { cod: "VENCE_HOY", label: "VENCE HOY", badgeClass: "bg-amber-500 text-white font-black" };
+        return {
+          cod: "VENCE_HOY",
+          label: `⏳ ${countdown.texto}`,
+          badgeClass: "bg-amber-500 text-white font-extrabold shadow-xs",
+          countdown: countdown.texto,
+          esVencida: false
+        };
       }
 
-      if (horasDiff <= 48) {
-        return { cod: "PROXIMA", label: "PRÓXIMA 48H", badgeClass: "bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200" };
-      }
-
-      return { cod: "EN_PLAZO", label: "EN PLAZO", badgeClass: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300" };
+      return {
+        cod: "EN_PLAZO",
+        label: `⏱️ ${countdown.texto}`,
+        badgeClass: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200/80 font-bold",
+        countdown: countdown.texto,
+        esVencida: false
+      };
     }
 
     // CONMUTAR TIPO DE VISTA: TARJETAS vs TABLA MATRIZ
@@ -1650,7 +1694,7 @@
     // APLICAR FILTRO DE URGENCIA POR PILL DIRECTO (1-TAP)
     function aplicarFiltroUrgenciaPill(codUrg) {
       PARTICIPANTE_STATE.filtroUrgenciaActual = codUrg;
-      const codigos = ["TODAS", "VENCIDA", "VENCE_HOY", "PROXIMA", "EN_PLAZO", "COMPLETADA"];
+      const codigos = ["TODAS", "VENCIDA", "VENCE_HOY", "EN_PLAZO", "COMPLETADA"];
       codigos.forEach(c => {
         const btn = document.getElementById(`pill-urg-${c}`);
         if (btn) {
@@ -1855,15 +1899,26 @@
           return `<div class="subactividad-desc">${desc}</div>`;
         };
 
+        const tieneAlgunaVencida = subtareasFiltradas.some(item => item.urg.cod === "VENCIDA");
+        const esModoMio = (PARTICIPANTE_STATE.modoVista === "MIO");
+
         // Renderizado interno de las subactividades
         const subactividadesHtml = subtareasFiltradas.map(({ t, urg, estadoParaFiltro, conteoCumplidasMulti }) => {
           const correspondeRol = coincideRolUsuario(PARTICIPANTE_STATE.usuario.rol, t.responsable, act.area || act.nombre);
-          const esSoloLectura = (!correspondeRol && PARTICIPANTE_STATE.modoVista === "TODOS");
+          const esSoloLectura = (!correspondeRol && !esModoMio);
 
           const fechaFormateada = formatearFechaEspanolMatriz(t.fecha, t.diasRelativos, (PARTICIPANTE_STATE.checklist && PARTICIPANTE_STATE.checklist.fechaInicio));
           const horaFormateada = formatearHoraEspanol(t.hora);
           let respLimpio = (t.responsable || act.area || "Procesos").replace(" - Vonex", "").replace("Gestión de ", "");
           const descHtml = formatearDescripcionEstructurada(t.descripcion);
+
+          // Header de la subactividad (si está en Mi Rol no repetimos el rol del usuario)
+          const badgeRolHtml = esModoMio ? '' : `
+            <span class="text-[9.5px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1 truncate max-w-[130px]" title="Responsable: ${respLimpio}">
+              <span class="text-blue-500">👤</span>
+              <span class="truncate">${respLimpio}</span>
+            </span>
+          `;
 
           if (esVistaMultisede) {
             const todasComp = (conteoCumplidasMulti === SEDES_OFICIALES.length);
@@ -1910,12 +1965,9 @@
             return `
               <div class="subactividad-row space-y-1.5 ${esSoloLectura ? 'opacity-50 select-none' : ''}">
                 <div class="flex items-center justify-between gap-1">
-                  <span class="text-[9.5px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1 truncate max-w-[130px]" title="Responsable: ${respLimpio}">
-                    <span class="text-blue-500">👤</span>
-                    <span class="truncate">${respLimpio}</span>
-                  </span>
-                  <div class="flex items-center gap-1 shrink-0">
-                    <span class="text-[8px] font-black px-1.5 py-0.2 rounded-full ${urg.badgeClass}" title="${urg.label}">
+                  ${badgeRolHtml}
+                  <div class="flex items-center gap-1.5 shrink-0 ${esModoMio ? 'w-full justify-between' : ''}">
+                    <span class="text-[8.5px] font-black px-2 py-0.5 rounded-full ${urg.badgeClass}" title="${urg.countdown}">
                       ${urg.label}
                     </span>
                     ${t.requiereEvidencia ? `<span class="text-amber-500 text-[10px]" title="Requiere evidencia">📎</span>` : ''}
@@ -1963,13 +2015,13 @@
             return `
               <div class="subactividad-row space-y-1.5 ${esSoloLectura ? 'opacity-50 select-none' : ''}">
                 <div class="flex items-center justify-between gap-1">
-                  <span class="text-[9.5px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1 truncate max-w-[130px]">
-                    <span class="text-blue-500">👤</span>
-                    <span class="truncate">${respLimpio}</span>
-                  </span>
-                  <span class="text-[8px] font-black px-1.5 py-0.2 rounded-full ${urg.badgeClass}">
-                    ${urg.label}
-                  </span>
+                  ${badgeRolHtml}
+                  <div class="flex items-center gap-1.5 shrink-0 ${esModoMio ? 'w-full justify-between' : ''}">
+                    <span class="text-[8.5px] font-black px-2 py-0.5 rounded-full ${urg.badgeClass}">
+                      ${urg.label}
+                    </span>
+                    ${t.requiereEvidencia ? `<span class="text-amber-500 text-[10px]" title="Requiere evidencia">📎</span>` : ''}
+                  </div>
                 </div>
 
                 <div>
@@ -2014,33 +2066,32 @@
           }
         }).join("");
 
-        // Tarjeta contenedor de la Actividad
+        // Tarjeta contenedor de la Actividad (con tamaño uniforme y cristal rojo si tiene vencidas)
         const card = document.createElement("div");
         card.className = `smart-card p-3 flex flex-col justify-between gap-2.5 ${
           esActividadCompletadaTotal ? 'card-completada-total' : ''
-        }`;
+        } ${tieneAlgunaVencida ? 'card-vencida-alerta' : ''}`;
 
         card.innerHTML = `
           <div class="space-y-2">
-            <!-- HEADER DE ACTIVIDAD: NÚMERO + NOMBRE DE ACTIVIDAD DESTACADO + PROGRESO -->
+            <!-- HEADER DE ACTIVIDAD: NÚMERO + NOMBRE DE ACTIVIDAD + PROGRESO (SIN ANTES/DESPUES) -->
             <div class="flex items-start justify-between gap-1.5 border-b border-slate-200/70 dark:border-white/10 pb-2">
               <div class="flex items-start gap-1.5 min-w-0">
-                <span class="w-5 h-5 rounded-md bg-blue-600 text-white font-extrabold text-[10.5px] flex items-center justify-center shrink-0 shadow-xs mt-0.5">
+                <span class="w-5 h-5 rounded-md ${tieneAlgunaVencida ? 'bg-red-600' : 'bg-blue-600'} text-white font-extrabold text-[10.5px] flex items-center justify-center shrink-0 shadow-xs mt-0.5">
                   ${numActividad}
                 </span>
                 <div class="min-w-0">
-                  <h3 class="text-xs font-black text-slate-900 dark:text-slate-100 leading-snug break-words" title="${nombreActividad}">
+                  <h3 class="text-xs font-black ${tieneAlgunaVencida ? 'text-red-900 dark:text-red-200' : 'text-slate-900 dark:text-slate-100'} leading-snug break-words" title="${nombreActividad}">
                     ${nombreActividad}
                   </h3>
-                  <div class="flex items-center gap-1 mt-0.5">
-                    <span class="text-[8.5px] font-bold uppercase px-1.5 py-0.2 rounded-full border ${etapaColorBadge}">
-                      ${etapaPrincipal}
-                    </span>
-                  </div>
                 </div>
               </div>
               <div class="flex items-center gap-1 shrink-0">
-                <span class="text-[10px] font-mono font-black ${esActividadCompletadaTotal ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600 dark:text-blue-400'}">
+                <span class="text-[10px] font-mono font-black ${
+                  esActividadCompletadaTotal
+                    ? 'text-emerald-600 dark:text-emerald-400'
+                    : (tieneAlgunaVencida ? 'text-red-600 dark:text-red-400' : 'text-blue-600 dark:text-blue-400')
+                }">
                   ${pctActividad}%
                 </span>
               </div>
@@ -2059,7 +2110,11 @@
               <span>${totalCumplidosActividad}/${totalPuntosActividad} puntos</span>
             </div>
             <div class="smart-progress-track">
-              <div class="smart-progress-fill ${esActividadCompletadaTotal ? 'bg-emerald-500' : 'bg-blue-600'}" style="width: ${pctActividad}%;"></div>
+              <div class="smart-progress-fill ${
+                esActividadCompletadaTotal
+                  ? 'bg-emerald-500'
+                  : (tieneAlgunaVencida ? 'bg-red-500' : 'bg-blue-600')
+              }" style="width: ${pctActividad}%;"></div>
             </div>
           </div>
         `;
@@ -2071,7 +2126,6 @@
       document.getElementById("badge-cnt-todas").textContent = countTodas;
       document.getElementById("badge-cnt-vencidas").textContent = countVencidas;
       document.getElementById("badge-cnt-hoy").textContent = countHoy;
-      document.getElementById("badge-cnt-proximas").textContent = countProximas;
       document.getElementById("badge-cnt-plazo").textContent = countPlazo;
       document.getElementById("badge-cnt-cumplidas").textContent = countCumplidas;
 
@@ -2600,6 +2654,13 @@
       showToast("Observación registrada con éxito 📝", "success");
       filtrarTarjetas();
 
+      // Intervalo de actualización en tiempo real para temporizadores de cuenta regresiva
+      setInterval(() => {
+        if (PARTICIPANTE_STATE.tipoVista === "TARJETAS") {
+          filtrarTarjetas();
+        }
+      }, 60000); // Actualiza cada 1 minuto
+
       if (typeof google !== 'undefined' && google.script && google.script.run) {
         const chkId = PARTICIPANTE_STATE.checklist ? PARTICIPANTE_STATE.checklist.id : "";
         google.script.run
@@ -2817,6 +2878,13 @@
       showToast(`¡Sede ${sede} completada! ✅`, "success");
       filtrarTarjetas();
 
+      // Intervalo de actualización en tiempo real para temporizadores de cuenta regresiva
+      setInterval(() => {
+        if (PARTICIPANTE_STATE.tipoVista === "TARJETAS") {
+          filtrarTarjetas();
+        }
+      }, 60000); // Actualiza cada 1 minuto
+
       if (typeof google !== 'undefined' && google.script && google.script.run) {
         google.script.run.withFailureHandler(err => {
           showToast("Error al sincronizar con el Sheet: " + err.message, "error");
@@ -2917,6 +2985,13 @@
 
       cerrarModalNoAplica();
       filtrarTarjetas();
+
+      // Intervalo de actualización en tiempo real para temporizadores de cuenta regresiva
+      setInterval(() => {
+        if (PARTICIPANTE_STATE.tipoVista === "TARJETAS") {
+          filtrarTarjetas();
+        }
+      }, 60000); // Actualiza cada 1 minuto
 
       if (typeof google !== 'undefined' && google.script && google.script.run) {
         google.script.run.withFailureHandler(err => {
@@ -3224,6 +3299,13 @@
       }
 
       filtrarTarjetas();
+
+      // Intervalo de actualización en tiempo real para temporizadores de cuenta regresiva
+      setInterval(() => {
+        if (PARTICIPANTE_STATE.tipoVista === "TARJETAS") {
+          filtrarTarjetas();
+        }
+      }, 60000); // Actualiza cada 1 minuto
 
       if (typeof google !== 'undefined' && google.script && google.script.run) {
         google.script.run.withSuccessHandler(ctx => {
