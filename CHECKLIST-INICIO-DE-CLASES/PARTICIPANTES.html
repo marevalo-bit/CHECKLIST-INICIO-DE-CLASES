@@ -4,21 +4,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Módulo de Participantes • Checklist Academia Vonex</title>
+  <title>Módulo de Participantes • Cumplimiento y Evidencias - Academia Vonex</title>
 
   <!-- Google Fonts: Inter & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
-
-  <!-- FontAwesome 6 Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;800;900&display=swap"
+    rel="stylesheet">
 
   <!-- Tailwind CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
 
   <!-- ==========================================
-       ESTILOS DEL SISTEMA LIQUID GLASS PREMIUM
+       ESTILOS SISTEMA LIQUID GLASS ULTRA PREMIUM
+       Estética Apple iOS/macOS translúcida, limpia y ultra rápida
   ========================================== -->
   <style>
     :root {
@@ -26,302 +26,809 @@
       --c-primary-hover: #1d4ed8;
       --c-accent: #ffe001;
       --c-emerald: #10b981;
+      --c-emerald-glow: rgba(16, 185, 129, 0.4);
       --c-blue: #3b82f6;
       --c-red: #ef4444;
       --c-amber: #f59e0b;
-      --c-purple: #8b5cf6;
 
-      --c-bg: #dbeafe;
+      /* PALETA OCEAN ICE (DEFAULT) */
+      --c-bg: #e2eafc;
       --c-text: #0f172a;
       --c-text-muted: #64748b;
-      --c-text-sub: #475569;
+      --c-text-sub: #334155;
 
-      --glass-header-bg: rgba(255, 255, 255, 0.55);
-      --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.35) 100%);
-      --glass-card-border: rgba(255, 255, 255, 0.85);
-      --glass-card-shadow: 0 12px 36px -4px rgba(37, 99, 235, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.9);
-      --glass-panel-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.3) 100%);
+      /* CRISTAL TRANSLÚCIDO LIQUID GLASS */
+      --glass-header-bg: rgba(255, 255, 255, 0.72);
+      --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.48) 100%);
+      --glass-card-border: rgba(255, 255, 255, 0.88);
+      --glass-card-shadow: 0 12px 32px -4px rgba(37, 99, 235, 0.07), inset 0 1px 1px rgba(255, 255, 255, 0.95);
+      --glass-panel-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.38) 100%);
 
-      --input-bg: rgba(255, 255, 255, 0.7);
+      /* INPUTS & CONTROLES */
+      --input-bg: rgba(255, 255, 255, 0.8);
       --input-border: rgba(255, 255, 255, 0.95);
       --input-focus-border: #3b82f6;
-      --input-focus-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 
+      /* ORBES */
       --orb-1: rgba(147, 197, 253, 0.75);
-      --orb-2: rgba(191, 219, 254, 0.7);
-      --orb-3: rgba(224, 231, 255, 0.65);
+      --orb-2: rgba(191, 219, 254, 0.65);
       --bg-grad-1: rgba(191, 219, 254, 0.5);
       --bg-grad-2: rgba(224, 231, 255, 0.5);
       --bg-grad-3: rgba(186, 230, 253, 0.5);
     }
 
+    /* PALETA FUCSIA SUAVE */
     body[data-palette="fuchsia"] {
       --c-primary: #db2777;
       --c-primary-hover: #be185d;
       --c-bg: #fdf2f8;
-      --glass-card-shadow: 0 10px 30px 0 rgba(219, 39, 119, 0.08);
-      --input-focus-border: #db2777;
-      --input-focus-shadow: 0 0 0 3px rgba(219, 39, 119, 0.25);
+      --glass-card-shadow: 0 12px 30px -4px rgba(219, 39, 119, 0.09), inset 0 1px 1px rgba(255, 255, 255, 0.95);
       --orb-1: rgba(244, 114, 182, 0.75);
-      --orb-2: rgba(232, 121, 249, 0.7);
-      --orb-3: rgba(192, 132, 252, 0.65);
+      --orb-2: rgba(232, 121, 249, 0.65);
       --bg-grad-1: rgba(252, 231, 243, 0.6);
       --bg-grad-2: rgba(243, 232, 255, 0.6);
       --bg-grad-3: rgba(251, 207, 232, 0.55);
     }
 
+    /* PALETA AMARILLO VONEX PASTEL */
     body[data-palette="butter"] {
       --c-primary: #d97706;
       --c-primary-hover: #b45309;
       --c-bg: #fefce8;
-      --glass-card-shadow: 0 10px 30px 0 rgba(217, 119, 6, 0.08);
-      --input-focus-border: #d97706;
-      --input-focus-shadow: 0 0 0 3px rgba(217, 119, 6, 0.25);
-      --orb-1: rgba(254, 240, 138, 0.85);
-      --orb-2: rgba(253, 230, 138, 0.75);
-      --orb-3: rgba(254, 215, 170, 0.7);
+      --glass-card-shadow: 0 12px 30px -4px rgba(217, 119, 6, 0.09), inset 0 1px 1px rgba(255, 255, 255, 0.95);
+      --orb-1: rgba(254, 240, 138, 0.8);
+      --orb-2: rgba(253, 230, 138, 0.7);
       --bg-grad-1: rgba(254, 249, 195, 0.6);
       --bg-grad-2: rgba(254, 243, 199, 0.6);
       --bg-grad-3: rgba(255, 237, 213, 0.55);
     }
 
+    /* MODO OSCURO */
     body[data-theme="dark"] {
       --c-bg: #090e1a;
       --c-text: #f8fafc;
       --c-text-muted: #94a3b8;
       --c-text-sub: #cbd5e1;
-      --glass-header-bg: rgba(15, 23, 42, 0.65);
-      --glass-card-bg: linear-gradient(135deg, rgba(30, 41, 59, 0.65) 0%, rgba(15, 23, 42, 0.5) 100%);
-      --glass-card-border: rgba(255, 255, 255, 0.16);
+      --glass-header-bg: rgba(15, 23, 42, 0.8);
+      --glass-card-bg: linear-gradient(135deg, rgba(30, 41, 59, 0.72) 0%, rgba(15, 23, 42, 0.55) 100%);
+      --glass-card-border: rgba(255, 255, 255, 0.14);
       --glass-card-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.12);
-      --glass-panel-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.45) 100%);
-
-      --input-bg: rgba(15, 23, 42, 0.65);
-      --input-border: rgba(255, 255, 255, 0.15);
+      --glass-panel-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.68) 0%, rgba(30, 41, 59, 0.45) 100%);
+      --input-bg: rgba(15, 23, 42, 0.75);
+      --input-border: rgba(255, 255, 255, 0.14);
       --input-focus-border: #60a5fa;
-      --input-focus-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
-
       --orb-1: rgba(30, 58, 138, 0.55);
       --orb-2: rgba(67, 56, 202, 0.48);
-      --orb-3: rgba(109, 40, 217, 0.42);
       --bg-grad-1: rgba(30, 58, 138, 0.35);
       --bg-grad-2: rgba(67, 56, 202, 0.35);
       --bg-grad-3: rgba(15, 23, 42, 0.6);
     }
 
-    body {
+    * {
+      box-sizing: border-box;
       font-family: 'Inter', sans-serif;
+    }
+
+    body {
       background-color: var(--c-bg);
-      color: var(--c-text);
-      min-height: 100vh;
-      overflow-x: hidden;
-      transition: background-color 0.4s ease, color 0.4s ease;
       background-image:
         radial-gradient(at 0% 0%, var(--bg-grad-1) 0px, transparent 50%),
         radial-gradient(at 100% 0%, var(--bg-grad-2) 0px, transparent 50%),
         radial-gradient(at 50% 100%, var(--bg-grad-3) 0px, transparent 50%);
-      background-attachment: fixed;
+      color: var(--c-text);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.4s ease, color 0.3s ease;
+      overflow-x: hidden;
     }
 
+    /* ORBES FLOTANTES */
     .blur-orb {
-      position: absolute;
+      position: fixed;
       border-radius: 50%;
-      filter: blur(80px);
-      z-index: 0;
+      filter: blur(85px);
+      z-index: -1;
       opacity: 0.85;
       pointer-events: none;
     }
+
     .orb-a {
-      width: 480px; height: 480px;
+      width: 55vw;
+      height: 55vw;
+      max-width: 620px;
+      max-height: 620px;
       background: var(--orb-1);
-      top: -10%; right: -5%;
-    }
-    .orb-b {
-      width: 420px; height: 420px;
-      background: var(--orb-2);
-      bottom: -10%; left: -5%;
+      top: -10%;
+      right: -5%;
+      animation: floatOrbA 16s infinite ease-in-out alternate;
     }
 
+    .orb-b {
+      width: 50vw;
+      height: 50vw;
+      max-width: 560px;
+      max-height: 560px;
+      background: var(--orb-2);
+      bottom: -10%;
+      left: -5%;
+      animation: floatOrbB 18s infinite ease-in-out alternate;
+      animation-delay: -4s;
+    }
+
+    @keyframes floatOrbA {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-10%, 12%) scale(1.1); }
+      100% { transform: translate(6%, 8%) scale(0.95); }
+    }
+
+    @keyframes floatOrbB {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(12%, -10%) scale(1.08); }
+      100% { transform: translate(-8%, 8%) scale(0.92); }
+    }
+
+    /* COMPONENTES GLASS */
     .glass-header {
       background: var(--glass-header-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
       border-bottom: 1px solid var(--glass-card-border);
-      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
-    }
-    .glass-card {
-      background: var(--glass-card-bg);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--glass-card-border);
-      box-shadow: var(--glass-card-shadow);
-      border-radius: 1.25rem;
-      position: relative;
-      z-index: 10;
+      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.03);
     }
 
-    .pill-btn {
-      background: rgba(255, 255, 255, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.85);
-      color: var(--c-text);
-      padding: 0.35rem 0.85rem;
+    .glass-card {
+      background: var(--glass-card-bg);
+      backdrop-filter: blur(26px) saturate(190%);
+      -webkit-backdrop-filter: blur(26px) saturate(190%);
+      border: 1px solid var(--glass-card-border);
+      border-top: 1px solid rgba(255, 255, 255, 0.95);
+      border-left: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: var(--glass-card-shadow);
+      border-radius: 1.15rem;
+      transition: all 0.22s ease;
+    }
+
+    body[data-theme="dark"] .glass-card {
+      border-top-color: rgba(255, 255, 255, 0.2);
+      border-left-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .glass-card:hover {
+      box-shadow: 0 14px 34px -4px rgba(37, 99, 235, 0.1), inset 0 1px 1px rgba(255, 255, 255, 1);
+    }
+
+    .glass-panel {
+      background: var(--glass-panel-bg);
+      backdrop-filter: blur(20px) saturate(170%);
+      -webkit-backdrop-filter: blur(20px) saturate(170%);
+      border: 1px solid var(--glass-card-border);
+      border-radius: 0.9rem;
+    }
+
+    /* PILL BUTTONS */
+    .glass-pill {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.42) 100%);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-top: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.95);
       border-radius: 9999px;
+      padding: 0.35rem 0.85rem;
       font-size: 0.75rem;
       font-weight: 700;
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
       cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .pill-btn:hover {
-      background: rgba(255, 255, 255, 0.95);
-      transform: translateY(-1px);
-    }
-    body[data-theme="dark"] .pill-btn {
-      background: rgba(30, 41, 59, 0.7);
-      border-color: rgba(255, 255, 255, 0.15);
-      color: #e2e8f0;
+      color: var(--c-text-sub);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
     }
 
-    .pill-tag {
-      background: rgba(255, 255, 255, 0.7);
+    body[data-theme="dark"] .glass-pill {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.65) 0%, rgba(15, 23, 42, 0.45) 100%);
+      border-color: rgba(255, 255, 255, 0.14);
+      border-top-color: rgba(255, 255, 255, 0.25);
+      color: #cbd5e1;
+    }
+
+    .glass-pill:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      color: var(--c-primary);
+    }
+
+    .glass-pill:active {
+      transform: scale(0.97);
+    }
+
+    .glass-pill-active {
+      background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%) !important;
+      color: var(--c-primary) !important;
+      box-shadow: 0 4px 16px -2px rgba(37, 99, 235, 0.28), inset 0 1px 0 #ffffff !important;
+      border-color: rgba(255, 255, 255, 1) !important;
+    }
+
+    body[data-theme="dark"] .glass-pill-active {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+      color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.35) !important;
+      box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    }
+
+    /* CHIPS DE URGENCIA DIRECTOS (ACTION PILLS ENCABEZADO) */
+    .pill-urg-vencida {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #dc2626;
+    }
+    .pill-urg-vencida:hover, .pill-urg-vencida.active {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+      color: #ffffff !important;
+      border-color: #ef4444 !important;
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35) !important;
+    }
+
+    .pill-urg-hoy {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #d97706;
+    }
+    .pill-urg-hoy:hover, .pill-urg-hoy.active {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+      color: #ffffff !important;
+      border-color: #f59e0b !important;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35) !important;
+    }
+
+    .pill-urg-proxima {
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: #2563eb;
+    }
+    .pill-urg-proxima:hover, .pill-urg-proxima.active {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+      color: #ffffff !important;
+      border-color: #3b82f6 !important;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35) !important;
+    }
+
+    .pill-urg-plazo {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #059669;
+    }
+    .pill-urg-plazo:hover, .pill-urg-plazo.active {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+      color: #ffffff !important;
+      border-color: #10b981 !important;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
+    }
+
+    /* FLASH SEDE TOGGLE CHIPS */
+    .chip-sede-flash {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.28rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      font-family: monospace;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid transparent;
+    }
+
+    .chip-sede-flash.pending {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(241, 245, 249, 0.65) 100%);
+      border: 1px solid rgba(203, 213, 225, 0.85);
+      border-top: 1px solid rgba(255, 255, 255, 0.95);
+      color: #334155;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+    }
+
+    body[data-theme="dark"] .chip-sede-flash.pending {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.6) 100%);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+    }
+
+    .chip-sede-flash.pending:hover {
+      transform: translateY(-2px) scale(1.05);
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      border-color: #10b981;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+    }
+
+    .chip-sede-flash.pending:active {
+      transform: scale(0.95);
+    }
+
+    .chip-sede-flash.done {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       border: 1px solid rgba(255, 255, 255, 0.9);
-      padding: 0.35rem 0.9rem;
+      color: #ffffff;
+      box-shadow: 0 3px 10px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .chip-sede-flash.done:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .chip-sede-flash.noaplica {
+      background: rgba(148, 163, 184, 0.18);
+      border: 1px dashed rgba(148, 163, 184, 0.55);
+      color: #64748b;
+    }
+
+    /* INPUTS GLASS */
+    .form-input-glass {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 0.75rem;
+      padding: 0.45rem 0.8rem;
+      font-size: 0.8rem;
+      color: var(--c-text);
+      outline: none;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .form-input-glass:focus {
+      border-color: var(--input-focus-border);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    body[data-theme="dark"] .form-input-glass:focus {
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    /* BOTONES PRIMARIOS */
+    .btn-mark-flash-all {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      padding: 0.4rem 0.9rem;
       border-radius: 9999px;
       font-size: 0.75rem;
       font-weight: 800;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    body[data-theme="dark"] .pill-tag {
-      background: rgba(30, 41, 59, 0.6);
-      border-color: rgba(255, 255, 255, 0.15);
-    }
-
-    .badge-estado-cumplido {
-      background: #dcfce7;
-      color: #15803d;
-      border: 1px solid #bbf7d0;
-      padding: 0.25rem 0.65rem;
-      border-radius: 9999px;
-      font-size: 0.68rem;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-    }
-    .badge-estado-proceso {
-      background: #fef3c7;
-      color: #b45309;
-      border: 1px solid #fde68a;
-      padding: 0.25rem 0.65rem;
-      border-radius: 9999px;
-      font-size: 0.68rem;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-    }
-    .badge-notif-enviado {
-      background: #e0f2fe;
-      color: #0369a1;
-      border: 1px solid #bae6fd;
-      padding: 0.25rem 0.65rem;
-      border-radius: 9999px;
-      font-size: 0.68rem;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-    }
-    .badge-notif-pendiente {
-      background: #ffedd5;
-      color: #c2410c;
-      border: 1px solid #fed7aa;
-      padding: 0.25rem 0.65rem;
-      border-radius: 9999px;
-      font-size: 0.68rem;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-    }
-
-    .btn-action-registrar {
-      background: white;
-      border: 1.5px solid #2563eb;
-      color: #2563eb;
-      padding: 0.4rem 0.95rem;
-      border-radius: 9999px;
-      font-size: 0.72rem;
-      font-weight: 900;
+      border: none;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
+      box-shadow: 0 3px 12px rgba(16, 185, 129, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .btn-mark-flash-all:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 16px rgba(16, 185, 129, 0.4);
+      filter: brightness(1.06);
+    }
+
+    .btn-mark-flash-all:active {
+      transform: scale(0.97);
+    }
+
+    .btn-subtle-noaplica {
+      background: transparent;
+      color: var(--c-text-muted);
+      padding: 0.35rem 0.7rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: 1px solid rgba(203, 213, 225, 0.8);
       cursor: pointer;
       transition: all 0.2s ease;
-      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);
     }
-    .btn-action-registrar:hover {
-      background: #2563eb;
-      color: white;
-      transform: translateY(-1px);
-    }
-    .btn-action-archivado {
+
+    .btn-subtle-noaplica:hover {
       background: rgba(241, 245, 249, 0.8);
-      border: 1px solid #cbd5e1;
-      color: #64748b;
-      padding: 0.4rem 0.95rem;
+      color: var(--c-text);
+      border-color: #94a3b8;
+    }
+
+    /* BOTÓN CONMUTADOR DE VISTA TARJETAS / TABLA */
+    .view-toggle-btn {
+      padding: 0.3rem 0.65rem;
       border-radius: 9999px;
       font-size: 0.72rem;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      cursor: not-allowed;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      color: var(--c-text-muted);
+    }
+
+    .view-toggle-btn.active {
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--c-primary);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.18);
+    }
+
+    body[data-theme="dark"] .view-toggle-btn.active {
+      background: rgba(30, 41, 59, 0.95);
+      color: #60a5fa;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    /* ESTILOS DE VISTA TABLA OPERATIVA VONEX (ESTÉTICA EXCEL / MATRIZ) */
+    .table-vonex-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: var(--glass-card-shadow);
+      background: var(--glass-card-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    body[data-theme="dark"] .table-vonex-wrapper {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    table.table-vonex {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.74rem;
+    }
+
+    table.table-vonex thead tr:first-child th:first-child {
+      border-top-left-radius: 0.85rem;
+    }
+    table.table-vonex thead tr:first-child th:last-child {
+      border-top-right-radius: 0.85rem;
+    }
+
+    table.table-vonex th {
+      background: linear-gradient(180deg, #004b99 0%, #003875 100%);
+      color: #ffffff;
+      padding: 5px 6px !important;
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 0.69rem !important;
+      letter-spacing: 0.03em;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      border-bottom: 2px solid #002d5e;
+      text-align: center;
+      white-space: nowrap;
+      line-height: 1.2 !important;
+    }
+
+    table.table-vonex th.th-sede {
+      background: linear-gradient(180deg, #fde047 0%, #eab308 100%) !important;
+      color: #0f172a !important;
+      border-right: 1px solid rgba(0, 0, 0, 0.12);
+      font-weight: 900;
+      min-width: 42px !important;
+      width: 44px !important;
+      font-size: 0.68rem !important;
+      padding: 3px 2px !important;
+    }
+
+    table.table-vonex td {
+      padding: 3px 5px;
+      border-bottom: 1px solid #cbd5e1;
+      border-right: 1px solid #e2e8f0;
+      color: var(--c-text);
+      vertical-align: middle;
+      font-size: 0.73rem;
+      transition: background-color 0.15s ease;
+    }
+
+    body[data-theme="dark"] table.table-vonex td {
+      border-bottom: 1px solid #334155;
+      border-right: 1px solid #1e293b;
+    }
+
+    /* Línea de separación nítida y visible entre actividades */
+    table.table-vonex tr.fila-actividad-final td {
+      border-bottom: 2px solid #64748b !important;
+    }
+
+    body[data-theme="dark"] table.table-vonex tr.fila-actividad-final td {
+      border-bottom: 2px solid #64748b !important;
+    }
+
+    table.table-vonex tr:hover td {
+      background: rgba(239, 246, 255, 0.65);
+    }
+
+    body[data-theme="dark"] table.table-vonex tr:hover td {
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    /* FILA DE MI ROL DESTACADA EN VISTA TODOS */
+    tr.fila-mi-rol td {
+      background-color: rgba(239, 246, 255, 0.55) !important;
+    }
+    body[data-theme="dark"] tr.fila-mi-rol td {
+      background-color: rgba(30, 58, 138, 0.2) !important;
+    }
+
+    /* FILA OPACO SOLO LECTURA (ROLES AJENOS EN VISTA TODOS) */
+    tr.fila-solo-lectura {
+      opacity: 0.36 !important;
+      filter: grayscale(40%);
+      background-color: rgba(241, 245, 249, 0.6) !important;
+    }
+    body[data-theme="dark"] tr.fila-solo-lectura {
+      opacity: 0.33 !important;
+      filter: grayscale(50%);
+      background-color: rgba(15, 23, 42, 0.5) !important;
+    }
+
+    .table-cell-check {
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      padding: 2px 2px !important;
+      width: 44px;
+    }
+
+    .table-cell-check.mi-rol-cell {
+      background-color: rgba(219, 234, 254, 0.45) !important;
+    }
+    body[data-theme="dark"] .table-cell-check.mi-rol-cell {
+      background-color: rgba(30, 58, 138, 0.28) !important;
+    }
+
+    .check-box-vonex {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.16s ease;
+      margin: 0 auto;
+    }
+
+    /* MARCO AZUL EN EL CHECKLIST (ROL ACTIVO EN VISTA TODO EL CHECKLIST) */
+    .check-box-vonex.marco-azul {
+      border: 2px solid #2563eb !important;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35) !important;
+      transform: scale(1.08);
+    }
+    .check-box-vonex.marco-azul:hover {
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.55) !important;
+      transform: scale(1.15);
+    }
+
+    .check-box-vonex.done {
+      background: #10b981;
+      color: #ffffff;
+      box-shadow: 0 2px 5px rgba(16, 185, 129, 0.35);
+    }
+
+    .check-box-vonex.pending {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1.5px solid #cbd5e1;
+      color: transparent;
+    }
+
+    body[data-theme="dark"] .check-box-vonex.pending {
+      background: rgba(30, 41, 59, 0.7);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .check-box-vonex.pending:hover {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      transform: scale(1.08);
+    }
+
+    .check-box-vonex.noaplica {
+      background: #dc2626 !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 5px rgba(220, 38, 38, 0.4);
+    }
+
+    /* BOTONES ICONO EN OBSERVACIONES & EVIDENCIA (COMPACTOS Y EN LÍNEA) */
+    .btn-obs-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      border: 1px solid #cbd5e1;
+      background: rgba(255, 255, 255, 0.95);
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.16s ease;
+      user-select: none;
+      position: relative;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      flex-shrink: 0;
+    }
+    body[data-theme="dark"] .btn-obs-action {
+      border-color: #475569;
+      background: rgba(30, 41, 59, 0.9);
+      color: #cbd5e1;
+    }
+    .btn-obs-action:hover {
+      transform: translateY(-2px) scale(1.12);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+      z-index: 20;
+    }
+    .btn-obs-action:active {
+      transform: scale(0.95);
+    }
+    .btn-obs-action.active-texto {
+      border-color: #f59e0b;
+      background: #fef3c7;
+      color: #b45309;
+      box-shadow: 0 0 0 1.5px rgba(245, 158, 11, 0.45);
+    }
+    body[data-theme="dark"] .btn-obs-action.active-texto {
+      border-color: #b45309;
+      background: rgba(180, 83, 9, 0.35);
+      color: #fcd34d;
+    }
+    .btn-obs-action.active-foto {
+      border-color: #8b5cf6;
+      background: #ede9fe;
+      color: #6d28d9;
+      box-shadow: 0 0 0 1.5px rgba(139, 92, 246, 0.45);
+    }
+    body[data-theme="dark"] .btn-obs-action.active-foto {
+      border-color: #6d28d9;
+      background: rgba(109, 40, 217, 0.35);
+      color: #c4b5fd;
+    }
+    .btn-obs-action.active-link {
+      border-color: #3b82f6;
+      background: #dbeafe;
+      color: #1d4ed8;
+      box-shadow: 0 0 0 1.5px rgba(59, 130, 246, 0.45);
+    }
+    body[data-theme="dark"] .btn-obs-action.active-link {
+      border-color: #1d4ed8;
+      background: rgba(29, 78, 216, 0.35);
+      color: #93c5fd;
+    }
+    .btn-obs-action.active-noaplica {
+      border-color: #dc2626 !important;
+      background: #dc2626 !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.4) !important;
+    }
+    .btn-obs-action .obs-dot {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      border: 1.5px solid #ffffff;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+      z-index: 5;
+    }
+    body[data-theme="dark"] .btn-obs-action .obs-dot {
+      border-color: #1e293b;
+    }
+
+    /* TOAST */
+    #app-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+      transform: translateY(120%);
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #app-toast.show {
+      transform: translateY(0);
+      opacity: 1;
     }
   </style>
 </head>
 
 <body class="min-h-screen relative pb-12">
 
-  <!-- ORBES DE FONDO -->
+  <!-- TOAST DE NOTIFICACIÓN FLOTANTE -->
+  <div id="app-toast"
+    class="glass-card px-4 py-3 rounded-2xl flex items-center gap-3 border border-white/70 shadow-2xl text-slate-800 dark:text-slate-100">
+    <div id="toast-icon-box"
+      class="w-7 h-7 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xs shadow-md">
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+    </div>
+    <div>
+      <div id="toast-title" class="text-[9.5px] font-black uppercase text-blue-600 dark:text-blue-400">Notificación</div>
+      <div id="toast-message" class="text-xs font-bold">Mensaje del sistema</div>
+    </div>
+  </div>
+
+  <!-- ORBES DE FONDO LIQUID GLASS -->
   <div class="blur-orb orb-a"></div>
   <div class="blur-orb orb-b"></div>
 
   <!-- ==========================================
-       CABECERA GLASS SUPERIOR
+       CABECERA GLASS CONCISA & ELEGANTE
        ========================================== -->
-  <header class="glass-header sticky top-0 z-40 px-4 sm:px-8 py-3 mb-5 transition-all">
-    <div class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
-      
-      <!-- LOGO Y TÍTULO -->
-      <div class="flex items-center gap-3.5 w-full sm:w-auto">
-        <button onclick="window.history.back()" type="button" class="pill-btn !p-2 !rounded-xl" title="Volver">
-          <i class="fa-solid fa-arrow-left text-slate-600 dark:text-slate-300"></i>
-        </button>
+  <header class="glass-header sticky top-0 z-40 px-3 sm:px-6 py-2.5 mb-3 transition-all">
+    <div class="w-full max-w-[98%] 2xl:max-w-[96%] mx-auto flex items-center justify-between gap-3">
 
-        <div style="display: flex; align-items: center; justify-content: center; height: 36px; padding: 4px 14px; border-radius: 10px; background-color: #FFE001; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1.5px solid rgba(255,255,255,0.8);">
-          <span style="font-family:'Outfit', sans-serif; font-weight:900; font-size:18px; color:#004691; letter-spacing:-0.5px;">V<span style="color:#0f172a;">ONEX</span></span>
+      <!-- LOGO Y TÍTULO LIMPIO -->
+      <div class="flex items-center gap-3">
+        <div
+          style="display: flex; align-items: center; justify-content: center; height: 32px; padding: 4px 12px; border-radius: 8px; background-color: #FFE001; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1.5px solid rgba(255,255,255,0.85);">
+          <span
+            style="font-family:'Outfit', sans-serif; font-weight:900; font-size:16px; color:#004691; letter-spacing:-0.5px;">V<span
+              style="color:#0f172a;">ONEX</span></span>
         </div>
 
-        <div style="width: 1px; height: 26px; background: rgba(15, 23, 42, 0.12);" class="hidden sm:block"></div>
+        <div style="width: 1px; height: 20px; background: rgba(15, 23, 42, 0.12);" class="hidden sm:block"></div>
 
         <div>
-          <h1 class="font-extrabold text-sm sm:text-base tracking-tight text-slate-900 dark:text-slate-100 leading-tight">
-            Módulo de Participantes
-          </h1>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-            Registro de actividades, cumplimiento de hitos y envío de evidencias por sede.
-          </p>
+          <div class="flex items-center gap-2">
+            <h1 class="font-extrabold text-sm sm:text-base tracking-tight text-slate-900 dark:text-slate-100 leading-none">
+              Checklist Operativo
+            </h1>
+            <span class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-200">
+              Inicio de Clases
+            </span>
+          </div>
         </div>
       </div>
 
-      <!-- ACCIONES: TEMA / PALETA -->
-      <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-        <button onclick="cyclePalette()" type="button" class="pill-btn" title="Cambiar Paleta">
-          <i class="fa-solid fa-palette text-indigo-500"></i>
-          <span id="txt-paleta">Tema</span>
+      <!-- PERFIL DEL USUARIO & CONTROLES RÁPIDOS CON ÍCONOS SVG NATIVOS -->
+      <div class="flex items-center gap-2">
+
+        <!-- LINK AL PANEL DE GESTIÓN (SOLO PROCESOS O ZONAL) -->
+        <a id="link-panel-gestion" href="?page=crear"
+          class="hidden glass-pill !py-1 !px-2.5 !text-xs text-blue-700 dark:text-blue-300 font-bold border border-blue-300 dark:border-blue-700 hover:bg-blue-50">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          <span class="hidden md:inline">Panel Gestión</span>
+        </a>
+
+        <!-- CHIP DE USUARIO COMPACTO CON AVATAR SVG -->
+        <div class="glass-panel py-1 px-2.5 rounded-full flex items-center gap-2 border border-white/70 shadow-xs text-xs">
+          <div
+            class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center font-black text-[10px] shadow-xs"
+            id="user-avatar-box">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+          </div>
+          <div class="flex flex-col text-left">
+            <span id="user-display-nombre" class="text-[11px] font-black text-slate-800 dark:text-slate-100 leading-none">
+              Cargando...
+            </span>
+          </div>
+          <span id="user-display-badge-sede"
+            class="px-1.5 py-0.5 rounded-full text-[8.5px] font-black uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-200 ml-0.5">
+            SEDE
+          </span>
+        </div>
+
+        <!-- BOTÓN PALETA (SVG NATIVO GARANTIZADO) -->
+        <button onclick="cyclePalette()" type="button" class="glass-pill !p-1.5 !rounded-xl" title="Cambiar Paleta">
+          <svg class="w-3.5 h-3.5 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.7-.8 1.7-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.2 0-.9.8-1.7 1.7-1.7H17c2.8 0 5-2.2 5-5 0-6.1-4.5-9.3-10-9.3z"/></svg>
         </button>
 
-        <button id="btn-theme-toggle" onclick="toggleTheme()" type="button" class="pill-btn" title="Modo Claro / Oscuro">
-          <i id="ico-theme" class="fa-solid fa-sun text-amber-500"></i>
-          <span id="txt-theme">Modo Claro</span>
+        <!-- BOTÓN MODO OSCURO / CLARO (SVG NATIVO GARANTIZADO) -->
+        <button id="btn-theme-toggle" onclick="toggleTheme()" type="button" class="glass-pill !p-1.5 !rounded-xl" title="Modo Claro / Oscuro">
+          <span id="ico-theme-box" class="flex items-center justify-center text-amber-500">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          </span>
         </button>
+
       </div>
 
     </div>
@@ -330,265 +837,2221 @@
   <!-- ==========================================
        CONTENIDO PRINCIPAL
        ========================================== -->
-  <main class="w-full max-w-7xl mx-auto px-4 sm:px-8 space-y-5 relative z-10">
-
-    <!-- CÁPSULAS SUPERIORES DE SELECCIÓN Y PROGRESO -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
-      
-      <!-- IZQUIERDA: BADGES CONTEXTUALES + TÍTULO DEL CRONOGRAMA -->
-      <div class="lg:col-span-8 glass-card p-5 space-y-4 flex flex-col justify-between">
-        
-        <div class="flex flex-wrap items-center gap-2">
-          <div class="pill-tag text-blue-700 dark:text-blue-300">
-            <i class="fa-solid fa-calendar-day"></i>
-            <select class="bg-transparent border-none font-bold text-xs outline-none cursor-pointer">
-              <option>UNMSM (AMBOS) - 26/10/2026</option>
-              <option>UNI (PRESENCIAL) - 10/08/2026</option>
-              <option>UNHEVAL (PRESENCIAL) - 09/09/2026</option>
-            </select>
-          </div>
-
-          <div class="pill-tag text-slate-700 dark:text-slate-200">
-            <i class="fa-solid fa-building-columns text-blue-600"></i>
-            <span>UNMSM</span>
-          </div>
-
-          <div class="pill-tag text-amber-700 dark:text-amber-300">
-            <i class="fa-solid fa-tag text-amber-500"></i>
-            <span>PRESENCIAL • 2026-II</span>
-          </div>
-
-          <div class="pill-tag text-indigo-700 dark:text-indigo-300">
-            <i class="fa-solid fa-shield-halved text-indigo-500"></i>
-            <span>CHK-2026102601</span>
-          </div>
-        </div>
-
-        <div>
-          <h2 class="text-xl sm:text-2xl font-black text-blue-900 dark:text-blue-100 tracking-tight">
-            GP | CRONOGRAMA DE GESTIÓN DE INICIO DE CLASES - UNMSM - 26/10/2026
-          </h2>
-        </div>
-
-        <!-- 5 KPIS HORIZONTALES -->
-        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-2 border-t border-white/50 dark:border-white/10">
-          <div>
-            <div class="text-lg font-black text-slate-800 dark:text-slate-100">11</div>
-            <div class="text-[9px] font-extrabold uppercase text-slate-500 tracking-wider">Hitos Totales</div>
-          </div>
-          <div>
-            <div class="text-lg font-black text-amber-600 dark:text-amber-400">7</div>
-            <div class="text-[9px] font-extrabold uppercase text-slate-500 tracking-wider">Pendientes</div>
-          </div>
-          <div>
-            <div class="text-lg font-black text-emerald-600 dark:text-emerald-400">4</div>
-            <div class="text-[9px] font-extrabold uppercase text-slate-500 tracking-wider">Completados</div>
-          </div>
-          <div>
-            <div class="text-lg font-black text-blue-600 dark:text-blue-400">3</div>
-            <div class="text-[9px] font-extrabold uppercase text-slate-500 tracking-wider">A Tiempo</div>
-          </div>
-          <div>
-            <div class="text-lg font-black text-red-500">1</div>
-            <div class="text-[9px] font-extrabold uppercase text-slate-500 tracking-wider">Con Retraso</div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- DERECHA: FECHA DEL CONCURSO + TARJETA DE PROGRESO -->
-      <div class="lg:col-span-4 grid grid-cols-2 gap-3 items-stretch">
-        
-        <!-- TARJETA FECHA CLAVE -->
-        <div class="glass-card p-4 flex flex-col justify-between items-center text-center">
-          <div class="text-[10px] font-black uppercase tracking-wider text-slate-500">
-            Fecha de Inicio
-          </div>
-          <div class="text-xl sm:text-2xl font-black text-blue-700 dark:text-blue-400">
-            26/10/2026
-          </div>
-          <button type="button" class="pill-btn !py-1 !px-2.5 !text-[11px] text-emerald-600 font-extrabold">
-            <i class="fa-solid fa-folder-open text-emerald-500"></i>
-            <span>Repositorio</span>
-          </button>
-        </div>
-
-        <!-- TARJETA PROGRESO CIRCULAR / PORCENTAJE -->
-        <div class="glass-card p-4 flex flex-col justify-between items-center text-center">
-          <div class="text-[10px] font-black uppercase tracking-wider text-slate-500">
-            Progreso
-          </div>
-          
-          <!-- ANILLO INDICADOR -->
-          <div class="relative w-16 h-16 flex items-center justify-center">
-            <div class="w-16 h-16 rounded-full border-4 border-slate-200 dark:border-slate-700"></div>
-            <div class="absolute w-16 h-16 rounded-full border-4 border-blue-600 border-t-transparent -rotate-45" style="border-right-color: transparent;"></div>
-            <span class="absolute font-black text-base text-blue-700 dark:text-blue-300">36%</span>
-          </div>
-
-          <div class="text-[10px] font-black uppercase text-slate-500">
-            Avance Ponderado
-          </div>
-        </div>
-
-      </div>
-
-    </div>
+  <main class="w-full max-w-[98%] 2xl:max-w-[96%] mx-auto px-2 sm:px-4 space-y-3 relative z-10">
 
     <!-- ==========================================
-         TABLA: LÍNEA DE ACTIVIDADES Y ENTREGABLES
+         NUEVA SLIM BENTO CAPSULE (ALTO: ~48px)
+         Elimina el bloque gigante vacío, quitando redundancias y ganando espacio vertical
          ========================================== -->
-    <div class="glass-card p-5 sm:p-6 space-y-4">
-      
-      <div class="flex items-center justify-between pb-3 border-b border-white/50 dark:border-white/10">
-        <div class="flex items-center gap-2.5">
-          <div class="w-7 h-7 rounded-lg bg-blue-500/15 text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm font-black">
-            <i class="fa-solid fa-list-check"></i>
+    <section class="glass-card px-4 py-2.5 flex flex-col md:flex-row md:items-center justify-between gap-3 border-l-4 border-l-emerald-500">
+
+      <!-- IZQUIERDA: IDENTIFICADOR EN VIVO + NOMBRE DEL CHECKLIST -->
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9.5px] font-black bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          EN VIVO
+        </span>
+
+        <h2 class="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100 tracking-tight" id="hero-chk-nombre">
+          Ciclo Regular UNMSM - Inicio 03/11/2026
+        </h2>
+
+        <span class="text-xs font-bold text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
+
+        <span class="text-[11px] font-mono font-semibold text-slate-500" id="badge-chk-id">ID: CHK-20261103-01</span>
+      </div>
+
+      <!-- DERECHA: BARRA LÍQUIDA DE AVANCE + SEDE ASIGNADA -->
+      <div class="flex items-center gap-3 justify-between md:justify-end border-t md:border-t-0 pt-2 md:pt-0 border-white/50 dark:border-white/10">
+
+        <!-- BARRA SLIM DE PROGRESO LÍQUIDO -->
+        <div class="flex items-center gap-2">
+          <div class="w-28 sm:w-36 h-2 bg-slate-200/80 dark:bg-slate-700/80 rounded-full overflow-hidden p-0.5">
+            <div id="liquid-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
           </div>
-          <h3 class="font-black text-sm tracking-tight text-slate-800 dark:text-slate-100">
-            Línea de Actividades y Entregables
-          </h3>
+          <span id="circle-progress-text" class="text-xs font-black text-emerald-700 dark:text-emerald-300 min-w-[32px]">0%</span>
+          <span class="text-[11px] font-bold text-slate-500 hidden sm:inline" id="stat-hechas-total">(0 de 16)</span>
         </div>
-        <span class="text-xs text-slate-500 font-semibold">11 actividades registradas</span>
+
+        <div style="width: 1px; height: 16px; background: rgba(15, 23, 42, 0.12);" class="hidden sm:block"></div>
+
+        <!-- BADGE SEDE ASIGNADA O MULTISEDE -->
+        <div class="flex items-center gap-1 text-[11px] font-bold text-blue-700 dark:text-blue-300" id="badge-sede-nombre">
+          <span>🌐 Rol Multisede (8 Sedes)</span>
+        </div>
+
       </div>
 
-      <!-- TABLA DETALLADA -->
-      <div class="overflow-x-auto rounded-xl border border-white/60 dark:border-white/10">
-        <table class="w-full text-left text-xs">
-          <thead class="bg-white/40 dark:bg-slate-800/40 text-[10.5px] font-black uppercase text-slate-500 tracking-wider border-b border-white/60 dark:border-white/10">
-            <tr>
-              <th class="py-3 px-3 text-center w-8">#</th>
-              <th class="py-3 px-3 w-48">Responsable</th>
-              <th class="py-3 px-3 w-48">Actividad</th>
-              <th class="py-3 px-3 w-28 text-center">Fecha Pactada</th>
-              <th class="py-3 px-3">Evidencias</th>
-              <th class="py-3 px-3 text-center w-24">Ejecución</th>
-              <th class="py-3 px-3 text-center w-28">Notificación</th>
-              <th class="py-3 px-3 text-center w-28">Estado</th>
-              <th class="py-3 px-3 text-center w-28">Acciones</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-white/40 dark:divide-white/10 font-medium">
+    </section>
 
-            <!-- FILA 1: PENDIENTE / EN PROCESO -->
-            <tr class="hover:bg-white/30 dark:hover:bg-slate-800/30 transition-all">
-              <td class="py-3.5 px-3 text-center font-bold text-slate-500">1</td>
-              <td class="py-3.5 px-3">
-                <div class="flex items-center gap-2">
-                  <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs font-black">
-                    <i class="fa-solid fa-chart-line"></i>
-                  </div>
-                  <div>
-                    <div class="font-bold text-slate-900 dark:text-slate-100">Jefa de Ventas</div>
-                    <div class="text-[10px] text-slate-500 font-medium">jpinedo@vonex.edu.pe</div>
-                  </div>
-                </div>
-              </td>
-              <td class="py-3.5 px-3 font-semibold text-slate-800 dark:text-slate-200">
-                Enviar Cronograma de actividades
-              </td>
-              <td class="py-3.5 px-3 text-center text-slate-600 dark:text-slate-300">
-                <span class="inline-flex items-center gap-1 font-bold text-[11px]">
-                  <i class="fa-regular fa-clock text-slate-400"></i>
-                  13/10/2026
-                </span>
-              </td>
-              <td class="py-3.5 px-3 space-y-1.5">
-                <textarea rows="2" placeholder="Agregar observaciones o bitácora..." class="w-full bg-white/60 dark:bg-slate-800/60 border border-white/80 dark:border-white/10 rounded-lg p-2 text-xs outline-none focus:border-blue-500 transition-all"></textarea>
-                <input type="url" placeholder="URL de evidencia..." class="w-full bg-white/60 dark:bg-slate-800/60 border border-white/80 dark:border-white/10 rounded-lg py-1 px-2 text-[11px] outline-none focus:border-blue-500 transition-all">
-              </td>
-              <td class="py-3.5 px-3 text-center font-bold text-slate-400">—</td>
-              <td class="py-3.5 px-3 text-center">
-                <span class="badge-notif-pendiente">Pendiente</span>
-              </td>
-              <td class="py-3.5 px-3 text-center">
-                <span class="badge-estado-proceso">En Proceso</span>
-              </td>
-              <td class="py-3.5 px-3 text-center">
-                <button type="button" class="btn-action-registrar">
-                  <i class="fa-solid fa-paper-plane"></i>
-                  <span>Registrar</span>
-                </button>
-              </td>
-            </tr>
+    <!-- ==========================================
+         BARRA DE ACCIÓN: FILTROS DIRECTOS EN 1 TAP
+         ========================================== -->
+    <section class="glass-card p-3 space-y-2.5">
 
-            <!-- FILA 2: CUMPLIDO / ARCHIVADO -->
-            <tr class="hover:bg-white/30 dark:hover:bg-slate-800/30 transition-all bg-emerald-500/5">
-              <td class="py-3.5 px-3 text-center font-bold text-slate-500">2</td>
-              <td class="py-3.5 px-3">
-                <div class="flex items-center gap-2">
-                  <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-xs font-black">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div>
-                    <div class="font-bold text-slate-900 dark:text-slate-100">Soporte de Sistemas</div>
-                    <div class="text-[10px] text-slate-500 font-medium">wquispe@vonex.edu.pe</div>
-                  </div>
-                </div>
-              </td>
-              <td class="py-3.5 px-3">
-                <div class="font-semibold text-slate-800 dark:text-slate-200">
-                  Habilitar links para la inscripción del examen de Becas
-                </div>
-                <button type="button" class="text-[10px] font-black text-blue-600 uppercase mt-0.5 hover:underline">
-                  Expandir Detalle
-                </button>
-              </td>
-              <td class="py-3.5 px-3 text-center text-slate-600 dark:text-slate-300">
-                <span class="inline-flex items-center gap-1 font-bold text-[11px]">
-                  <i class="fa-regular fa-clock text-slate-400"></i>
-                  14/10/2026
-                </span>
-              </td>
-              <td class="py-3.5 px-3 text-[11px] text-slate-600 dark:text-slate-300">
-                <div class="bg-white/50 dark:bg-slate-800/50 p-2 rounded-lg border border-white/60 dark:border-white/10 text-[11px]">
-                  Link del formulario: <a href="#" class="text-blue-600 underline">https://forms.gle/czl...</a>
-                </div>
-              </td>
-              <td class="py-3.5 px-3 text-center font-bold text-slate-700 dark:text-slate-300">13/10/2026</td>
-              <td class="py-3.5 px-3 text-center">
-                <span class="badge-notif-enviado">Enviado</span>
-              </td>
-              <td class="py-3.5 px-3 text-center">
-                <span class="badge-estado-cumplido">Cumplido</span>
-              </td>
-              <td class="py-3.5 px-3 text-center">
-                <button type="button" class="btn-action-archivado" disabled>
-                  <i class="fa-solid fa-lock"></i>
-                  <span>Archivado</span>
-                </button>
-              </td>
-            </tr>
+      <!-- FILA 1: BOTONES RÁPIDOS DE URGENCIA (CLICK DIRECTO CON CONTADORES VIVOS) -->
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex flex-wrap items-center gap-1.5" id="grupo-pills-urgencia">
 
-          </tbody>
-        </table>
+          <button type="button" onclick="aplicarFiltroUrgenciaPill('TODAS')" id="pill-urg-TODAS"
+            class="glass-pill glass-pill-active !text-xs !py-1 !px-3 font-extrabold">
+            <span>Todas</span>
+            <span class="px-1.5 py-0.2 rounded-full bg-slate-200 dark:bg-slate-700 text-[10px]" id="badge-cnt-todas">0</span>
+          </button>
+
+          <button type="button" onclick="aplicarFiltroUrgenciaPill('VENCIDA')" id="pill-urg-VENCIDA"
+            class="glass-pill pill-urg-vencida !text-xs !py-1 !px-3 font-extrabold">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            <span>Vencidas</span>
+            <span class="px-1.5 py-0.2 rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 text-[10px]" id="badge-cnt-vencidas">0</span>
+          </button>
+
+          <button type="button" onclick="aplicarFiltroUrgenciaPill('VENCE_HOY')" id="pill-urg-VENCE_HOY"
+            class="glass-pill pill-urg-hoy !text-xs !py-1 !px-3 font-extrabold">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Vence Hoy</span>
+            <span class="px-1.5 py-0.2 rounded-full bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 text-[10px]" id="badge-cnt-hoy">0</span>
+          </button>
+
+          <button type="button" onclick="aplicarFiltroUrgenciaPill('PROXIMA')" id="pill-urg-PROXIMA"
+            class="glass-pill pill-urg-proxima !text-xs !py-1 !px-3 font-extrabold">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>Próximas 48h</span>
+            <span class="px-1.5 py-0.2 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-[10px]" id="badge-cnt-proximas">0</span>
+          </button>
+
+          <button type="button" onclick="aplicarFiltroUrgenciaPill('EN_PLAZO')" id="pill-urg-EN_PLAZO"
+            class="glass-pill pill-urg-plazo !text-xs !py-1 !px-3 font-extrabold">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+            <span>En Plazo</span>
+            <span class="px-1.5 py-0.2 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 text-[10px]" id="badge-cnt-plazo">0</span>
+          </button>
+
+          <button type="button" onclick="aplicarFiltroUrgenciaPill('COMPLETADA')" id="pill-urg-COMPLETADA"
+            class="glass-pill !text-xs !py-1 !px-3 font-extrabold">
+            <svg class="w-3 h-3 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Cumplidas</span>
+            <span class="px-1.5 py-0.2 rounded-full bg-slate-200 dark:bg-slate-700 text-[10px]" id="badge-cnt-cumplidas">0</span>
+          </button>
+
+        </div>
+
+        <!-- SELECTOR DE VISTA: TARJETAS vs TABLA MATRIZ & MODO ROL -->
+        <div class="flex items-center gap-2">
+          <!-- CONMUTADOR VISTA (TABLA vs TARJETAS) -->
+          <div class="flex items-center gap-1 p-0.5 rounded-full bg-slate-200/60 dark:bg-slate-800/60 border border-white/60 dark:border-white/10">
+            <button id="btn-vista-tabla" onclick="conmutarTipoVista('TABLA')" type="button"
+              class="view-toggle-btn active" title="Vista en tabla general de sedes y subactividades (como Excel UNMSM)">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+              <span>Tabla Matriz</span>
+            </button>
+            <button id="btn-vista-tarjetas" onclick="conmutarTipoVista('TARJETAS')" type="button"
+              class="view-toggle-btn" title="Vista en tarjetas interactivas">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Tarjetas</span>
+            </button>
+          </div>
+
+          <!-- MODO: MI ROL vs TODO EL CHECKLIST -->
+          <div class="flex items-center gap-1 p-0.5 rounded-full bg-slate-200/60 dark:bg-slate-800/60 border border-white/60 dark:border-white/10">
+            <button id="btn-modo-mio" onclick="conmutarModoVista('MIO')" type="button"
+              class="glass-pill glass-pill-active !text-[11px] !py-0.5 !px-2.5">
+              <svg class="w-3 h-3 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Mi Rol</span>
+            </button>
+            <button id="btn-modo-todos" onclick="conmutarModoVista('TODOS')" type="button"
+              class="glass-pill !text-[11px] !py-0.5 !px-2.5">
+              <svg class="w-3 h-3 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              <span>Todo el Checklist</span>
+            </button>
+          </div>
+        </div>
       </div>
 
-    </div>
+      <!-- FILA 2: BARRA DE SEDES DIRECTA + ETAPA + BÚSQUEDA RÁPIDA -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 pt-2 border-t border-white/40 dark:border-white/10">
+
+        <!-- SELECTOR DE SEDES HORIZONTAL EN CHIPS -->
+        <div class="flex flex-wrap items-center gap-1" id="barra-sedes-chips">
+          <button type="button" onclick="seleccionarSedeFiltro('TODAS')" id="chip-filter-sede-TODAS"
+            class="glass-pill glass-pill-active !text-[11px] !py-0.5 !px-2 font-mono font-bold">
+            🌐 Todas
+          </button>
+          <button type="button" onclick="seleccionarSedeFiltro('LCE')" id="chip-filter-sede-LCE"
+            class="glass-pill !text-[11px] !py-0.5 !px-2 font-mono font-bold">LCE</button>
+          <button type="button" onclick="seleccionarSedeFiltro('SJL')" id="chip-filter-sede-SJL"
+            class="glass-pill !text-[11px] !py-0.5 !px-2 font-mono font-bold">SJL</button>
+          <button type="button" onclick="seleccionarSedeFiltro('IND')" id="chip-filter-sede-IND"
+            class="glass-pill !text-[11px] !py-0.5 !px-2 font-mono font-bold">IND</button>
+          <button type="button" onclick="seleccionarSedeFiltro('HDM')" id="chip-filter-sede-HDM"
+            class="glass-pill !text-[11px] !py-0.5 !px-2 font-mono font-bold">HDM</button>
+          <button type="button" onclick="seleccionarSedeFiltro('SAN')" id="chip-filter-sede-SAN"
+            class="glass-pill !text-[11px] !py-0.5 !px-2 font-mono font-bold">SAN</button>
+          <button type="button" onclick="seleccionarSedeFiltro('COM')" id="chip-filter-sede-COM"
+            class="glass-pill !text-[11px] !py-0.5 !px-2 font-mono font-bold">COM</button>
+          <button type="button" onclick="seleccionarSedeFiltro('PTP')" id="chip-filter-sede-PTP"
+            class="glass-pill !text-[11px] !py-0.5 !px-2 font-mono font-bold">PTP</button>
+          <button type="button" onclick="seleccionarSedeFiltro('VMT')" id="chip-filter-sede-VMT"
+            class="glass-pill !text-[11px] !py-0.5 !px-2 font-mono font-bold">VMT</button>
+        </div>
+
+        <!-- ETAPA & BÚSQUEDA (CON ALINEACIÓN EXACTA DE ÍCONO SVG) -->
+        <div class="flex items-center gap-2">
+          <!-- ETAPAS -->
+          <div class="flex items-center gap-1 p-0.5 rounded-full bg-slate-200/50 dark:bg-slate-800/50">
+            <button type="button" onclick="seleccionarEtapaFiltro('TODAS')" id="btn-etapa-TODAS"
+              class="glass-pill glass-pill-active !text-[10px] !py-0.5 !px-2 font-bold">Todas</button>
+            <button type="button" onclick="seleccionarEtapaFiltro('ANTES')" id="btn-etapa-ANTES"
+              class="glass-pill !text-[10px] !py-0.5 !px-2 font-bold">Antes</button>
+            <button type="button" onclick="seleccionarEtapaFiltro('DURANTE')" id="btn-etapa-DURANTE"
+              class="glass-pill !text-[10px] !py-0.5 !px-2 font-bold">Durante</button>
+            <button type="button" onclick="seleccionarEtapaFiltro('DESPUES')" id="btn-etapa-DESPUES"
+              class="glass-pill !text-[10px] !py-0.5 !px-2 font-bold">Después</button>
+          </div>
+
+          <!-- BÚSQUEDA RÁPIDA CON PADDING EXACTO -->
+          <div class="relative w-44 sm:w-52">
+            <span class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <input type="text" id="filtro-texto" oninput="filtrarTarjetas()" placeholder="Buscar actividad..."
+              class="form-input-glass !pl-8 !py-1 text-xs">
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         LISTADO DE TARJETAS DE TAREA (ESTÉTICA ELEGANTE Y VISIBLE)
+         ========================================== -->
+    <section id="contenedor-tarjetas-tareas" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-3">
+      <!-- Se inyecta dinámicamente con JS -->
+    </section>
+
+    <!-- ==========================================
+         NUEVA VISTA TABLA MATRIZ (ESTILO CHECKLIST UNMSM EXCEL CONSOLIDADO)
+         ========================================== -->
+    <section id="contenedor-tabla-matriz" class="table-vonex-wrapper">
+      <div id="tabla-matriz-render">
+        <!-- Se inyecta dinámicamente con JS -->
+      </div>
+    </section>
 
   </main>
 
-  <script>
-    /* ==========================================
-       CONTROL DE TEMAS Y PALETAS (CASCARÓN)
-       ========================================== */
-    const PALETTES = ['ocean', 'fuchsia', 'butter'];
-    let currentPaletteIdx = 0;
+  <!-- ==========================================
+       MODAL 1: ADJUNTAR EVIDENCIA (FOTO O LINK)
+       ========================================== -->
+  <div id="modal-evidencia"
+    class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div
+      class="glass-card max-w-md w-full p-5 space-y-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-2xl rounded-2xl">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700">
+        <div>
+          <span class="text-[9.5px] font-black uppercase text-blue-600 dark:text-blue-400 tracking-wider">Verificación de Cumplimiento</span>
+          <h3 class="text-sm font-extrabold text-slate-900 dark:text-slate-100" id="modal-evi-titulo">
+            Adjuntar Evidencia
+          </h3>
+        </div>
+        <button onclick="cerrarModalEvidencia()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold leading-none">&times;</button>
+      </div>
 
+      <!-- Selector de Tipo de Evidencia: Link vs Foto -->
+      <div class="flex p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl gap-1 text-xs font-bold">
+        <button type="button" id="tab-evi-link" onclick="cambiarTabEvidencia('LINK')"
+          class="flex-1 py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <span>Enlace / Drive</span>
+        </button>
+        <button type="button" id="tab-evi-foto" onclick="cambiarTabEvidencia('FOTO')"
+          class="flex-1 py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>Subir Foto / Archivo</span>
+        </button>
+      </div>
+
+      <!-- Sección 1: Enlace / Drive -->
+      <div id="seccion-evi-link" class="space-y-2 text-xs">
+        <label class="block font-bold text-slate-700 dark:text-slate-300">Enlace de Google Drive o URL *</label>
+        <input type="url" id="modal-evi-url" placeholder="https://drive.google.com/file/d/..." class="form-input-glass text-xs w-full">
+        <p class="text-[10.5px] text-slate-500">Pegue el enlace compartido de Google Drive, Google Photos o URL pública.</p>
+      </div>
+
+      <!-- Sección 2: Foto o Archivo -->
+      <div id="seccion-evi-foto" class="hidden space-y-2 text-xs">
+        <label class="block font-bold text-slate-700 dark:text-slate-300">Seleccionar o tomar fotografía *</label>
+        <div class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-500 rounded-xl p-3 text-center cursor-pointer transition-colors relative bg-slate-50/50 dark:bg-slate-800/40"
+             onclick="document.getElementById('modal-evi-file').click()">
+          <input type="file" id="modal-evi-file" accept="image/*,.pdf" capture="environment" class="hidden" onchange="manejarArchivoEvidenciaSeleccionado(this)">
+          <div id="preview-file-container" class="hidden space-y-2">
+            <img id="preview-file-img" src="" alt="Vista previa" class="max-h-36 mx-auto rounded-lg shadow-md object-contain">
+            <div id="preview-file-name" class="text-[11px] font-bold text-blue-600 dark:text-blue-400 truncate"></div>
+            <button type="button" onclick="event.stopPropagation(); descartarArchivoEvidencia()" class="text-[10px] text-red-500 hover:underline font-bold">Cambiar imagen</button>
+          </div>
+          <div id="upload-placeholder-content" class="space-y-1.5 py-2">
+            <svg class="w-8 h-8 mx-auto text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <div class="font-bold text-slate-700 dark:text-slate-300 text-xs">Haga clic para subir una foto o archivo</div>
+            <div class="text-[10px] text-slate-500">Admite JPG, PNG o PDF (cámara o galería)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Observaciones adicionales -->
+      <div class="space-y-1 text-xs">
+        <label class="block font-bold text-slate-700 dark:text-slate-300">Observaciones (Opcional)</label>
+        <input type="text" id="modal-evi-nota" placeholder="Ej. Verificado conforme, aula lista..." class="form-input-glass text-xs w-full">
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+        <button onclick="cerrarModalEvidencia()" type="button" class="glass-pill !py-1 !px-3 text-xs">Cancelar</button>
+        <button id="btn-guardar-evidencia" onclick="confirmarEvidenciaYCompletar()" type="button" class="btn-mark-flash-all !py-1.5 !px-3.5 !text-xs">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span id="btn-guardar-evidencia-texto">Guardar & Marcar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 2: JUSTIFICACIÓN Y CONFIRMACIÓN DE 'NO APLICA' (2 PASOS / RESGUARDO)
+       ========================================== -->
+  <div id="modal-noaplica"
+    class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div
+      class="glass-card max-w-md w-full p-5 space-y-3.5 bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-700 shadow-2xl rounded-2xl">
+      <div class="flex items-center justify-between pb-2 border-b border-amber-200 dark:border-amber-800">
+        <div>
+          <span class="text-[9.5px] font-black uppercase text-amber-600 dark:text-amber-400 tracking-wider">Protocolo de Excepción</span>
+          <h3 class="text-sm font-extrabold text-slate-900 dark:text-slate-100" id="modal-noaplica-titulo">
+            Declarar "NO APLICA"
+          </h3>
+        </div>
+        <button onclick="cerrarModalNoAplica()" class="text-slate-400 hover:text-slate-600 text-lg font-bold leading-none">&times;</button>
+      </div>
+
+      <!-- PASO 1: Ingreso de Justificación Operativa -->
+      <div id="noaplica-paso-1" class="space-y-3 text-xs">
+        <div class="p-2.5 bg-amber-50 dark:bg-amber-950/40 rounded-xl text-xs text-amber-900 dark:text-amber-200 border border-amber-200 dark:border-amber-800 flex items-start gap-2">
+          <span class="text-base leading-none">ℹ️</span>
+          <div>Indique el motivo técnico u operativo por el cual esta subactividad no aplica en la sede seleccionada.</div>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="block font-bold text-slate-700 dark:text-slate-300">Justificación Operativa * (mínimo 8 caracteres)</label>
+          <textarea id="modal-noaplica-motivo" rows="3" placeholder="Explique detalladamente el motivo de la no aplicación..."
+            class="form-input-glass text-xs w-full" oninput="actualizarContadorNoAplica()"></textarea>
+          <div class="flex justify-between text-[10px] text-slate-400">
+            <span>Esta justificación será auditada</span>
+            <span id="noaplica-char-count">0 / 8 caracteres</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+          <button onclick="cerrarModalNoAplica()" type="button" class="glass-pill !py-1 !px-3 text-xs">Cancelar</button>
+          <button onclick="avanzarConfirmacionNoAplica()" type="button" class="glass-pill !py-1.5 !px-3.5 !text-xs !bg-amber-600 !text-white font-bold hover:!bg-amber-700 flex items-center gap-1.5">
+            <span>Continuar a Confirmación</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- PASO 2: Resguardo y Segunda Pregunta de Confirmación -->
+      <div id="noaplica-paso-2" class="hidden space-y-3.5 text-xs">
+        <div class="p-3 bg-red-50 dark:bg-red-950/40 rounded-xl border border-red-300 dark:border-red-800 space-y-2">
+          <div class="flex items-center gap-2 text-red-700 dark:text-red-400 font-extrabold text-xs">
+            <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>SEGUNDA PREGUNTA DE RESGUARDO</span>
+          </div>
+          <p class="text-slate-800 dark:text-slate-200 text-[11px] leading-relaxed">
+            ¿Está seguro de marcar definitivamente esta tarea como <strong class="text-amber-700 dark:text-amber-400">NO APLICA</strong> en la sede <strong id="noaplica-resguardo-sede" class="text-blue-600 dark:text-blue-400"></strong>?
+          </p>
+          <div class="p-2 bg-white dark:bg-slate-900 rounded border border-red-200 dark:border-red-900 text-[11px] italic text-slate-600 dark:text-slate-300" id="noaplica-resguardo-texto"></div>
+          <p class="text-[10px] text-red-600 dark:text-red-400 font-medium">
+            Esta acción se registrará en la auditoría con su firma institucional y modificará el índice de cumplimiento.
+          </p>
+        </div>
+
+        <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+          <button onclick="volverPaso1NoAplica()" type="button" class="glass-pill !py-1 !px-3 text-xs text-slate-600">
+            ← Modificar
+          </button>
+          <div class="flex gap-2">
+            <button onclick="cerrarModalNoAplica()" type="button" class="glass-pill !py-1 !px-3 text-xs">Cancelar</button>
+            <button onclick="confirmarNoAplicaReal()" type="button" class="glass-pill !py-1.5 !px-3.5 !text-xs !bg-red-600 hover:!bg-red-700 !text-white font-black shadow-lg shadow-red-500/20">
+              ⚠️ Sí, Confirmar NO APLICA
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 3: OBSERVACIONES EN TEXTO DIRECTO
+       ========================================== -->
+  <div id="modal-obs-texto"
+    class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div
+      class="glass-card max-w-md w-full p-4 space-y-3 bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-700 shadow-2xl rounded-2xl">
+      <div class="flex items-center justify-between pb-2 border-b border-amber-200 dark:border-amber-800">
+        <div class="flex items-center gap-2">
+          <span class="p-1 rounded-lg bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </span>
+          <h3 class="text-sm font-extrabold text-slate-900 dark:text-slate-100" id="modal-obs-texto-titulo">
+            Observaciones & Notas
+          </h3>
+        </div>
+        <button onclick="cerrarModalObsTexto()" class="text-slate-400 hover:text-slate-600 text-lg font-bold leading-none">&times;</button>
+      </div>
+
+      <div class="space-y-1.5 text-xs">
+        <label class="block font-bold text-slate-700 dark:text-slate-300">Detalle de la Observación:</label>
+        <textarea id="modal-obs-texto-input" rows="4" placeholder="Escriba aquí la observación o detalle técnico..."
+          class="form-input-glass text-xs w-full"></textarea>
+        <p class="text-[10px] text-slate-400">Esta nota se asocia a la tarea y sede seleccionada.</p>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+        <button onclick="cerrarModalObsTexto()" type="button" class="glass-pill !py-1 !px-3 text-xs">Cerrar</button>
+        <button id="btn-guardar-obs-texto" onclick="guardarObsTextoConfirmado()" type="button"
+          class="btn-mark-flash-all !py-1.5 !px-3.5 !text-xs !bg-amber-600 hover:!bg-amber-700">
+          Guardar Texto
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATOS INICIALES INYECTADOS SÍNCRONAMENTE POR EL SERVIDOR -->
+  <script id="server-initial-data" type="application/json">
+    <?!= (typeof initialData !== 'undefined' && initialData) ? initialData : '{}' ?>
+  </script>
+
+  <!-- ==========================================
+       SCRIPTS: LÓGICA FLASH 1-CLICK Y LIQUID GLASS
+       ========================================== -->
+  <script>
+    // SEDES OFICIALES VONEX
+    const SEDES_OFICIALES = ["LCE", "SJL", "IND", "HDM", "SAN", "COM", "PTP", "VMT"];
+
+    // ESTADO LOCAL DEL PARTICIPANTE
+    const PARTICIPANTE_STATE = {
+      usuario: {
+        email: "director.sjl@vonex.edu.pe",
+        nombre: "Director Sede",
+        rol: "Director de Sede",
+        codigoSede: "SJL",
+        nombreSede: "San Juan de Lurigancho (SJL)",
+        esMultisede: false,
+        esProcesos: false,
+        esDirectorZonal: false
+      },
+      checklist: {
+        id: "CHK-ACTIVO",
+        nombre: "Ciclo Regular UNMSM - Inicio 26/10/2026",
+        fechaInicio: "2026-10-26"
+      },
+      tipoVista: "TABLA", // 'TABLA' (predeterminada) o 'TARJETAS'
+      modoVista: "MIO",
+      filtroUrgenciaActual: "TODAS",
+      filtroSedeActual: "TODAS",
+      filtroEtapaActual: "TODAS",
+      tareaEnModalEvidencia: null,
+      tareaEnModalNoAplica: null,
+      evidenciaTabActual: "LINK",
+      archivoEvidenciaBase64: null,
+      archivoEvidenciaNombre: "",
+      archivoEvidenciaMime: "",
+      actividades: []
+    };
+
+    // NORMALIZAR TEXTO
+    function normalizarCadena(str) {
+      return (str || "")
+        .toString()
+        .trim()
+        .toUpperCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    // EVALUAR COINCIDENCIA DE ROL CON TAREA Y ÁREA
+    function coincideRolUsuario(rolUsuario, responsableTarea, areaTarea) {
+      if (!rolUsuario) return true;
+      const u = normalizarCadena(rolUsuario);
+      const r = normalizarCadena(responsableTarea || "");
+      const a = normalizarCadena(areaTarea || "");
+
+      if (u.includes("PROCESOS") || u.includes("ZONAL") || u.includes("ADMIN")) return true;
+      if (u.includes("VENTAS") && (r.includes("VENTAS") || a.includes("VENTAS"))) return true;
+      if (u.includes("SISTEMAS") && (r.includes("SISTEMAS") || a.includes("SISTEMAS"))) return true;
+      if (u.includes("PRODUCCION") && (r.includes("PRODUCCION") || a.includes("PRODUCCION"))) return true;
+      if (u.includes("EVALUACION") && (r.includes("EVALUACION") || a.includes("EVALUACION"))) return true;
+      if (u.includes("DIGITALIZACION") && (r.includes("DIGITALIZACION") || a.includes("DIGITALIZACION"))) return true;
+
+      if (u.includes("DIRECTOR DE SEDE") || u.includes("TUTOR")) {
+        return r.includes("DIRECTOR") || r.includes("TUTOR") || a.includes("DIRECTOR") || a.includes("TUTOR");
+      }
+
+      return r.includes(u) || a.includes(u) || u.includes(r);
+    }
+
+    // FORMATEO OFICIAL DE FECHA LÍMITE (CALCULADA DESDE FECHA INICIO DE CICLO + DÍAS RELATIVOS: ej: lun, 19 de oct)
+    function formatearFechaEspanolMatriz(fechaStr, diasRelativos, fechaInicioCiclo) {
+      let targetFechaStr = fechaStr;
+      const offset = parseInt(diasRelativos !== undefined && diasRelativos !== null ? diasRelativos : 0, 10);
+      
+      if ((!targetFechaStr || targetFechaStr === "undefined" || targetFechaStr === "null") && fechaInicioCiclo) {
+        const p = fechaInicioCiclo.split("-").map(Number);
+        if (p.length === 3) {
+          const dt = new Date(p[0], p[1] - 1, p[2]);
+          dt.setDate(dt.getDate() + offset);
+          const yStr = dt.getFullYear();
+          const mStr = String(dt.getMonth() + 1).padStart(2, "0");
+          const dStr = String(dt.getDate()).padStart(2, "0");
+          targetFechaStr = `${yStr}-${mStr}-${dStr}`;
+        }
+      }
+
+      if (!targetFechaStr) return "Por definir";
+
+      try {
+        const p = targetFechaStr.split("-").map(Number);
+        if (p.length === 3) {
+          const dt = new Date(p[0], p[1] - 1, p[2]);
+          const dias = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+          const meses = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "set", "oct", "nov", "dic"];
+          const diaNom = dias[dt.getDay()];
+          const diaNum = String(dt.getDate()).padStart(2, "0");
+          const mesNom = meses[dt.getMonth()];
+          return `${diaNom}, ${diaNum} de ${mesNom}`;
+        }
+      } catch (e) {}
+
+      return targetFechaStr;
+    }
+
+    // FORMATEO DE HORA LÍMITE (ej: 6:00 p. m., 1:00 p. m.)
+    function formatearHoraEspanol(horaStr) {
+      if (!horaStr) return "6:00 p. m.";
+      const h = horaStr.toString().trim();
+      if (h.includes("m.") || h.includes("AM") || h.includes("PM")) return h;
+      const parts = h.split(":");
+      if (parts.length >= 2) {
+        let hora = parseInt(parts[0], 10);
+        const min = parts[1].padStart(2, "0");
+        const ampm = hora >= 12 ? "p. m." : "a. m.";
+        if (hora > 12) hora -= 12;
+        if (hora === 0) hora = 12;
+        return `${hora}:${min} ${ampm}`;
+      }
+      return h;
+    }
+
+    // CÁLCULO DE DÍAS RELATIVOS Y CONTEO DE DÍAS RESTANTES (RESPECTO A FECHA INICIO DE CLASES Y HOY)
+    function calcularInfoDiasRelativos(diasRelativos, fechaInicioCiclo, fechaLimiteReal) {
+      const offset = parseInt(diasRelativos || 0, 10);
+
+      // 1. Etiqueta relativa a la fecha de inicio de clases
+      let etiquetaRelativa = "";
+      if (offset < 0) {
+        etiquetaRelativa = `${offset}d (Antes)`;
+      } else if (offset === 0) {
+        etiquetaRelativa = "Día 0 (Inicio)";
+      } else {
+        etiquetaRelativa = `+${offset}d (Después)`;
+      }
+
+      // 2. Conteo de días restantes desde HOY hasta la fecha límite
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+
+      let diasRestantes = null;
+      let etiquetaConteo = "";
+      let colorClase = "";
+
+      let targetFechaStr = fechaLimiteReal;
+      if (!targetFechaStr && fechaInicioCiclo) {
+        const [y, m, d] = fechaInicioCiclo.split("-").map(Number);
+        const dt = new Date(y, m - 1, d);
+        dt.setDate(dt.getDate() + offset);
+        const yStr = dt.getFullYear();
+        const mStr = String(dt.getMonth() + 1).padStart(2, "0");
+        const dStr = String(dt.getDate()).padStart(2, "0");
+        targetFechaStr = `${yStr}-${mStr}-${dStr}`;
+      }
+
+      if (targetFechaStr) {
+        const [y, m, d] = targetFechaStr.split("-").map(Number);
+        const targetDate = new Date(y, m - 1, d);
+        targetDate.setHours(0, 0, 0, 0);
+
+        const diffTime = targetDate.getTime() - hoy.getTime();
+        diasRestantes = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diasRestantes > 3) {
+          etiquetaConteo = `Faltan ${diasRestantes} días`;
+          colorClase = "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800 font-bold";
+        } else if (diasRestantes > 1) {
+          etiquetaConteo = `Faltan ${diasRestantes} días`;
+          colorClase = "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border-blue-200 dark:border-blue-800 font-bold";
+        } else if (diasRestantes === 1) {
+          etiquetaConteo = "Vence mañana";
+          colorClase = "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200 border-amber-300 dark:border-amber-700 font-extrabold";
+        } else if (diasRestantes === 0) {
+          etiquetaConteo = "¡Vence HOY!";
+          colorClase = "bg-red-500 text-white border-red-600 font-black animate-pulse shadow-sm";
+        } else {
+          const atraso = Math.abs(diasRestantes);
+          etiquetaConteo = `Atrasado ${atraso}d`;
+          colorClase = "bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-200 border-rose-300 dark:border-rose-700 font-bold";
+        }
+      }
+
+      return {
+        offset: offset,
+        etiquetaRelativa: etiquetaRelativa,
+        diasRestantes: diasRestantes,
+        etiquetaConteo: etiquetaConteo,
+        colorClase: colorClase
+      };
+    }
+
+    // CALCULAR URGENCIA OPERATIVA (HORA LOCAL LIMA)
+    function calcularUrgenciaOperativa(fechaStr, horaStr, estadoCumplimiento) {
+      if (estadoCumplimiento === "COMPLETADA") {
+        return { cod: "COMPLETADA", label: "CUMPLIDA", badgeClass: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-200" };
+      }
+      if (estadoCumplimiento === "NO APLICA" || estadoCumplimiento === "NO_APLICA") {
+        return { cod: "NO_APLICA", label: "NO APLICA", badgeClass: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400" };
+      }
+
+      const hoyLima = new Date();
+      let [y, m, d] = (fechaStr || "2026-11-03").split("-").map(Number);
+      if (!y || !m || !d) { y = 2026; m = 11; d = 3; }
+      let [hh, mm] = (horaStr || "18:00").split(":").map(Number);
+      if (isNaN(hh)) hh = 18;
+      if (isNaN(mm)) mm = 0;
+
+      const fechaLimite = new Date(y, m - 1, d, hh, mm, 0);
+      const msDiff = fechaLimite.getTime() - hoyLima.getTime();
+      const horasDiff = msDiff / (1000 * 60 * 60);
+
+      if (msDiff < 0) {
+        return { cod: "VENCIDA", label: "VENCIDA", badgeClass: "bg-red-500 text-white font-black animate-pulse" };
+      }
+
+      const esHoy = (hoyLima.getFullYear() === y && hoyLima.getMonth() === (m - 1) && hoyLima.getDate() === d);
+      if (esHoy) {
+        return { cod: "VENCE_HOY", label: "VENCE HOY", badgeClass: "bg-amber-500 text-white font-black" };
+      }
+
+      if (horasDiff <= 48) {
+        return { cod: "PROXIMA", label: "PRÓXIMA 48H", badgeClass: "bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200" };
+      }
+
+      return { cod: "EN_PLAZO", label: "EN PLAZO", badgeClass: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300" };
+    }
+
+    // CONMUTAR TIPO DE VISTA: TARJETAS vs TABLA MATRIZ
+    function conmutarTipoVista(tipo) {
+      PARTICIPANTE_STATE.tipoVista = tipo;
+      const btnTarjetas = document.getElementById("btn-vista-tarjetas");
+      const btnTabla = document.getElementById("btn-vista-tabla");
+      const contTarjetas = document.getElementById("contenedor-tarjetas-tareas");
+      const contTabla = document.getElementById("contenedor-tabla-matriz");
+
+      if (tipo === "TABLA") {
+        btnTabla.classList.add("active");
+        btnTarjetas.classList.remove("active");
+        contTarjetas.classList.add("hidden");
+        contTabla.classList.remove("hidden");
+        showToast("Cambiado a Vista Tabla Matriz 📊", "info");
+      } else {
+        btnTarjetas.classList.add("active");
+        btnTabla.classList.remove("active");
+        contTabla.classList.add("hidden");
+        contTarjetas.classList.remove("hidden");
+        showToast("Cambiado a Vista Tarjetas 🗂️", "info");
+      }
+      filtrarTarjetas();
+    }
+
+    // CONMUTAR MODO DE VISTA (MI ROL vs TODO EL CHECKLIST)
+    function conmutarModoVista(modo) {
+      PARTICIPANTE_STATE.modoVista = modo;
+      const btnMio = document.getElementById("btn-modo-mio");
+      const btnTodos = document.getElementById("btn-modo-todos");
+      if (modo === "MIO") {
+        btnMio.classList.add("glass-pill-active");
+        btnTodos.classList.remove("glass-pill-active");
+      } else {
+        btnTodos.classList.add("glass-pill-active");
+        btnMio.classList.remove("glass-pill-active");
+      }
+      filtrarTarjetas();
+    }
+
+    // APLICAR FILTRO DE URGENCIA POR PILL DIRECTO (1-TAP)
+    function aplicarFiltroUrgenciaPill(codUrg) {
+      PARTICIPANTE_STATE.filtroUrgenciaActual = codUrg;
+      const codigos = ["TODAS", "VENCIDA", "VENCE_HOY", "PROXIMA", "EN_PLAZO", "COMPLETADA"];
+      codigos.forEach(c => {
+        const btn = document.getElementById(`pill-urg-${c}`);
+        if (btn) {
+          if (c === codUrg) {
+            btn.classList.add("active");
+            if (c === "TODAS" || c === "COMPLETADA") btn.classList.add("glass-pill-active");
+          } else {
+            btn.classList.remove("active");
+            btn.classList.remove("glass-pill-active");
+          }
+        }
+      });
+      filtrarTarjetas();
+    }
+
+    // APLICAR FILTRO DE SEDE POR CHIP DIRECTO (1-TAP)
+    function seleccionarSedeFiltro(codSede) {
+      if (PARTICIPANTE_STATE.esSoloSedePropia && PARTICIPANTE_STATE.usuario && PARTICIPANTE_STATE.usuario.codigoSede) {
+        // Bloqueado para Directores de Sede y Tutores: no pueden filtrar otras sedes
+        PARTICIPANTE_STATE.filtroSedeActual = PARTICIPANTE_STATE.usuario.codigoSede;
+      } else {
+        PARTICIPANTE_STATE.filtroSedeActual = codSede;
+      }
+      const sedes = ["TODAS", ...SEDES_OFICIALES];
+      sedes.forEach(s => {
+        const btn = document.getElementById(`chip-filter-sede-${s}`);
+        if (btn) {
+          if (s === PARTICIPANTE_STATE.filtroSedeActual) btn.classList.add("glass-pill-active");
+          else btn.classList.remove("glass-pill-active");
+        }
+      });
+      filtrarTarjetas();
+      showToast(PARTICIPANTE_STATE.filtroSedeActual === "TODAS" ? "Mostrando todas las sedes" : `Filtrando para Sede ${PARTICIPANTE_STATE.filtroSedeActual}`);
+    }
+
+    // APLICAR FILTRO DE ETAPA POR CHIP DIRECTO
+    function seleccionarEtapaFiltro(etapa) {
+      PARTICIPANTE_STATE.filtroEtapaActual = etapa;
+      const etapas = ["TODAS", "ANTES", "DURANTE", "DESPUES"];
+      etapas.forEach(e => {
+        const btn = document.getElementById(`btn-etapa-${e}`);
+        if (btn) {
+          if (e === etapa) btn.classList.add("glass-pill-active");
+          else btn.classList.remove("glass-pill-active");
+        }
+      });
+      filtrarTarjetas();
+    }
+
+    // ==========================================
+    // RENDERIZADO REACTIVO DE TARJETAS (ESTÉTICA ELEGANTE Y VISIBLE)
+    // ==========================================
+    function filtrarTarjetas() {
+      const cont = document.getElementById("contenedor-tarjetas-tareas");
+      cont.innerHTML = "";
+
+      const fUrg = PARTICIPANTE_STATE.filtroUrgenciaActual;
+      const fEtapa = PARTICIPANTE_STATE.filtroEtapaActual;
+      const fSede = PARTICIPANTE_STATE.filtroSedeActual;
+      const fTxt = (document.getElementById("filtro-texto").value || "").toLowerCase().trim();
+
+      const esVistaMultisede = (fSede === "TODAS");
+
+      let visibles = 0;
+      let totalPuntosAplicables = 0;
+      let totalPuntosCumplidos = 0;
+      let countTodas = 0;
+      let countVencidas = 0;
+      let countHoy = 0;
+      let countProximas = 0;
+      let countPlazo = 0;
+      let countCumplidas = 0;
+      let totalNoAplica = 0;
+
+      const actividades = PARTICIPANTE_STATE.actividades || [];
+
+      actividades.forEach(act => {
+        (act.tareas || []).forEach(t => {
+          // Filtro por rol si está en modo "MIO"
+          if (PARTICIPANTE_STATE.modoVista === "MIO") {
+            const corresponde = coincideRolUsuario(PARTICIPANTE_STATE.usuario.rol, t.responsable, act.area || act.nombre);
+            if (!corresponde) return;
+          }
+
+          // Filtro de Etapa
+          if (fEtapa !== "TODAS" && t.etapa !== fEtapa) return;
+
+          // Filtro de Texto
+          if (fTxt) {
+            const descNorm = (t.descripcion || "").toLowerCase();
+            const nomNorm = (act.nombre || "").toLowerCase();
+            const respNorm = (t.responsable || "").toLowerCase();
+            if (!descNorm.includes(fTxt) && !nomNorm.includes(fTxt) && !respNorm.includes(fTxt)) return;
+          }
+
+          // Calcular avance de sedes de esta tarea
+          let estadoParaFiltro = "PENDIENTE";
+          let conteoCumplidasMulti = 0;
+          let conteoNoAplicaMulti = 0;
+
+          if (esVistaMultisede) {
+            SEDES_OFICIALES.forEach(s => {
+              const est = (t.estadoSede && t.estadoSede[s]) ? t.estadoSede[s].estado : "PENDIENTE";
+              totalPuntosAplicables++;
+              if (est === "COMPLETADA") {
+                conteoCumplidasMulti++;
+                totalPuntosCumplidos++;
+              } else if (est === "NO APLICA" || est === "NO_APLICA") {
+                conteoNoAplicaMulti++;
+                totalNoAplica++;
+              }
+            });
+
+            if (conteoCumplidasMulti === SEDES_OFICIALES.length) {
+              estadoParaFiltro = "COMPLETADA";
+            } else if (conteoNoAplicaMulti === SEDES_OFICIALES.length) {
+              estadoParaFiltro = "NO_APLICA";
+            } else {
+              estadoParaFiltro = "PENDIENTE";
+            }
+          } else {
+            const estadoObjSede = (t.estadoSede && t.estadoSede[fSede]) ? t.estadoSede[fSede] : { estado: "PENDIENTE" };
+            estadoParaFiltro = estadoObjSede.estado;
+            totalPuntosAplicables++;
+            if (estadoParaFiltro === "COMPLETADA") totalPuntosCumplidos++;
+            else if (estadoParaFiltro === "NO APLICA" || estadoParaFiltro === "NO_APLICA") totalNoAplica++;
+          }
+
+          const urg = calcularUrgenciaOperativa(t.fecha, t.hora, estadoParaFiltro);
+
+          // Cómputo global de contadores para las píldoras
+          countTodas++;
+          if (estadoParaFiltro === "COMPLETADA") {
+            countCumplidas++;
+          } else if (estadoParaFiltro !== "NO APLICA" && estadoParaFiltro !== "NO_APLICA") {
+            if (urg.cod === "VENCIDA") countVencidas++;
+            else if (urg.cod === "VENCE_HOY") countHoy++;
+            else if (urg.cod === "PROXIMA") countProximas++;
+            else if (urg.cod === "EN_PLAZO") countPlazo++;
+          }
+
+          // Filtro de Urgencia activo
+          if (fUrg !== "TODAS" && urg.cod !== fUrg) return;
+
+          visibles++;
+
+          // ==========================================
+          // GENERAR TARJETA CONCISA Y ELEGANTE
+          // ==========================================
+          const correspondeRol = coincideRolUsuario(PARTICIPANTE_STATE.usuario.rol, t.responsable, act.area || act.nombre);
+          const esSoloLectura = (!correspondeRol && PARTICIPANTE_STATE.modoVista === "TODOS");
+
+          const card = document.createElement("div");
+          card.className = esSoloLectura
+            ? "glass-card p-3.5 sm:p-4 space-y-2.5 flex flex-col justify-between opacity-50 bg-slate-50/40 dark:bg-slate-900/30 border border-dashed border-slate-300 dark:border-slate-700 select-none"
+            : "glass-card p-3.5 sm:p-4 space-y-2.5 flex flex-col justify-between";
+
+          // Formateo de fecha y hora oficial
+          const fechaFormateada = formatearFechaEspanolMatriz(t.fecha, t.diasRelativos, (PARTICIPANTE_STATE.checklist && PARTICIPANTE_STATE.checklist.fechaInicio));
+          const horaFormateada = formatearHoraEspanol(t.hora);
+
+          // Área limpia sin redundancia
+          let areaLimpia = (t.responsable || act.area || "Procesos").replace(" - Vonex", "").replace("Gestión de ", "");
+
+          // Nombre de la actividad y descripción
+          let tituloLimpio = act.nombre || "Actividad";
+          let etapaColorBadge = "bg-blue-50/80 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border-blue-200/60";
+          if (t.etapa === "DURANTE") etapaColorBadge = "bg-emerald-50/80 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border-emerald-200/60";
+          if (t.etapa === "DESPUES") etapaColorBadge = "bg-purple-50/80 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border-purple-200/60";
+
+          if (esVistaMultisede) {
+            // MODO MULTISEDE: CHIPS CON ÍCONOS SVG NATIVOS
+            const chipsHtml = SEDES_OFICIALES.map(s => {
+              const sObj = (t.estadoSede && t.estadoSede[s]) ? t.estadoSede[s] : { estado: "PENDIENTE" };
+              const esComp = sObj.estado === "COMPLETADA";
+              const esNoAp = sObj.estado === "NO APLICA" || sObj.estado === "NO_APLICA";
+
+              if (esSoloLectura) {
+                return `
+                  <span class="chip-sede-flash ${esComp ? 'done' : (esNoAp ? 'noaplica' : 'pending')} cursor-not-allowed pointer-events-none opacity-60"
+                    title="Sede ${s}: ${esComp ? 'Completada' : (esNoAp ? 'No Aplica' : 'Pendiente')} (Solo lectura: ${areaLimpia})">
+                    <span>${s}</span>
+                    ${esComp ? '<svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+                  </span>
+                `;
+              }
+
+              if (esComp) {
+                return `
+                  <button type="button" onclick="marcarSedeFlash('${t.id}', '${s}')"
+                    class="chip-sede-flash done" title="Sede ${s}: Completada (Clic para ver)">
+                    <span>${s}</span>
+                    <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  </button>
+                `;
+              } else if (esNoAp) {
+                return `
+                  <span class="chip-sede-flash noaplica" style="background:#dc2626; color:#ffffff;" title="Sede ${s}: No Aplica">
+                    <span>${s}</span>
+                    <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                `;
+              } else {
+                return `
+                  <button type="button" onclick="marcarSedeFlash('${t.id}', '${s}')"
+                    class="chip-sede-flash pending" title="Clic para marcar cumplimiento en ${s}">
+                    <span>${s}</span>
+                    <svg class="w-2.5 h-2.5 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  </button>
+                `;
+              }
+            }).join("");
+
+            const todasCompletadas = conteoCumplidasMulti === SEDES_OFICIALES.length;
+            const pctTarea = Math.round((conteoCumplidasMulti / SEDES_OFICIALES.length) * 100);
+
+            card.innerHTML = `
+              <div>
+                <!-- ENCABEZADO SUPERIOR: ETAPA + URGENCIA -->
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="text-[9.5px] font-black uppercase px-2 py-0.5 rounded-full border ${etapaColorBadge}">
+                    ${t.etapa} • ${tituloLimpio}
+                  </span>
+                  <span class="text-[9px] font-black px-2 py-0.5 rounded-full shadow-xs ${urg.badgeClass}">
+                    ${urg.label}
+                  </span>
+                </div>
+
+                <!-- DESCRIPCIÓN CONCISA DE LA TAREA -->
+                <h3 class="text-xs sm:text-[13px] font-extrabold text-slate-900 dark:text-slate-100 leading-snug">
+                  ${t.descripcion}
+                </h3>
+
+                <!-- MICRO-BADGES DE METADATOS -->
+                <div class="flex flex-wrap items-center gap-1.5 pt-1 text-[10.5px]">
+                  <span class="px-2 py-0.5 rounded-md bg-slate-100/90 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold flex items-center gap-1">
+                    <svg class="w-3 h-3 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    ${fechaFormateada}, ${horaFormateada}
+                  </span>
+                  <span class="px-2 py-0.5 rounded-md bg-slate-100/90 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold flex items-center gap-1">
+                    <svg class="w-3 h-3 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    ${areaLimpia}
+                  </span>
+                  ${t.requiereEvidencia ? `
+                    <span class="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-200/80 font-bold flex items-center gap-1 text-[10px]">
+                      <svg class="w-3 h-3 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                      Evidencia
+                    </span>
+                  ` : ''}
+                </div>
+
+                <!-- CONTENEDOR FLASH: AVANCE & CHIPS DE MARCACIÓN DIRECTA -->
+                <div class="mt-2 p-2 rounded-xl bg-slate-50/70 dark:bg-slate-900/50 border border-white/60 dark:border-white/10 space-y-1.5">
+                  <div class="flex items-center justify-between text-[10.5px]">
+                    <span class="text-[9.5px] font-bold text-slate-500 uppercase tracking-tight">Sedes (${conteoCumplidasMulti} de ${SEDES_OFICIALES.length} marcadas):</span>
+                    <span class="font-mono font-bold text-blue-700 dark:text-blue-300">${pctTarea}%</span>
+                  </div>
+                  <div class="flex flex-wrap items-center gap-1">
+                    ${chipsHtml}
+                  </div>
+                </div>
+              </div>
+
+              <!-- FOOTER DE ACCIONES MULTISEDE -->
+              <div class="pt-2 border-t border-white/50 dark:border-white/10 flex items-center justify-between gap-2">
+                ${esSoloLectura ? `
+                  <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700">
+                    🔒 Solo lectura (${areaLimpia})
+                  </span>
+                ` : `
+                  <button onclick="abrirModalNoAplica('${t.id}', 'TODAS')" type="button"
+                    class="px-2.5 py-1 rounded-lg text-[10.5px] font-bold text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 border border-red-300 dark:border-red-800 flex items-center gap-1.5 shadow-xs transition-transform active:scale-95"
+                    title="Declarar excepción para todas las sedes">
+                    <span class="w-3.5 h-3.5 rounded bg-red-600 flex items-center justify-center text-white shadow-xs">
+                      <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    <span>No Aplica</span>
+                  </button>
+
+                  ${todasCompletadas ? `
+                    <span class="text-xs font-black text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
+                      <svg class="w-3.5 h-3.5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                      <span>Cumplido 8 Sedes</span>
+                    </span>
+                  ` : `
+                    <button onclick="marcarTodasFlash('${t.id}')" type="button" class="btn-mark-flash-all" title="Completar en las 8 sedes a la vez">
+                      <svg class="w-3 h-3 text-yellow-300" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                      <span>Marcar 8 Sedes</span>
+                    </button>
+                  `}
+                `}
+              </div>
+            `;
+          } else {
+            // MODO SEDE INDIVIDUAL (LCE, SJL, ETC.)
+            const estadoObj = (t.estadoSede && t.estadoSede[fSede]) ? t.estadoSede[fSede] : { estado: "PENDIENTE", evidencia: null, nota: "" };
+            const esComp = estadoObj.estado === "COMPLETADA";
+            const infoDiasCard = calcularInfoDiasRelativos(t.diasRelativos, (PARTICIPANTE_STATE.checklist && PARTICIPANTE_STATE.checklist.fechaInicio), t.fecha);
+
+            card.innerHTML = `
+              <div>
+                <div class="flex items-center justify-between gap-1.5 mb-1 flex-wrap">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="text-[9.5px] font-black uppercase px-2 py-0.5 rounded-full border ${etapaColorBadge}">
+                      ${t.etapa} • ${tituloLimpio}
+                    </span>
+                    <span class="text-[9.5px] font-black px-2 py-0.5 rounded-full border bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800">
+                      ${infoDiasCard.etiquetaRelativa}
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-[9px] font-bold px-2 py-0.5 rounded border ${infoDiasCard.colorClase}">
+                      ${infoDiasCard.etiquetaConteo}
+                    </span>
+                    <span class="text-[9px] font-black px-2 py-0.5 rounded-full shadow-xs ${urg.badgeClass}">
+                      ${urg.label}
+                    </span>
+                  </div>
+                </div>
+
+                <h3 class="text-xs sm:text-[13px] font-extrabold text-slate-900 dark:text-slate-100 leading-snug">
+                  ${t.descripcion}
+                </h3>
+
+                <div class="flex flex-wrap items-center gap-1.5 pt-1 text-[10.5px]">
+                  <span class="px-2 py-0.5 rounded-md bg-slate-100/90 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold flex items-center gap-1">
+                    <svg class="w-3 h-3 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    ${fechaFormateada}, ${horaFormateada}
+                  </span>
+                  <span class="px-2 py-0.5 rounded-md bg-slate-100/90 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold flex items-center gap-1">
+                    <svg class="w-3 h-3 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    ${areaLimpia}
+                  </span>
+                  <span class="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 font-bold flex items-center gap-1 text-[10px]">
+                    📍 Sede ${fSede}
+                  </span>
+                </div>
+
+                ${estadoObj.evidencia ? `
+                  <div class="mt-2 p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-[10.5px] flex items-center gap-1.5">
+                    <svg class="w-3 h-3 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    <a href="${estadoObj.evidencia}" target="_blank" class="text-blue-600 dark:text-blue-400 font-bold underline truncate max-w-xs">${estadoObj.evidencia}</a>
+                  </div>
+                ` : ''}
+              </div>
+
+              <!-- FOOTER DE ACCIONES SEDE INDIVIDUAL -->
+              <div class="pt-2 border-t border-white/50 dark:border-white/10 flex items-center justify-between gap-2">
+                ${esSoloLectura ? `
+                  <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700">
+                    🔒 Solo lectura (${areaLimpia})
+                  </span>
+                ` : `
+                  <div class="flex items-center gap-1.5">
+                    <button onclick="abrirModalNoAplica('${t.id}', '${fSede}')" type="button"
+                      class="px-2.5 py-1 rounded-lg text-[10.5px] font-bold text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 border border-red-300 dark:border-red-800 flex items-center gap-1.5 shadow-xs transition-transform active:scale-95"
+                      title="Marcar No Aplica (Doble confirmación con resguardo de auditoría)">
+                      <span class="w-3.5 h-3.5 rounded bg-red-600 flex items-center justify-center text-white shadow-xs">
+                        <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                      </span>
+                      <span>No Aplica</span>
+                    </button>
+                    <button onclick="abrirModalEvidenciaDirecta('${t.id}', '${fSede}')" type="button"
+                      class="px-2 py-1 rounded-lg text-[10px] font-bold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 border border-blue-200 dark:border-blue-800 flex items-center gap-1 shadow-xs">
+                      <span>📷 Evidencia</span>
+                    </button>
+                  </div>
+
+                  ${esComp ? `
+                    <span class="text-xs font-black text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
+                      <svg class="w-3.5 h-3.5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                      <span>Cumplido</span>
+                    </span>
+                  ` : `
+                    <button onclick="marcarSedeFlash('${t.id}', '${fSede}')" type="button" class="btn-mark-flash-all">
+                      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                      <span>Completar</span>
+                    </button>
+                  `}
+                `}
+              </div>
+            `;
+          }
+
+          cont.appendChild(card);
+        });
+      });
+
+      // ACTUALIZAR CONTADORES DE LAS PÍLDORAS
+      document.getElementById("badge-cnt-todas").textContent = countTodas;
+      document.getElementById("badge-cnt-vencidas").textContent = countVencidas;
+      document.getElementById("badge-cnt-hoy").textContent = countHoy;
+      document.getElementById("badge-cnt-proximas").textContent = countProximas;
+      document.getElementById("badge-cnt-plazo").textContent = countPlazo;
+      document.getElementById("badge-cnt-cumplidas").textContent = countCumplidas;
+
+      // ACTUALIZAR BARRA DE AVANCE LÍQUIDO EN LA SLIM BENTO CAPSULE
+      const baseEfectiva = totalPuntosAplicables - totalNoAplica;
+      const pctAvance = baseEfectiva > 0 ? Math.round((totalPuntosCumplidos / baseEfectiva) * 100) : 0;
+
+      document.getElementById("circle-progress-text").textContent = `${pctAvance}%`;
+      const liquidBar = document.getElementById("liquid-progress-bar");
+      if (liquidBar) liquidBar.style.width = `${pctAvance}%`;
+
+      document.getElementById("stat-hechas-total").textContent = `(${totalPuntosCumplidos} de ${baseEfectiva})`;
+
+      if (visibles === 0) {
+        cont.innerHTML = `
+          <div class="col-span-1 lg:col-span-2 text-center py-10 glass-panel text-slate-400 space-y-2">
+            <div class="text-2xl">✨</div>
+            <div class="text-xs font-bold text-slate-700 dark:text-slate-200">No hay tareas pendientes en este filtro</div>
+            <div class="text-[11px] text-slate-500">Pruebe seleccionando "Todas" o cambiando la sede.</div>
+          </div>
+        `;
+      }
+
+      // RENDERIZAR TABLA MATRIZ CONSOLIDADA (VISTA EXCEL CHECKLIST UNMSM)
+      renderizarTablaMatriz(actividades, esVistaMultisede, fSede, fEtapa, fUrg, fTxt);
+    }
+
+    function escapeHtmlAttr(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    // ==========================================
+    // RENDERIZADO DE TABLA MATRIZ (ESTÉTICA DASHBOARD GRÁFICO VONEX)
+    // ==========================================
+    function renderizarTablaMatriz(actividades, esVistaMultisede, fSede, fEtapa, fUrg, fTxt) {
+      const contTabla = document.getElementById("tabla-matriz-render");
+      if (!contTabla) return;
+
+      const esVistaMultisedeReal = (!PARTICIPANTE_STATE.esSoloSedePropia && esVistaMultisede && fSede === "TODAS");
+      const sedesColumnas = esVistaMultisedeReal ? SEDES_OFICIALES : [fSede];
+      const fechaInicioCiclo = (PARTICIPANTE_STATE.checklist && PARTICIPANTE_STATE.checklist.fechaInicio) || "2026-10-26";
+
+      let html = `
+        <table class="table-vonex">
+          <thead>
+            <tr>
+              <th rowspan="2" class="w-9 text-center">N°</th>
+              <th rowspan="2" class="text-left w-[165px] min-w-[150px] max-w-[185px]">ACTIVIDADES</th>
+              <th rowspan="2" class="text-left w-[120px] min-w-[110px] max-w-[130px]">ENCARGADO</th>
+              <th rowspan="2" class="text-left w-[240px] min-w-[210px] max-w-[270px]">DESCRIPCIÓN (SUBACTIVIDADES)</th>
+              <th colspan="${sedesColumnas.length}" class="text-center bg-[#004691] text-white font-extrabold tracking-wider">
+                ${sedesColumnas.length === 1 ? `CUMPLIMIENTO SEDE ${sedesColumnas[0]}` : 'CUMPLIMIENTO'}
+              </th>
+              <th rowspan="2" class="w-[95px] min-w-[90px] text-center">FECHA LÍMITE</th>
+              <th rowspan="2" class="w-[80px] min-w-[75px] text-center">HORA LÍMITE</th>
+              <th rowspan="2" class="w-[230px] min-w-[210px] text-left">OBSERVACIONES & EVIDENCIA</th>
+            </tr>
+            <tr>
+              ${sedesColumnas.map(s => `<th class="th-sede w-11 !min-w-[42px] max-w-[46px]">${s}</th>`).join("")}
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      let totalActividadesCoincidentes = 0;
+
+      // Agrupación oficial por etapas de ciclo UNMSM (15 en Antes, 8 en Durante, 2 en Después = 25 Actividades)
+      const etapasNombres = [
+        { cod: "ANTES", titulo: "FASE 1: ACTIVIDADES ANTES DEL INICIO DE CICLO (15 Actividades, 27 Subactividades)" },
+        { cod: "DURANTE", titulo: "FASE 2: ACTIVIDADES DURANTE LA PRIMERA SEMANA (8 Actividades, 8 Subactividades)" },
+        { cod: "DESPUES", titulo: "FASE 3: ACTIVIDADES DESPUÉS DEL INICIO DE CICLO (2 Actividades, 2 Subactividades)" }
+      ];
+
+      etapasNombres.forEach(etapaObj => {
+        if (fEtapa !== "TODAS" && fEtapa !== etapaObj.cod) return;
+
+        // Filtrar actividades correspondientes a esta etapa
+        const actsDeEtapa = actividades.filter(a => {
+          const primTarea = (a.tareas && a.tareas[0]) || {};
+          const etNorm = a.etapa || primTarea.etapa || "ANTES";
+          return etNorm === etapaObj.cod;
+        });
+
+        if (actsDeEtapa.length === 0) return;
+
+        // Filtrar las tareas que cumplen los filtros activos
+        const actsConTareasFiltradas = [];
+        actsDeEtapa.forEach(act => {
+          const tareasFiltradas = (act.tareas || []).filter(t => {
+            // Filtro por rol si está en modo "MIO"
+            if (PARTICIPANTE_STATE.modoVista === "MIO") {
+              const corresponde = coincideRolUsuario(PARTICIPANTE_STATE.usuario.rol, t.responsable, act.area || act.nombre);
+              if (!corresponde) return false;
+            }
+
+            // Filtro de Texto
+            if (fTxt) {
+              const descNorm = (t.descripcion || "").toLowerCase();
+              const nomNorm = (act.nombre || "").toLowerCase();
+              const respNorm = (t.responsable || "").toLowerCase();
+              if (!descNorm.includes(fTxt) && !nomNorm.includes(fTxt) && !respNorm.includes(fTxt)) return false;
+            }
+
+            // Filtro de Urgencia
+            let estadoParaFiltro = "PENDIENTE";
+            if (esVistaMultisedeReal) {
+              let conteoDone = 0;
+              SEDES_OFICIALES.forEach(s => {
+                const est = (t.estadoSede && t.estadoSede[s]) ? t.estadoSede[s].estado : "PENDIENTE";
+                if (est === "COMPLETADA") conteoDone++;
+              });
+              estadoParaFiltro = (conteoDone === SEDES_OFICIALES.length) ? "COMPLETADA" : "PENDIENTE";
+            } else {
+              const estObj = (t.estadoSede && t.estadoSede[fSede]) ? t.estadoSede[fSede] : { estado: "PENDIENTE" };
+              estadoParaFiltro = estObj.estado;
+            }
+
+            const urg = calcularUrgenciaOperativa(t.fecha, t.hora, estadoParaFiltro);
+            if (fUrg !== "TODAS" && urg.cod !== fUrg) return false;
+
+            return true;
+          });
+
+          if (tareasFiltradas.length > 0) {
+            actsConTareasFiltradas.push({ act: act, tareas: tareasFiltradas });
+          }
+        });
+
+        if (actsConTareasFiltradas.length === 0) return;
+        totalActividadesCoincidentes += actsConTareasFiltradas.length;
+
+        // Fila de Encabezado Desplegable de Etapa Oficial (Estilo Banner Ejecutivo con Chevron)
+        const faseColapsada = Boolean(PARTICIPANTE_STATE.fasesColapsadas && PARTICIPANTE_STATE.fasesColapsadas[etapaObj.cod]);
+        const totalActsFase = actsConTareasFiltradas.length;
+        const totalTareasFase = actsConTareasFiltradas.reduce((acc, a) => acc + a.tareas.length, 0);
+
+        html += `
+          <tr class="fase-header-row bg-gradient-to-r from-[#0d2347] via-[#103163] to-[#1e3a8a] text-white hover:brightness-110 cursor-pointer select-none transition-all shadow-xs border-y border-blue-900" onclick="toggleFaseTabla('${etapaObj.cod}')" title="Clic para desplegar o contraer etapa">
+            <td colspan="${7 + sedesColumnas.length}" class="py-2 px-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/20 text-white text-[10px] transform transition-transform duration-200 ${faseColapsada ? '-rotate-90' : 'rotate-0'} font-black shadow-inner">
+                    ▼
+                  </span>
+                  <span class="text-[11.5px] font-black tracking-wide uppercase text-white drop-shadow-xs">📌 ${etapaObj.titulo}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/15 text-blue-100 border border-white/20 backdrop-blur-xs">
+                    ${totalActsFase} act • ${totalTareasFase} subs
+                  </span>
+                </div>
+              </div>
+            </td>
+          </tr>
+        `;
+
+        // Si la fase está colapsada, no renderizamos sus filas para optimizar el espacio vertical
+        if (faseColapsada) return;
+
+        actsConTareasFiltradas.forEach(({ act, tareas }) => {
+          const totalTareasAct = tareas.length;
+
+          // Precalcular bloques de encargado dentro de las tareas de la actividad
+          const bloquesEncargado = [];
+          let currBloque = null;
+          tareas.forEach((t, idx) => {
+            const respNorm = (t.responsable || act.area || "Procesos").replace(" - Vonex", "");
+            if (!currBloque || currBloque.responsable !== respNorm) {
+              currBloque = { responsable: respNorm, count: 1, startIndex: idx };
+              bloquesEncargado.push(currBloque);
+            } else {
+              currBloque.count++;
+            }
+          });
+
+          tareas.forEach((t, tIdx) => {
+            const esPrimeraFila = (tIdx === 0);
+            const esUltimaFila = (tIdx === totalTareasAct - 1);
+
+            // Verificar si corresponde al rol del usuario actual
+            const leCorrespondeRol = coincideRolUsuario(PARTICIPANTE_STATE.usuario.rol, t.responsable, act.area || act.nombre);
+            const estaEnModoTodos = (PARTICIPANTE_STATE.modoVista === "TODOS");
+            const esSoloLectura = (!leCorrespondeRol && estaEnModoTodos);
+
+            let filaClase = "";
+            if (esSoloLectura) {
+              filaClase = "fila-solo-lectura";
+            } else if (estaEnModoTodos && leCorrespondeRol) {
+              filaClase = "fila-mi-rol";
+            }
+
+            const claseFinal = esUltimaFila ? "fila-actividad-final" : "";
+
+            // Formatear Fecha y Hora Límite según calendario oficial
+            const fechaLimTexto = formatearFechaEspanolMatriz(t.fecha, t.diasRelativos, fechaInicioCiclo);
+            const horaLimTexto = formatearHoraEspanol(t.hora);
+
+            // Detectar contenido para los 4 botones de Observaciones & Evidencia
+            const sedeAccion = esVistaMultisedeReal ? "TODAS" : fSede;
+            const sedeCheckObs = esVistaMultisedeReal ? (SEDES_OFICIALES.find(s => t.estadoSede && t.estadoSede[s] && (t.estadoSede[s].nota || t.estadoSede[s].evidencia)) || "LCE") : fSede;
+            const sObjActual = (t.estadoSede && t.estadoSede[sedeCheckObs]) ? t.estadoSede[sedeCheckObs] : {};
+            const notaActual = (sObjActual.nota || t.notaGeneral || "");
+            const eviActual = (sObjActual.evidencia || t.evidenciaGeneral || "");
+            const esNoAplicaActual = sObjActual.estado === "NO APLICA" || sObjActual.estado === "NO_APLICA";
+
+            const tieneTexto = Boolean(notaActual && notaActual.trim().length > 0 && !notaActual.includes("Cumplimiento verificado"));
+            const tieneFoto = Boolean(eviActual && (eviActual.startsWith("data:image") || eviActual.match(/\.(jpg|jpeg|png|webp|gif)/i)));
+            const tieneLink = Boolean(eviActual && eviActual.startsWith("http") && !tieneFoto);
+
+            html += `<tr class="${filaClase} ${claseFinal}">`;
+
+            // Columna 1 y 2: Número de Actividad y Nombre agrupados para toda la actividad
+            if (esPrimeraFila) {
+              const numOrden = act.orden || act.actOrden || (act.id ? act.id.replace("ACT-", "") : "");
+              html += `
+                <td rowspan="${totalTareasAct}" class="text-center font-black text-slate-800 dark:text-slate-100 bg-slate-50/70 dark:bg-slate-900/50 border-r border-slate-300 dark:border-slate-700 align-top py-1.5 px-2">
+                  ${numOrden}
+                </td>
+                <td rowspan="${totalTareasAct}" class="font-extrabold text-slate-900 dark:text-slate-100 bg-slate-50/50 dark:bg-slate-900/40 border-r border-slate-300 dark:border-slate-700 leading-snug align-top py-1.5 px-2 text-[11.5px]">
+                  ${act.nombre || act.actividadNombre || "Actividad"}
+                </td>
+              `;
+            }
+
+            // Columna 3: ENCARGADO agrupado por bloques de responsables dentro de la actividad
+            const bloqueEnc = bloquesEncargado.find(b => b.startIndex === tIdx);
+            if (bloqueEnc) {
+              html += `
+                <td rowspan="${bloqueEnc.count}" class="text-[10px] font-semibold text-slate-700 dark:text-slate-300 border-r border-slate-300 dark:border-slate-700 align-top py-1.5 px-1.5">
+                  <span class="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 block w-max font-bold">
+                    ${bloqueEnc.responsable}
+                  </span>
+                </td>
+              `;
+            }
+
+            // Columna 4: Descripción de la Subactividad (Fiel 100% y con soporte a saltos de línea compactos)
+            html += `
+              <td class="text-[11px] font-medium text-slate-800 dark:text-slate-200 leading-tight py-1.5 px-2 whitespace-pre-line max-w-[270px]">
+                <span class="text-blue-500 font-bold mr-1">•</span> ${t.descripcion}
+              </td>
+            `;
+
+            // Columnas de cumplimiento por Sede con check-boxes interactivos y MARCO AZUL para Mi Rol
+            sedesColumnas.forEach(s => {
+              const sObj = (t.estadoSede && t.estadoSede[s]) ? t.estadoSede[s] : { estado: "PENDIENTE" };
+              const esComp = sObj.estado === "COMPLETADA";
+              const esNoAp = sObj.estado === "NO APLICA" || sObj.estado === "NO_APLICA";
+
+              // En la vista TODO EL CHECKLIST, colocamos un marco azul identificatorio a las tareas permitidas para ese rol
+              const marcoAzulClase = (estaEnModoTodos && leCorrespondeRol) ? "marco-azul" : "";
+              const cellMiRolClase = (estaEnModoTodos && leCorrespondeRol) ? "mi-rol-cell" : "";
+
+              if (esSoloLectura) {
+                // Modo solo lectura para tareas ajenas al rol en vista "Todo el Checklist" (Opaquecer)
+                if (esComp) {
+                  html += `
+                    <td class="table-cell-check cursor-not-allowed pointer-events-none opacity-50" title="Sede ${s}: Completada (Solo lectura: ${(t.responsable || act.area || 'Otro').replace(' - Vonex', '')})">
+                      <span class="check-box-vonex done" style="background:#10b981; color:#fff;">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                      </span>
+                    </td>
+                  `;
+                } else if (esNoAp) {
+                  html += `
+                    <td class="table-cell-check cursor-not-allowed pointer-events-none opacity-50" title="Sede ${s}: NO APLICA (${sObj.nota || ''})">
+                      <span class="check-box-vonex noaplica" style="background:#dc2626; color:#ffffff;">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                      </span>
+                    </td>
+                  `;
+                } else {
+                  html += `
+                    <td class="table-cell-check cursor-not-allowed pointer-events-none opacity-50" title="Sede ${s}: Pendiente (Solo lectura: ${(t.responsable || act.area || 'Otro').replace(' - Vonex', '')})">
+                      <span class="check-box-vonex pending">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                      </span>
+                    </td>
+                  `;
+                }
+              } else {
+                // Modo interactivo completo con MARCO AZUL identificatorio
+                if (esComp) {
+                  html += `
+                    <td class="table-cell-check ${cellMiRolClase}" onclick="marcarSedeFlash('${t.id}', '${s}')" title="Sede ${s}: Completada (Clic para ver/modificar evidencia)">
+                      <span class="check-box-vonex done ${marcoAzulClase}" style="background:#10b981; color:#fff;">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                      </span>
+                    </td>
+                  `;
+                } else if (esNoAp) {
+                  html += `
+                    <td class="table-cell-check ${cellMiRolClase}" title="Sede ${s}: NO APLICA (${sObj.nota || ''})">
+                      <span class="check-box-vonex noaplica ${marcoAzulClase}" style="background:#dc2626; color:#ffffff;">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                      </span>
+                    </td>
+                  `;
+                } else {
+                  html += `
+                    <td class="table-cell-check ${cellMiRolClase}" onclick="marcarSedeFlash('${t.id}', '${s}')" title="Sede ${s}: Pendiente (Clic para marcar)">
+                      <span class="check-box-vonex pending ${marcoAzulClase}">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                      </span>
+                    </td>
+                  `;
+                }
+              }
+            });
+
+            // Fecha y Hora Límite
+            html += `
+              <td class="text-center font-bold text-slate-700 dark:text-slate-300 text-[10.5px] whitespace-nowrap py-1 px-1.5">
+                ${fechaLimTexto}
+              </td>
+              <td class="text-center font-bold text-slate-700 dark:text-slate-300 text-[10.5px] whitespace-nowrap py-1 px-1.5">
+                ${horaLimTexto}
+              </td>
+            `;
+
+            // Columna Observaciones & Evidencia: 4 Botones en icono limpio en una sola fila
+            html += `
+              <td class="py-1 px-2.5 align-middle w-[230px]">
+                <div class="flex items-center gap-1.5 flex-nowrap">
+                  <!-- Botón 1: TEXTO -->
+                  <button type="button" onclick="abrirModalTexto('${t.id}', '${sedeAccion}')"
+                    class="btn-obs-action ${tieneTexto ? 'active-texto' : ''}"
+                    title="${tieneTexto ? ('Texto: ' + escapeHtmlAttr(notaActual)) : 'Texto'}">
+                    <svg class="w-3.5 h-3.5 text-amber-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    ${tieneTexto ? '<span class="obs-dot bg-amber-500"></span>' : ''}
+                  </button>
+
+                  <!-- Botón 2: EVIDENCIA(FOTO) -->
+                  <button type="button" onclick="abrirModalFoto('${t.id}', '${sedeAccion}')"
+                    class="btn-obs-action ${tieneFoto ? 'active-foto' : ''}"
+                    title="${tieneFoto ? 'Evidencia (Foto): Fotografía adjunta' : 'Evidencia (Foto)'}">
+                    <svg class="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    ${tieneFoto ? '<span class="obs-dot bg-purple-600"></span>' : ''}
+                  </button>
+
+                  <!-- Botón 3: ENLACE -->
+                  <button type="button" onclick="abrirModalEnlace('${t.id}', '${sedeAccion}')"
+                    class="btn-obs-action ${tieneLink ? 'active-link' : ''}"
+                    title="${tieneLink ? ('Enlace: ' + escapeHtmlAttr(eviActual)) : 'Enlace'}">
+                    <svg class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    ${tieneLink ? '<span class="obs-dot bg-blue-600"></span>' : ''}
+                  </button>
+
+                  <!-- Botón 4: CHECKLIST ROJO -->
+                  <button type="button" onclick="abrirModalChecklistRojo('${t.id}', '${sedeAccion}')"
+                    class="btn-obs-action ${esNoAplicaActual ? 'active-noaplica' : ''}"
+                    title="${esNoAplicaActual ? ('Checklist Rojo: NO APLICA' + (sObjActual.nota ? ' (' + escapeHtmlAttr(sObjActual.nota) + ')' : '')) : 'Checklist Rojo (Marcar No Aplica)'}">
+                    <span class="w-3.5 h-3.5 rounded-[4px] bg-red-600 flex items-center justify-center text-white shadow-xs">
+                      <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    ${esNoAplicaActual ? '<span class="obs-dot bg-red-600"></span>' : ''}
+                  </button>
+                </div>
+              </td>
+            `;
+
+            html += `</tr>`;
+          });
+        });
+      });
+
+      html += `
+          </tbody>
+        </table>
+      `;
+
+      // Si los filtros activos (búsqueda de texto, urgencia o etapa) arrojan 0 actividades en toda la tabla, mostramos aviso
+      if (totalActividadesCoincidentes === 0 && (fTxt || fUrg !== 'TODAS' || fEtapa !== 'TODAS')) {
+        contTabla.innerHTML = `
+          <div class="p-8 text-center text-slate-400 space-y-1">
+            <div class="text-xl">🔍</div>
+            <div class="text-xs font-bold text-slate-600 dark:text-slate-300">No se encontraron actividades que coincidan con los filtros aplicados</div>
+          </div>
+        `;
+      } else {
+        // En cualquier otro caso (incluyendo cuando todas las fases están colapsadas), mantenemos la tabla y los encabezados de fase
+        contTabla.innerHTML = html;
+      }
+    }
+
+
+    // ==========================================
+    // CONTROL DE TABS Y ARCHIVOS DE EVIDENCIA
+    // ==========================================
+    function cambiarTabEvidencia(tipo) {
+      PARTICIPANTE_STATE.evidenciaTabActual = tipo;
+      const tabLink = document.getElementById("tab-evi-link");
+      const tabFoto = document.getElementById("tab-evi-foto");
+      const secLink = document.getElementById("seccion-evi-link");
+      const secFoto = document.getElementById("seccion-evi-foto");
+
+      if (tipo === "LINK") {
+        tabLink.className = "flex-1 py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm";
+        tabFoto.className = "flex-1 py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900";
+        secLink.classList.remove("hidden");
+        secFoto.classList.add("hidden");
+      } else {
+        tabFoto.className = "flex-1 py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm";
+        tabLink.className = "flex-1 py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900";
+        secFoto.classList.remove("hidden");
+        secLink.classList.add("hidden");
+      }
+    }
+
+    function manejarArchivoEvidenciaSeleccionado(input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+
+      if (file.size > 15 * 1024 * 1024) {
+        showToast("El archivo seleccionado no debe exceder 15 MB.", "error");
+        input.value = "";
+        return;
+      }
+
+      PARTICIPANTE_STATE.archivoEvidenciaNombre = file.name;
+      PARTICIPANTE_STATE.archivoEvidenciaMime = file.type || "image/jpeg";
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        PARTICIPANTE_STATE.archivoEvidenciaBase64 = e.target.result;
+        const previewImg = document.getElementById("preview-file-img");
+        const previewName = document.getElementById("preview-file-name");
+        const previewCont = document.getElementById("preview-file-container");
+        const placeholder = document.getElementById("upload-placeholder-content");
+
+        if (file.type.startsWith("image/")) {
+          previewImg.src = e.target.result;
+          previewImg.classList.remove("hidden");
+        } else {
+          previewImg.classList.add("hidden");
+        }
+
+        const sizeKb = Math.round(file.size / 1024);
+        previewName.textContent = `📎 ${file.name} (${sizeKb} KB)`;
+        previewCont.classList.remove("hidden");
+        placeholder.classList.add("hidden");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function descartarArchivoEvidencia() {
+      PARTICIPANTE_STATE.archivoEvidenciaBase64 = null;
+      PARTICIPANTE_STATE.archivoEvidenciaNombre = "";
+      PARTICIPANTE_STATE.archivoEvidenciaMime = "";
+      const input = document.getElementById("modal-evi-file");
+      if (input) input.value = "";
+
+      const previewCont = document.getElementById("preview-file-container");
+      const placeholder = document.getElementById("upload-placeholder-content");
+      if (previewCont) previewCont.classList.add("hidden");
+      if (placeholder) placeholder.classList.remove("hidden");
+    }
+
+    // ==========================================
+    // INTERACCIÓN DE FASES DESPLEGABLES (ACORDEÓN)
+    // ==========================================
+    function toggleFaseTabla(codFase) {
+      if (!PARTICIPANTE_STATE.fasesColapsadas) {
+        PARTICIPANTE_STATE.fasesColapsadas = { ANTES: false, DURANTE: false, DESPUES: false };
+      }
+      PARTICIPANTE_STATE.fasesColapsadas[codFase] = !PARTICIPANTE_STATE.fasesColapsadas[codFase];
+      filtrarTarjetas();
+    }
+
+    // ==========================================
+    // MODAL DE OBSERVACIÓN EN TEXTO DIRECTO
+    // ==========================================
+    function abrirModalTexto(tId, sede) {
+      let tareaTarget = null;
+      (PARTICIPANTE_STATE.actividades || []).forEach(a => {
+        (a.tareas || []).forEach(t => { if (t.id === tId) tareaTarget = t; });
+      });
+      if (!tareaTarget) return;
+
+      PARTICIPANTE_STATE.tareaEnModalTexto = { tarea: tareaTarget, sede: sede };
+      const descCorta = (tareaTarget.descripcion || "").replace(/\n/g, " ").substring(0, 48);
+      document.getElementById("modal-obs-texto-titulo").textContent = `Nota: ${descCorta}...`;
+
+      const existingNota = (tareaTarget.estadoSede && tareaTarget.estadoSede[sede] && tareaTarget.estadoSede[sede].nota) || tareaTarget.notaGeneral || "";
+      const input = document.getElementById("modal-obs-texto-input");
+      input.value = existingNota;
+
+      const leCorrespondeRol = coincideRolUsuario(PARTICIPANTE_STATE.usuario.rol, tareaTarget.responsable, "");
+      const esSoloLectura = (!leCorrespondeRol && PARTICIPANTE_STATE.modoVista === "TODOS");
+      const btnGuardar = document.getElementById("btn-guardar-obs-texto");
+      if (btnGuardar) btnGuardar.style.display = esSoloLectura ? "none" : "inline-flex";
+      input.readOnly = esSoloLectura;
+
+      document.getElementById("modal-obs-texto").classList.remove("hidden");
+    }
+
+    function cerrarModalObsTexto() {
+      document.getElementById("modal-obs-texto").classList.add("hidden");
+      PARTICIPANTE_STATE.tareaEnModalTexto = null;
+    }
+
+    function guardarObsTextoConfirmado() {
+      if (!PARTICIPANTE_STATE.tareaEnModalTexto) return;
+      const { tarea, sede } = PARTICIPANTE_STATE.tareaEnModalTexto;
+      const texto = document.getElementById("modal-obs-texto-input").value.trim();
+
+      if (!tarea.estadoSede) tarea.estadoSede = {};
+      if (sede === "TODAS") {
+        SEDES_OFICIALES.forEach(s => {
+          if (!tarea.estadoSede[s]) tarea.estadoSede[s] = { estado: "PENDIENTE", evidencia: null, nota: "" };
+          tarea.estadoSede[s].nota = texto;
+        });
+      } else {
+        if (!tarea.estadoSede[sede]) tarea.estadoSede[sede] = { estado: "PENDIENTE", evidencia: null, nota: "" };
+        tarea.estadoSede[sede].nota = texto;
+      }
+      tarea.notaGeneral = texto;
+
+      cerrarModalObsTexto();
+      showToast("Observación registrada con éxito 📝", "success");
+      filtrarTarjetas();
+
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        const chkId = PARTICIPANTE_STATE.checklist ? PARTICIPANTE_STATE.checklist.id : "";
+        google.script.run
+          .withSuccessHandler(() => {})
+          .withFailureHandler(() => {})
+          .apiGuardarObservacionTarea(chkId, tarea.id, sede, texto);
+      }
+    }
+
+    // ==========================================
+    // DISPARADORES DIRECTOS DE LOS 4 BOTONES
+    // ==========================================
+    function abrirModalFoto(tId, sede) {
+      let tareaTarget = null;
+      (PARTICIPANTE_STATE.actividades || []).forEach(a => {
+        (a.tareas || []).forEach(t => { if (t.id === tId) tareaTarget = t; });
+      });
+      if (!tareaTarget) return;
+
+      const evi = (tareaTarget.estadoSede && tareaTarget.estadoSede[sede] && tareaTarget.estadoSede[sede].evidencia) || tareaTarget.evidenciaGeneral || "";
+      const leCorrespondeRol = coincideRolUsuario(PARTICIPANTE_STATE.usuario.rol, tareaTarget.responsable, "");
+      const esSoloLectura = (!leCorrespondeRol && PARTICIPANTE_STATE.modoVista === "TODOS");
+
+      if (esSoloLectura) {
+        if (evi) {
+          window.open(evi, "_blank");
+        } else {
+          showToast("No hay archivo fotográfico adjunto (Solo lectura)", "info");
+        }
+        return;
+      }
+
+      abrirModalEvidenciaDirecta(tId, sede, "FOTO");
+    }
+
+    function abrirModalEnlace(tId, sede) {
+      let tareaTarget = null;
+      (PARTICIPANTE_STATE.actividades || []).forEach(a => {
+        (a.tareas || []).forEach(t => { if (t.id === tId) tareaTarget = t; });
+      });
+      if (!tareaTarget) return;
+
+      const evi = (tareaTarget.estadoSede && tareaTarget.estadoSede[sede] && tareaTarget.estadoSede[sede].evidencia) || tareaTarget.evidenciaGeneral || "";
+      const leCorrespondeRol = coincideRolUsuario(PARTICIPANTE_STATE.usuario.rol, tareaTarget.responsable, "");
+      const esSoloLectura = (!leCorrespondeRol && PARTICIPANTE_STATE.modoVista === "TODOS");
+
+      if (esSoloLectura) {
+        if (evi && evi.startsWith("http")) {
+          window.open(evi, "_blank");
+        } else {
+          showToast("No hay enlace adjunto (Solo lectura)", "info");
+        }
+        return;
+      }
+
+      abrirModalEvidenciaDirecta(tId, sede, "LINK");
+    }
+
+    function abrirModalChecklistRojo(tId, sede) {
+      let tareaTarget = null;
+      (PARTICIPANTE_STATE.actividades || []).forEach(a => {
+        (a.tareas || []).forEach(t => { if (t.id === tId) tareaTarget = t; });
+      });
+      if (!tareaTarget) return;
+
+      const leCorrespondeRol = coincideRolUsuario(PARTICIPANTE_STATE.usuario.rol, tareaTarget.responsable, "");
+      const esSoloLectura = (!leCorrespondeRol && PARTICIPANTE_STATE.modoVista === "TODOS");
+
+      if (esSoloLectura) {
+        showToast("Esta actividad no corresponde a su rol (Solo lectura)", "warning");
+        return;
+      }
+
+      abrirModalNoAplica(tId, sede);
+    }
+
+    function abrirModalEvidenciaDirecta(tId, sede, tabInicial = "LINK") {
+      let tareaTarget = null;
+      (PARTICIPANTE_STATE.actividades || []).forEach(a => {
+        (a.tareas || []).forEach(t => { if (t.id === tId) tareaTarget = t; });
+      });
+
+      if (!tareaTarget) return;
+
+      PARTICIPANTE_STATE.tareaEnModalEvidencia = { tarea: tareaTarget, sede: sede };
+      const descCorta = (tareaTarget.descripcion || "").replace(/\n/g, " ").substring(0, 48);
+      document.getElementById("modal-evi-titulo").textContent = `Evidencia: ${descCorta}...`;
+
+      // Reset tabs and fields
+      cambiarTabEvidencia(tabInicial);
+      descartarArchivoEvidencia();
+
+      const existingEvi = tareaTarget.evidenciaGeneral || (tareaTarget.estadoSede && tareaTarget.estadoSede[sede] && tareaTarget.estadoSede[sede].evidencia) || "";
+      const existingNota = (tareaTarget.estadoSede && tareaTarget.estadoSede[sede] && tareaTarget.estadoSede[sede].nota) || "";
+
+      document.getElementById("modal-evi-url").value = existingEvi.startsWith("http") ? existingEvi : "";
+      document.getElementById("modal-evi-nota").value = existingNota;
+      document.getElementById("modal-evidencia").classList.remove("hidden");
+    }
+
+    // ==========================================
+    // MARCACIÓN FLASH Y CONFIRMACIÓN DE EVIDENCIA
+    // ==========================================
+    function marcarSedeFlash(tId, sede) {
+      let tareaTarget = null;
+      (PARTICIPANTE_STATE.actividades || []).forEach(a => {
+        (a.tareas || []).forEach(t => { if (t.id === tId) tareaTarget = t; });
+      });
+
+      if (!tareaTarget) return;
+
+      const estadoActual = (tareaTarget.estadoSede && tareaTarget.estadoSede[sede]) ? tareaTarget.estadoSede[sede].estado : "PENDIENTE";
+
+      if (estadoActual === "COMPLETADA") {
+        const evi = (tareaTarget.estadoSede[sede] && tareaTarget.estadoSede[sede].evidencia) || tareaTarget.evidenciaGeneral || "";
+        if (evi) {
+          window.open(evi, "_blank");
+        } else {
+          showToast(`Sede ${sede} ya está completada ✅`, "info");
+        }
+        return;
+      }
+
+      const tieneEvidenciaPrevia = tareaTarget.evidenciaGeneral || (tareaTarget.estadoSede && tareaTarget.estadoSede[sede] && tareaTarget.estadoSede[sede].evidencia);
+
+      if (tareaTarget.requiereEvidencia && !tieneEvidenciaPrevia) {
+        abrirModalEvidenciaDirecta(tId, sede);
+        return;
+      }
+
+      const evidenciaAUsar = tieneEvidenciaPrevia || "";
+      ejecutarMarcacionFlash(tareaTarget, sede, evidenciaAUsar, "Cumplimiento verificado conforme");
+    }
+
+    function confirmarEvidenciaYCompletar() {
+      if (!PARTICIPANTE_STATE.tareaEnModalEvidencia) return;
+      const { tarea, sede } = PARTICIPANTE_STATE.tareaEnModalEvidencia;
+      const nota = document.getElementById("modal-evi-nota").value.trim() || "Cumplimiento verificado conforme";
+      const btnGuardar = document.getElementById("btn-guardar-evidencia");
+      const btnTexto = document.getElementById("btn-guardar-evidencia-texto");
+
+      if (PARTICIPANTE_STATE.evidenciaTabActual === "FOTO") {
+        if (!PARTICIPANTE_STATE.archivoEvidenciaBase64) {
+          showToast("Seleccione una fotografía o archivo antes de guardar.", "error");
+          return;
+        }
+
+        btnGuardar.disabled = true;
+        btnTexto.textContent = "Subiendo archivo...";
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(res => {
+              btnGuardar.disabled = false;
+              btnTexto.textContent = "Guardar & Marcar";
+              const urlFinal = (res && res.url) ? res.url : PARTICIPANTE_STATE.archivoEvidenciaBase64;
+              tarea.evidenciaGeneral = urlFinal;
+              cerrarModalEvidencia();
+              ejecutarMarcacionFlash(tarea, sede, urlFinal, nota);
+            })
+            .withFailureHandler(err => {
+              btnGuardar.disabled = false;
+              btnTexto.textContent = "Guardar & Marcar";
+              const urlFallback = PARTICIPANTE_STATE.archivoEvidenciaBase64;
+              tarea.evidenciaGeneral = urlFallback;
+              cerrarModalEvidencia();
+              ejecutarMarcacionFlash(tarea, sede, urlFallback, nota);
+            })
+            .apiSubirArchivoEvidencia(
+              PARTICIPANTE_STATE.archivoEvidenciaNombre,
+              PARTICIPANTE_STATE.archivoEvidenciaBase64,
+              PARTICIPANTE_STATE.archivoEvidenciaMime
+            );
+        } else {
+          btnGuardar.disabled = false;
+          btnTexto.textContent = "Guardar & Marcar";
+          const urlFallback = PARTICIPANTE_STATE.archivoEvidenciaBase64;
+          tarea.evidenciaGeneral = urlFallback;
+          cerrarModalEvidencia();
+          ejecutarMarcacionFlash(tarea, sede, urlFallback, nota);
+        }
+      } else {
+        const url = document.getElementById("modal-evi-url").value.trim();
+        if (!url || !url.startsWith("http")) {
+          showToast("Ingrese un enlace de Google Drive o web válido (http/https).", "error");
+          return;
+        }
+
+        tarea.evidenciaGeneral = url;
+        cerrarModalEvidencia();
+        ejecutarMarcacionFlash(tarea, sede, url, nota);
+      }
+    }
+
+    function cerrarModalEvidencia() {
+      document.getElementById("modal-evidencia").classList.add("hidden");
+      document.getElementById("modal-evi-url").value = "";
+      document.getElementById("modal-evi-nota").value = "";
+      descartarArchivoEvidencia();
+      PARTICIPANTE_STATE.tareaEnModalEvidencia = null;
+    }
+
+    function ejecutarMarcacionFlash(tarea, sede, evidencia, nota) {
+      if (!tarea.estadoSede) tarea.estadoSede = {};
+      const sedesTarget = sede === "TODAS" ? SEDES_OFICIALES : [sede];
+
+      sedesTarget.forEach(s => {
+        tarea.estadoSede[s] = {
+          estado: "COMPLETADA",
+          evidencia: evidencia || "",
+          nota: nota || "Cumplimiento verificado"
+        };
+      });
+
+      showToast(`¡Sede ${sede} completada! ✅`, "success");
+      filtrarTarjetas();
+
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run.withFailureHandler(err => {
+          showToast("Error al sincronizar con el Sheet: " + err.message, "error");
+        }).apiMarcarTareaCompletada(tarea.id, sede, evidencia, nota);
+      }
+    }
+
+    function marcarTodasFlash(tId) {
+      let tareaTarget = null;
+      (PARTICIPANTE_STATE.actividades || []).forEach(a => {
+        (a.tareas || []).forEach(t => { if (t.id === tId) tareaTarget = t; });
+      });
+
+      if (!tareaTarget) return;
+
+      if (tareaTarget.requiereEvidencia && !tareaTarget.evidenciaGeneral) {
+        abrirModalEvidenciaDirecta(tId, "TODAS");
+        return;
+      }
+
+      const evidenciaAUsar = tareaTarget.evidenciaGeneral || "";
+      ejecutarMarcacionFlash(tareaTarget, "TODAS", evidenciaAUsar, "Cumplimiento nacional para todas las sedes");
+    }
+
+    // ==========================================
+    // PROTOCOLO DE EXCEPCIÓN: "NO APLICA" (2 PASOS / RESGUARDO)
+    // ==========================================
+    function abrirModalNoAplica(tId, sede) {
+      let tareaTarget = null;
+      (PARTICIPANTE_STATE.actividades || []).forEach(a => {
+        (a.tareas || []).forEach(t => { if (t.id === tId) tareaTarget = t; });
+      });
+
+      if (!tareaTarget) return;
+
+      PARTICIPANTE_STATE.tareaEnModalNoAplica = { tarea: tareaTarget, sede: sede };
+
+      // Reiniciar a Paso 1
+      document.getElementById("noaplica-paso-1").classList.remove("hidden");
+      document.getElementById("noaplica-paso-2").classList.add("hidden");
+      document.getElementById("modal-noaplica-motivo").value = "";
+      actualizarContadorNoAplica();
+
+      const modalTitulo = document.getElementById("modal-noaplica-titulo");
+      if (modalTitulo) {
+        modalTitulo.textContent = `Declarar "NO APLICA": ${tareaTarget.descripcion.slice(0, 32)}...`;
+      }
+
+      document.getElementById("modal-noaplica").classList.remove("hidden");
+    }
+
+    function actualizarContadorNoAplica() {
+      const val = document.getElementById("modal-noaplica-motivo").value;
+      const countEl = document.getElementById("noaplica-char-count");
+      if (countEl) {
+        countEl.textContent = `${val.length} / 8 caracteres`;
+        countEl.className = val.length >= 8 ? "text-[10px] text-emerald-600 font-bold" : "text-[10px] text-slate-400";
+      }
+    }
+
+    function avanzarConfirmacionNoAplica() {
+      const motivo = document.getElementById("modal-noaplica-motivo").value.trim();
+      if (!motivo || motivo.length < 8) {
+        showToast("Debe ingresar una justificación técnica u operativa detallada (mínimo 8 caracteres).", "error");
+        return;
+      }
+
+      const { sede } = PARTICIPANTE_STATE.tareaEnModalNoAplica;
+      document.getElementById("noaplica-resguardo-sede").textContent = (sede === "TODAS" ? "TODAS LAS SEDES (Nacional)" : `SEDE ${sede}`);
+      document.getElementById("noaplica-resguardo-texto").textContent = `"${motivo}"`;
+
+      // Conmutar a Paso 2 (Segunda Pregunta de Resguardo)
+      document.getElementById("noaplica-paso-1").classList.add("hidden");
+      document.getElementById("noaplica-paso-2").classList.remove("hidden");
+    }
+
+    function volverPaso1NoAplica() {
+      document.getElementById("noaplica-paso-2").classList.add("hidden");
+      document.getElementById("noaplica-paso-1").classList.remove("hidden");
+    }
+
+    function confirmarNoAplicaReal() {
+      const motivo = document.getElementById("modal-noaplica-motivo").value.trim();
+      const { tarea, sede } = PARTICIPANTE_STATE.tareaEnModalNoAplica;
+      if (!tarea) return;
+
+      if (!tarea.estadoSede) tarea.estadoSede = {};
+
+      if (sede === "TODAS") {
+        SEDES_OFICIALES.forEach(s => {
+          tarea.estadoSede[s] = { estado: "NO APLICA", evidencia: null, nota: motivo };
+        });
+        showToast("Registrado NO APLICA para todas las sedes", "warning");
+      } else {
+        tarea.estadoSede[sede] = { estado: "NO APLICA", evidencia: null, nota: motivo };
+        showToast(`Registrado NO APLICA para Sede ${sede}`, "warning");
+      }
+
+      cerrarModalNoAplica();
+      filtrarTarjetas();
+
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run.withFailureHandler(err => {
+          showToast("Error al guardar en Sheet: " + err.message, "error");
+        }).apiRegistrarNoAplica(tarea.id, sede, motivo);
+      }
+    }
+
+    function cerrarModalNoAplica() {
+      document.getElementById("modal-noaplica").classList.add("hidden");
+      document.getElementById("modal-noaplica-motivo").value = "";
+      document.getElementById("noaplica-paso-1").classList.remove("hidden");
+      document.getElementById("noaplica-paso-2").classList.add("hidden");
+      PARTICIPANTE_STATE.tareaEnModalNoAplica = null;
+    }
+
+    // TOAST FLOTANTE CON ÍCONOS SVG
+    function showToast(msg, type = "info") {
+      const t = document.getElementById("app-toast");
+      document.getElementById("toast-message").textContent = msg;
+      const iconBox = document.getElementById("toast-icon-box");
+
+      if (type === "success") {
+        iconBox.className = "w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xs shadow-md";
+        iconBox.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+      } else if (type === "error") {
+        iconBox.className = "w-7 h-7 rounded-xl bg-red-600 text-white flex items-center justify-center text-xs shadow-md";
+        iconBox.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+      } else if (type === "warning") {
+        iconBox.className = "w-7 h-7 rounded-xl bg-amber-500 text-white flex items-center justify-center text-xs shadow-md";
+        iconBox.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+      } else {
+        iconBox.className = "w-7 h-7 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xs shadow-md";
+        iconBox.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+      }
+
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 3200);
+    }
+
+    // PALETA & TEMA CON SVGS NATIVOS
+    const PALETAS = ['ocean', 'fuchsia', 'butter'];
+    let paletaIdx = 0;
     function cyclePalette() {
-      currentPaletteIdx = (currentPaletteIdx + 1) % PALETTES.length;
-      const p = PALETTES[currentPaletteIdx];
-      document.body.setAttribute('data-palette', p);
-      document.getElementById('txt-paleta').textContent = p.toUpperCase();
+      paletaIdx = (paletaIdx + 1) % PALETAS.length;
+      document.body.setAttribute('data-palette', PALETAS[paletaIdx]);
+      showToast(`Paleta: ${PALETAS[paletaIdx].toUpperCase()}`);
     }
 
     function toggleTheme() {
-      const isDark = document.body.getAttribute('data-theme') === 'dark';
-      document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      document.getElementById('ico-theme').className = isDark ? "fa-solid fa-sun text-amber-500" : "fa-solid fa-moon text-indigo-400";
-      document.getElementById('txt-theme').textContent = isDark ? "Modo Claro" : "Modo Oscuro";
+      const dark = document.body.getAttribute('data-theme') === 'dark';
+      document.body.setAttribute('data-theme', dark ? 'light' : 'dark');
+      const icoBox = document.getElementById('ico-theme-box');
+      if (dark) {
+        icoBox.className = "flex items-center justify-center text-amber-500";
+        icoBox.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+      } else {
+        icoBox.className = "flex items-center justify-center text-indigo-400";
+        icoBox.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      }
     }
+
+    // APLICAR CONTEXTO DEL SERVIDOR AL ESTADO
+    function aplicarContextoAlEstado(ctx) {
+      if (!ctx) return;
+
+      if (ctx.usuario) {
+        PARTICIPANTE_STATE.usuario = ctx.usuario;
+        document.getElementById("user-display-nombre").textContent = ctx.usuario.nombre || ctx.usuario.rol;
+
+        const badgeSede = document.getElementById("user-display-badge-sede");
+        const esGlobal = !!(ctx.usuario.esMultisede || ctx.usuario.esProcesos || ctx.usuario.esDirectorZonal);
+        PARTICIPANTE_STATE.esSoloSedePropia = !esGlobal;
+
+        if (esGlobal) {
+          badgeSede.textContent = "MULTISEDE";
+          badgeSede.className = "px-1.5 py-0.5 rounded-full text-[8.5px] font-black uppercase bg-indigo-100 text-indigo-800 dark:bg-indigo-900/60 dark:text-indigo-200 ml-0.5";
+          document.getElementById("badge-sede-nombre").innerHTML = `<span>🌐 Rol Global / Multisede (8 Sedes)</span>`;
+          seleccionarSedeFiltro(ctx.sedeActual || "TODAS");
+        } else {
+          const codSedeAsignada = ctx.usuario.codigoSede || ctx.sedeAsignada || "SJL";
+          const nomSedeAsignada = ctx.usuario.nombreSede || codSedeAsignada;
+          badgeSede.textContent = `SEDE ${codSedeAsignada}`;
+          badgeSede.className = "px-1.5 py-0.5 rounded-full text-[8.5px] font-black uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-200 ml-0.5";
+          document.getElementById("badge-sede-nombre").innerHTML = `<span>📍 Sede: ${nomSedeAsignada} (${ctx.usuario.rol || 'Director de Sede'})</span>`;
+          
+          // Retirar 'SEDE ASIGNADA' abajo de los filtros para evitar redundancias con la cabecera superior
+          const barraSedes = document.getElementById("barra-sedes-chips");
+          if (barraSedes) {
+            barraSedes.innerHTML = "";
+            barraSedes.classList.add("hidden");
+          }
+          seleccionarSedeFiltro(codSedeAsignada);
+        }
+
+        if (ctx.usuario.esProcesos || ctx.usuario.esDirectorZonal) {
+          const btnGestion = document.getElementById("link-panel-gestion");
+          if (btnGestion) btnGestion.classList.remove("hidden");
+        }
+      }
+
+      if (ctx.checklist) {
+        PARTICIPANTE_STATE.checklist = ctx.checklist;
+        document.getElementById("badge-chk-id").textContent = `ID: ${ctx.checklist.id}`;
+        document.getElementById("hero-chk-nombre").textContent = ctx.checklist.nombre;
+      }
+
+      if (ctx.actividades && ctx.actividades.length > 0) {
+        PARTICIPANTE_STATE.actividades = ctx.actividades;
+      }
+
+      filtrarTarjetas();
+    }
+
+    // INICIALIZACIÓN SÍNCRONA Y ASÍNCRONA
+    window.addEventListener("DOMContentLoaded", () => {
+      try {
+        const rawInitial = document.getElementById("server-initial-data")?.textContent;
+        if (rawInitial && rawInitial.trim().length > 2) {
+          const parsed = JSON.parse(rawInitial);
+          aplicarContextoAlEstado(parsed);
+        }
+      } catch (e) {
+        console.warn("Aviso al parsear initialData:", e);
+      }
+
+      // Catálogo oficial de respaldo con exactamente 25 actividades maestras y 37 subactividades oficiales (A-FOR-SERV-0104 v03)
+      if (!PARTICIPANTE_STATE.actividades || PARTICIPANTE_STATE.actividades.length === 0) {
+        const definiciones = [
+          // FASE 1: ACTIVIDADES ANTES DEL INICIO DE CICLO (15 actividades, 27 subactividades)
+          { orden: 1, tplId: "TPL-001", nombre: "1. Carpeta Matrícula", area: "Gestión de Procesos - Vonex", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Reglamento interno del alumno", hora: "18:00" },
+              { ord: 2, desc: "Políticas de reembolso y/o devoluciones", hora: "18:00" },
+              { ord: 3, desc: "Términos y Condiciones", hora: "18:00" },
+              { ord: 4, desc: "Croquis de sede", hora: "18:00" }
+            ]},
+          { orden: 2, tplId: "TPL-002", nombre: "2. Definir Tutores", area: "Director de Sede", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Envío Formato de asignación de tutores: (acmateriales@hnc.pe, helpdesk@hnc.pe, evaluacion@hnc.pe, almacon@hnc.pe, evelasquez@hnc.pe, jpinedo@hnc.pe, auditoria@hnc.pe, procesos@hnc.pe)", hora: "18:00" }
+            ]},
+          { orden: 3, tplId: "TPL-003", nombre: "3. Creación de Carpetas en Drive y Grupos Chat", area: "Sistemas", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Creación de carpetas en Drive", hora: "13:00" },
+              { ord: 2, desc: "Creación de Espacios de Google Chat para alumnos", hora: "13:00" },
+              { ord: 3, desc: "Creación de Comunidades para padres", hora: "13:00" },
+              { ord: 4, desc: "Agregar a los alumnos en los espacios de Google Chat", hora: "13:00" }
+            ]},
+          { orden: 4, tplId: "TPL-004", nombre: "4. Tutores que apoyan en campaña", area: "Ventas", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Enviar correo con lista de tutores que apoyarán durante la campaña en el área de Ventas\nDeberá enviar correo con la información de tutores para apoyo (DNI, Apellidos y Nombres)\n\nDirigido a: helpdesk@hnc.pe, evelasquez@hnc.pe, tesoreria@hnc.pe, evaluacion@hnc.pe, jatalaya@hnc.pe", hora: "13:00" }
+            ]},
+          { orden: 5, tplId: "TPL-005", nombre: "5. Actualización de Croquis", area: "Director de Sede", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Actualizar el croquis con la numeración de cada aula", hora: "18:00" },
+              { ord: 2, desc: "Actualizar lista de salones donde incluya el Nombre del tutor / Ciclo / Aula (Al costado del croquis)", hora: "18:00" }
+            ]},
+          { orden: 6, tplId: "TPL-006", nombre: "6. Colocar Croquis / lista de salones/ nombre de lugar(oficina administrativa o cafetín)", area: "Director de Sede", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Colocar un mural del croquis en la puerta de la sede con los números de aulas correspondientes de cada ciclo", hora: "18:00" },
+              { ord: 2, desc: "Colocar en cada piso la lista correspondiente de salones y el piso al que pertenece", hora: "18:00" }
+            ]},
+          { orden: 7, tplId: "TPL-007", nombre: "7. Actualización de la Lista de Tutores por Sede en la Intranet", area: "Sistemas", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Actualizar Lista de Tutores en base al listado de tutores indicado por cada director de sede en la asignación", hora: "18:00" }
+            ]},
+          { orden: 8, tplId: "TPL-008", nombre: "8. Dar acceso a tutores", area: "Sistemas", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Agregar rol de 'tutor' y 'asesor de ventas' para tutores que les corresponda y dar acceso a funciones de tutoría", hora: "18:00", resp: "Sistemas" },
+              { ord: 2, desc: "Agregar a tutores a los grupos de Pases de Salida", hora: "18:00", resp: "Sistemas" },
+              { ord: 3, desc: "Dar acceso al Drive de materiales", hora: "13:00", resp: "Digitalización de contenido" }
+            ]},
+          { orden: 9, tplId: "TPL-009", nombre: "9. Dar acceso a carpetas y formatos", area: "Evaluación y Control", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Actualizar carpetas de Ev. Desempeño según tutor", hora: "13:00" }
+            ]},
+          { orden: 10, tplId: "TPL-010", nombre: "10. Confirmar accesos", area: "Director de Sede", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Responder al correo de Asignación de tutor indicando que los tutores tienen todos los accesos necesarios", hora: "18:00" }
+            ]},
+          { orden: 11, tplId: "TPL-011", nombre: "11. Envío del material", area: "Producción", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Enviar libros, boletines y guías de clase a los tutores el viernes previo al inicio de clases", hora: "18:00" },
+              { ord: 2, desc: "Enviar exámenes y fichas ópticas a los tutores el viernes previo al inicio de clases", hora: "18:00" }
+            ]},
+          { orden: 12, tplId: "TPL-012", nombre: "12. Entrega del material al docente", area: "Tutores", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Enviar al docente las guías de clase por medio de WhatsApp", hora: "18:00" }
+            ]},
+          { orden: 13, tplId: "TPL-013", nombre: "13. Enviar información al docente", area: "Tutores", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Enviar por WhatsApp al docente los siguientes detalles: nombre del tutor, sede, aula asignada, número de aula y un recordatorio sobre el acceso al enlace correspondiente (solo aula virtual)", hora: "18:00" }
+            ]},
+          { orden: 14, tplId: "TPL-014", nombre: "14. Agregar alumnos a Grupos de Google Chat y a los padres a las comunidades de WhatsApp", area: "Tutores", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Agendar y agregar a padres en las Comunidades de WhatsApp", hora: "18:00" }
+            ]},
+          { orden: 15, tplId: "TPL-015", nombre: "15. Mensaje de Bienvenida", area: "Tutores", etapa: "ANTES",
+            subs: [
+              { ord: 1, desc: "Dar mensaje de bienvenida a padres y alumnos", hora: "09:00" },
+              { ord: 2, desc: "Mensaje recordatorio para que los alumnos ingresen a los links ubicados en la descripción de los grupos correspondientes", hora: "09:00" }
+            ]},
+
+          // FASE 2: ACTIVIDADES DURANTE LA PRIMERA SEMANA (8 actividades, 8 subactividades)
+          { orden: 16, tplId: "TPL-016", nombre: "16. Entrega del material al alumno y pasar asistencia", area: "Tutores", etapa: "DURANTE",
+            subs: [
+              { ord: 1, desc: "Aula Virtual: Enviar un recordatorio a los alumnos indicando que el material está en el campus virtual y grupo de WhatsApp. Reenviar los libros digitales que se encuentran en las carpetas y pasar lista de asistencia por zoom (L - V 7:45 a. m.)", hora: "07:45" }
+            ]},
+          { orden: 17, tplId: "TPL-017", nombre: "17. Entrega del material al alumno y pasar asistencia", area: "Tutores", etapa: "DURANTE",
+            subs: [
+              { ord: 1, desc: "Aula Presencial: Entregar material impreso al alumno (L - V 7:59 a. m.). Pasar lista de asistencia a las 09:00 a. m. (Con lista impresa)", hora: "07:59" }
+            ]},
+          { orden: 18, tplId: "TPL-018", nombre: "18. Orientación de padres y alumnos", area: "Director de Sede y Tutores", etapa: "DURANTE",
+            subs: [
+              { ord: 1, desc: "Orientar el ingreso al aula a alumnos y/o padres:\n\n- Primera semana:\nLos tutores orientarán los 2 primeros días desde las 07:05 a. m. hasta las 8:00 a. m. (la cantidad de tutores será de acuerdo a la necesidad por sede)\n\nNota: Como mínimo debe haber 1 tutor asignados. Nunca debería quedar solo vigilancia en la entrada de los alumnos.\n\nNota: Director solo deberá supervisar.", hora: "07:05" }
+            ]},
+          { orden: 19, tplId: "TPL-019", nombre: "19. Agregar alumnos a Grupos de Google Chat y a los padres a las comunidades de WhatsApp", area: "Tutores", etapa: "DURANTE",
+            subs: [
+              { ord: 1, desc: "Actualizar los contactos todos los días a las 8:00 am - 8:30 am. Turno tarde: 4:30pm", hora: "08:00" }
+            ]},
+          { orden: 20, tplId: "TPL-020", nombre: "20. Dar charla de sistema de trabajo", area: "Tutores", etapa: "DURANTE",
+            subs: [
+              { ord: 1, desc: "Sistema VONEX, Normas de convivencia, Study Time, Sistema de evaluación (durante la 1ra semana desde el martes a las 7:45 a.m.)", hora: "07:45" }
+            ]},
+          { orden: 21, tplId: "TPL-021", nombre: "21. Mostrar el video tutorial del campus", area: "Tutores", etapa: "DURANTE",
+            subs: [
+              { ord: 1, desc: "Mostrar el video tutorial del campus el dia lunes en la salida (o cuando sea necesario)", hora: "13:00" }
+            ]},
+          { orden: 22, tplId: "TPL-022", nombre: "22. Entrevistas individuales para alumnos incorporados", area: "Tutores", etapa: "DURANTE",
+            subs: [
+              { ord: 1, desc: "Llevar a cabo conversaciones individuales con los alumnos que no asistieron en los primeros dias o no asistieron a las charlas de inducción", hora: "09:00" }
+            ]},
+          { orden: 23, tplId: "TPL-023", nombre: "23. Realizar la evaluación diagnóstica", area: "Tutores", etapa: "DURANTE",
+            subs: [
+              { ord: 1, desc: "Durante la segunda semana, se destinará un día exclusivamente para la evaluación de los estudiantes", hora: "09:00" }
+            ]},
+
+          // FASE 3: ACTIVIDADES DESPUÉS DE INICIO DE CICLO (2 actividades, 2 subactividades)
+          { orden: 24, tplId: "TPL-024", nombre: "24. Tutores que apoyan en campaña (Cierre de accesos)", area: "Ventas", etapa: "DESPUES",
+            subs: [
+              { ord: 1, desc: "Enviar correo para quitar los accesos a los tutores de apoyo. Deberá enviar correo con la información de tutores para apoyo (DNI, Apellidos y Nombres). Dirigido a: helpdesk@hnc.pe, evelasquez@hnc.pe, tesoreria@hnc.pe, evaluacion@hnc.pe", hora: "12:00" }
+            ]},
+          { orden: 25, tplId: "TPL-025", nombre: "25. Reunión de padres", area: "Tutores", etapa: "DESPUES",
+            subs: [
+              { ord: 1, desc: "Citar a una reunión de padres en quinta semana", hora: "20:30" }
+            ]}
+        ];
+
+        const diasRelativosPorOrden = {
+          1: -7, 2: -3, 3: -3, 4: -3, 5: -3, 6: -3, 7: -3, 8: -3, 9: -3, 10: -3,
+          11: -3, 12: -3, 13: -3, 14: -3, 15: 0, 16: 0, 17: 0, 18: 0, 19: 7, 20: 7,
+          21: 7, 22: 7, 23: 18, 24: 14, 25: 18
+        };
+        const fechaInicioBase = (PARTICIPANTE_STATE.checklist && PARTICIPANTE_STATE.checklist.fechaInicio) || "2026-11-02";
+
+        PARTICIPANTE_STATE.actividades = definiciones.map(d => {
+          const actId = 'ACT-' + String(d.orden).padStart(2, '0');
+          const offsetDias = diasRelativosPorOrden[d.orden] !== undefined ? diasRelativosPorOrden[d.orden] : 0;
+          let fechaCalculada = fechaInicioBase;
+          try {
+            const [y, m, dia] = fechaInicioBase.split('-').map(Number);
+            const dt = new Date(y, m - 1, dia);
+            dt.setDate(dt.getDate() + offsetDias);
+            const yStr = dt.getFullYear();
+            const mStr = String(dt.getMonth() + 1).padStart(2, '0');
+            const dStr = String(dt.getDate()).padStart(2, '0');
+            fechaCalculada = `${yStr}-${mStr}-${dStr}`;
+          } catch(e) {}
+
+          return {
+            id: actId,
+            tplId: d.tplId,
+            orden: d.orden,
+            nombre: d.nombre,
+            area: d.area,
+            etapa: d.etapa,
+            diasRelativos: offsetDias,
+            fecha: fechaCalculada,
+            tareas: d.subs.map(s => {
+              const subId = d.tplId + '-' + s.ord;
+              const estadoSede = {};
+              SEDES_OFICIALES.forEach(sd => {
+                estadoSede[sd] = { estado: 'PENDIENTE', evidencia: null, nota: '' };
+              });
+              return {
+                id: subId,
+                actPadreId: d.tplId,
+                actOrden: d.orden,
+                orden: s.ord,
+                actId: actId,
+                actividadNombre: d.nombre,
+                descripcion: s.desc,
+                responsable: s.resp || d.area,
+                etapa: d.etapa,
+                fecha: fechaCalculada,
+                diasRelativos: offsetDias,
+                hora: s.hora,
+                requiereEvidencia: d.etapa === 'ANTES' || (s.resp || d.area).toLowerCase().includes('tutor'),
+                sedes: SEDES_OFICIALES,
+                estadoSede: estadoSede
+              };
+            })
+          };
+        });
+      }
+
+      filtrarTarjetas();
+
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run.withSuccessHandler(ctx => {
+          if (ctx) aplicarContextoAlEstado(ctx);
+        }).apiObtenerContextoParticipantes(PARTICIPANTE_STATE.filtroSedeActual);
+      }
+    });
   </script>
 
 </body>
+
 </html>

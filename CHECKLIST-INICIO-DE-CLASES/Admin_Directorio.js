@@ -155,25 +155,54 @@ function configurarHojaAdminDirectorio() {
 
 /**
  * Obtiene el directorio maestro mapeado por código de sede (LCE, SJL, etc.)
+ * Lee dinámicamente por nombres de encabezados de columna para máxima escalabilidad.
  */
 function obtenerDirectorioSedes(sheetAdmin) {
-  const data = sheetAdmin.getRange("A6:H12").getValues();
-  let directorio = {};
+  const allData = sheetAdmin.getDataRange().getValues();
+  if (allData.length < 2) return {};
 
-  data.forEach(row => {
-    const cod = (row[0] || "").toString().trim().toUpperCase();
-    if (cod) {
+  let headerRowIndex = -1;
+  let colMap = {};
+
+  for (let r = 0; r < Math.min(allData.length, 15); r++) {
+    const fila = allData[r].map(c => (c || "").toString().trim().toUpperCase());
+    if (fila.some(c => c.includes("ROL")) && fila.some(c => c.includes("CORREO"))) {
+      headerRowIndex = r;
+      fila.forEach((h, c) => {
+        if (!h) return;
+        if (h.includes("ROL")) colMap.rol = c;
+        if (h.includes("ABREVIATURA") || h.includes("CODIGO")) colMap.codigo = c;
+        if (h.includes("SEDE") && !h.includes("ROL") && !h.includes("CODIGO") && !h.includes("ABREVIATURA")) colMap.sede = c;
+        if (h.includes("NOMBRE") || h.includes("DIRECTOR") || h.includes("RESPONSABLE")) {
+          if (!h.includes("SEDE")) colMap.nombre = c;
+        }
+        if (h.includes("CELULAR") || h.includes("TELEFONO") || (h.includes("WHATSAPP") && !h.includes("NOTIFICAR"))) colMap.celular = c;
+        if (h.includes("CORREO") && !h.includes("NOTIFICAR")) colMap.correo = c;
+        if (h.includes("NOTIFICAR") && h.includes("WHATSAPP")) colMap.notifWsp = c;
+        if (h.includes("NOTIFICAR") && h.includes("CORREO")) colMap.notifCorreo = c;
+      });
+      break;
+    }
+  }
+
+  if (headerRowIndex === -1) return {};
+
+  let directorio = {};
+  for (let r = headerRowIndex + 1; r < allData.length; r++) {
+    const row = allData[r];
+    const cod = colMap.codigo !== undefined ? (row[colMap.codigo] || "").toString().trim().toUpperCase() : "";
+    if (cod && cod !== "INACTIVO") {
       directorio[cod] = {
         codigo: cod,
-        nombreSede: row[1] || cod,
-        director: row[2] || "Director(a)",
-        celular: (row[3] || "").toString().replace(/[^0-9]/g, ""),
-        correo: (row[4] || "").toString().trim(),
-        notificarWsp: (row[5] || "SÍ").toString().toUpperCase() === "SÍ",
-        notificarCorreo: (row[6] || "SÍ").toString().toUpperCase() === "SÍ"
+        nombreSede: colMap.sede !== undefined ? (row[colMap.sede] || cod).toString().trim() : cod,
+        director: colMap.nombre !== undefined ? (row[colMap.nombre] || "Director(a)").toString().trim() : "Director(a)",
+        celular: colMap.celular !== undefined ? (row[colMap.celular] || "").toString().replace(/[^0-9]/g, "") : "",
+        correo: colMap.correo !== undefined ? (row[colMap.correo] || "").toString().trim() : "",
+        notificarWsp: colMap.notifWsp !== undefined ? (row[colMap.notifWsp] || "SÍ").toString().toUpperCase() === "SÍ" : true,
+        notificarCorreo: colMap.notifCorreo !== undefined ? (row[colMap.notifCorreo] || "SÍ").toString().toUpperCase() === "SÍ" : true
       };
     }
-  });
+  }
 
   return directorio;
 }
