@@ -413,25 +413,41 @@
       box-shadow: 0 8px 24px rgba(37, 99, 235, 0.09);
       border-color: rgba(59, 130, 246, 0.4);
     }
+
+    /* 1. CRISTAL VERDE: COMPLETADA A TIEMPO */
     .smart-card.card-completada-total {
-      border-color: rgba(16, 185, 129, 0.4);
-      background: linear-gradient(180deg, rgba(236, 253, 245, 0.5) 0%, var(--glass-card-bg) 100%);
+      border: 1.5px solid rgba(16, 185, 129, 0.55) !important;
+      background: linear-gradient(180deg, rgba(236, 253, 245, 0.75) 0%, rgba(209, 250, 229, 0.45) 100%) !important;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.15) !important;
     }
     body[data-theme="dark"] .smart-card.card-completada-total {
-      border-color: rgba(16, 185, 129, 0.3);
-      background: linear-gradient(180deg, rgba(6, 78, 59, 0.2) 0%, var(--glass-card-bg) 100%);
+      border: 1.5px solid rgba(16, 185, 129, 0.45) !important;
+      background: linear-gradient(180deg, rgba(6, 78, 59, 0.35) 0%, rgba(15, 23, 42, 0.8) 100%) !important;
+      box-shadow: 0 4px 18px rgba(16, 185, 129, 0.2) !important;
     }
 
-    /* CRISTAL ROJO EN TARJETAS VENCIDAS (ALERTA TÁCTICA) */
+    /* 2. CRISTAL ROJO: ACTIVIDAD VENCIDA (MARCADA O PENDIENTE) */
     .smart-card.card-vencida-alerta {
       border: 1.5px solid rgba(239, 68, 68, 0.55) !important;
-      background: linear-gradient(180deg, rgba(254, 226, 226, 0.7) 0%, rgba(255, 241, 242, 0.5) 100%) !important;
+      background: linear-gradient(180deg, rgba(254, 226, 226, 0.75) 0%, rgba(255, 241, 242, 0.5) 100%) !important;
       box-shadow: 0 4px 18px rgba(239, 68, 68, 0.15) !important;
     }
     body[data-theme="dark"] .smart-card.card-vencida-alerta {
       border: 1.5px solid rgba(239, 68, 68, 0.45) !important;
-      background: linear-gradient(180deg, rgba(127, 29, 29, 0.35) 0%, rgba(15, 23, 42, 0.75) 100%) !important;
+      background: linear-gradient(180deg, rgba(127, 29, 29, 0.35) 0%, rgba(15, 23, 42, 0.8) 100%) !important;
       box-shadow: 0 4px 20px rgba(220, 38, 38, 0.25) !important;
+    }
+
+    /* 3. CRISTAL ÁMBAR: VENCE HOY */
+    .smart-card.card-vence-hoy-alerta {
+      border: 1.5px solid rgba(245, 158, 11, 0.55) !important;
+      background: linear-gradient(180deg, rgba(254, 243, 199, 0.75) 0%, rgba(255, 251, 235, 0.5) 100%) !important;
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.15) !important;
+    }
+    body[data-theme="dark"] .smart-card.card-vence-hoy-alerta {
+      border: 1.5px solid rgba(245, 158, 11, 0.45) !important;
+      background: linear-gradient(180deg, rgba(120, 53, 15, 0.35) 0%, rgba(15, 23, 42, 0.8) 100%) !important;
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.2) !important;
     }
 
     /* FILA DE SUBACTIVIDAD DENTRO DE LA TARJETA (ESTRUCTURA TÁCTICA Y COMPACTA) */
@@ -1275,74 +1291,32 @@
   </div>
 
   <!-- ==========================================
-       MODAL 2: JUSTIFICACIÓN Y CONFIRMACIÓN DE 'NO APLICA' (2 PASOS / RESGUARDO)
+       MODAL 2: JUSTIFICACIÓN DE 'NO APLICA' (SIMPLIFICADO Y RÁPIDO)
        ========================================== -->
   <div id="modal-noaplica"
     class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div
-      class="glass-card max-w-md w-full p-5 space-y-3.5 bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-700 shadow-2xl rounded-2xl">
-      <div class="flex items-center justify-between pb-2 border-b border-amber-200 dark:border-amber-800">
-        <div>
-          <span class="text-[9.5px] font-black uppercase text-amber-600 dark:text-amber-400 tracking-wider">Protocolo de Excepción</span>
-          <h3 class="text-sm font-extrabold text-slate-900 dark:text-slate-100" id="modal-noaplica-titulo">
-            Declarar "NO APLICA"
-          </h3>
-        </div>
+      class="glass-card max-w-sm w-full p-4 space-y-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-2xl rounded-2xl">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700">
+        <h3 class="text-xs font-black text-slate-900 dark:text-slate-100 uppercase tracking-wide" id="modal-noaplica-titulo">
+          Declarar No Aplica
+        </h3>
         <button onclick="cerrarModalNoAplica()" class="text-slate-400 hover:text-slate-600 text-lg font-bold leading-none">&times;</button>
       </div>
 
-      <!-- PASO 1: Ingreso de Justificación Operativa -->
-      <div id="noaplica-paso-1" class="space-y-3 text-xs">
-        <div class="p-2.5 bg-amber-50 dark:bg-amber-950/40 rounded-xl text-xs text-amber-900 dark:text-amber-200 border border-amber-200 dark:border-amber-800 flex items-start gap-2">
-          <span class="text-base leading-none">ℹ️</span>
-          <div>Indique el motivo técnico u operativo por el cual esta subactividad no aplica en la sede seleccionada.</div>
-        </div>
+      <div class="space-y-2.5 text-xs">
+        <p class="text-[11.5px] font-medium text-slate-700 dark:text-slate-300">
+          Indique el motivo por el cual esta subactividad no aplica:
+        </p>
 
-        <div class="space-y-1.5">
-          <label class="block font-bold text-slate-700 dark:text-slate-300">Justificación Operativa * (mínimo 8 caracteres)</label>
-          <textarea id="modal-noaplica-motivo" rows="3" placeholder="Explique detalladamente el motivo de la no aplicación..."
-            class="form-input-glass text-xs w-full" oninput="actualizarContadorNoAplica()"></textarea>
-          <div class="flex justify-between text-[10px] text-slate-400">
-            <span>Esta justificación será auditada</span>
-            <span id="noaplica-char-count">0 / 8 caracteres</span>
-          </div>
-        </div>
+        <textarea id="modal-noaplica-motivo" rows="2" placeholder="Escriba el motivo aquí (opcional)..."
+          class="form-input-glass text-xs w-full"></textarea>
 
         <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:border-slate-700">
           <button onclick="cerrarModalNoAplica()" type="button" class="glass-pill !py-1 !px-3 text-xs">Cancelar</button>
-          <button onclick="avanzarConfirmacionNoAplica()" type="button" class="glass-pill !py-1.5 !px-3.5 !text-xs !bg-amber-600 !text-white font-bold hover:!bg-amber-700 flex items-center gap-1.5">
-            <span>Continuar a Confirmación</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          <button onclick="confirmarNoAplicaReal()" type="button" class="glass-pill !py-1.5 !px-3.5 !text-xs !bg-red-600 hover:!bg-red-700 !text-white font-extrabold shadow-sm">
+            Confirmar No Aplica
           </button>
-        </div>
-      </div>
-
-      <!-- PASO 2: Resguardo y Segunda Pregunta de Confirmación -->
-      <div id="noaplica-paso-2" class="hidden space-y-3.5 text-xs">
-        <div class="p-3 bg-red-50 dark:bg-red-950/40 rounded-xl border border-red-300 dark:border-red-800 space-y-2">
-          <div class="flex items-center gap-2 text-red-700 dark:text-red-400 font-extrabold text-xs">
-            <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span>SEGUNDA PREGUNTA DE RESGUARDO</span>
-          </div>
-          <p class="text-slate-800 dark:text-slate-200 text-[11px] leading-relaxed">
-            ¿Está seguro de marcar definitivamente esta tarea como <strong class="text-amber-700 dark:text-amber-400">NO APLICA</strong> en la sede <strong id="noaplica-resguardo-sede" class="text-blue-600 dark:text-blue-400"></strong>?
-          </p>
-          <div class="p-2 bg-white dark:bg-slate-900 rounded border border-red-200 dark:border-red-900 text-[11px] italic text-slate-600 dark:text-slate-300" id="noaplica-resguardo-texto"></div>
-          <p class="text-[10px] text-red-600 dark:text-red-400 font-medium">
-            Esta acción se registrará en la auditoría con su firma institucional y modificará el índice de cumplimiento.
-          </p>
-        </div>
-
-        <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-200 dark:border-slate-700">
-          <button onclick="volverPaso1NoAplica()" type="button" class="glass-pill !py-1 !px-3 text-xs text-slate-600">
-            ← Modificar
-          </button>
-          <div class="flex gap-2">
-            <button onclick="cerrarModalNoAplica()" type="button" class="glass-pill !py-1 !px-3 text-xs">Cancelar</button>
-            <button onclick="confirmarNoAplicaReal()" type="button" class="glass-pill !py-1.5 !px-3.5 !text-xs !bg-red-600 hover:!bg-red-700 !text-white font-black shadow-lg shadow-red-500/20">
-              ⚠️ Sí, Confirmar NO APLICA
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -1610,14 +1584,28 @@
 
     // CALCULAR URGENCIA OPERATIVA (HORA LOCAL LIMA)
     function calcularUrgenciaOperativa(fechaStr, horaStr, estadoCumplimiento) {
+      const countdown = formatearTemporizadorLima(fechaStr, horaStr);
+
       if (estadoCumplimiento === "COMPLETADA") {
-        return { cod: "COMPLETADA", label: "CUMPLIDA", badgeClass: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-200" };
+        return {
+          cod: "COMPLETADA",
+          label: "✓",
+          badgeClass: "bg-emerald-600 text-white font-black text-[11px] px-1.5 py-0.2 shadow-xs",
+          countdown: "Cumplida",
+          esVencida: countdown.vencido,
+          esCumplida: true
+        };
       }
       if (estadoCumplimiento === "NO APLICA" || estadoCumplimiento === "NO_APLICA") {
-        return { cod: "NO_APLICA", label: "NO APLICA", badgeClass: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400" };
+        return {
+          cod: "NO_APLICA",
+          label: "NO APLICA",
+          badgeClass: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400",
+          countdown: "No aplica",
+          esVencida: false,
+          esCumplida: false
+        };
       }
-
-      const countdown = formatearTemporizadorLima(fechaStr, horaStr);
 
       if (countdown.vencido) {
         return {
@@ -1625,7 +1613,8 @@
           label: "🚨",
           badgeClass: "bg-red-600 text-white font-black animate-pulse",
           countdown: "Vencida",
-          esVencida: true
+          esVencida: true,
+          esCumplida: false
         };
       }
 
@@ -1639,7 +1628,8 @@
           label: `⏳ ${countdown.texto}`,
           badgeClass: "bg-amber-500 text-white font-extrabold shadow-xs",
           countdown: countdown.texto,
-          esVencida: false
+          esVencida: false,
+          esCumplida: false
         };
       }
 
@@ -1648,7 +1638,8 @@
         label: `⏱️ ${countdown.texto}`,
         badgeClass: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200/80 font-bold",
         countdown: countdown.texto,
-        esVencida: false
+        esVencida: false,
+        esCumplida: false
       };
     }
 
@@ -1899,7 +1890,22 @@
           return `<div class="subactividad-desc">${desc}</div>`;
         };
 
-        const tieneAlgunaVencida = subtareasFiltradas.some(item => item.urg.cod === "VENCIDA");
+        // Evaluación del color de cristal de la tarjeta:
+        // 1. Cristal Rojo: si tiene alguna subactividad vencida (marcada o sin marcar)
+        // 2. Cristal Verde: si está 100% completada y todas dentro del plazo
+        // 3. Cristal Ámbar: si tiene alguna que vence hoy
+        const tieneAlgunaVencida = subtareasFiltradas.some(item => item.urg.esVencida || item.urg.cod === "VENCIDA");
+        const tieneAlgunaHoy = subtareasFiltradas.some(item => item.urg.cod === "VENCE_HOY");
+
+        let claseColorCristal = "";
+        if (tieneAlgunaVencida) {
+          claseColorCristal = "card-vencida-alerta";
+        } else if (esActividadCompletadaTotal) {
+          claseColorCristal = "card-completada-total";
+        } else if (tieneAlgunaHoy) {
+          claseColorCristal = "card-vence-hoy-alerta";
+        }
+
         const esModoMio = (PARTICIPANTE_STATE.modoVista === "MIO");
 
         // Renderizado interno de las subactividades
@@ -1993,14 +1999,16 @@
                       No Aplica
                     </button>
                     ${todasComp ? `
-                      <span class="text-emerald-600 dark:text-emerald-400 font-extrabold flex items-center gap-0.5">
-                        <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                        8 Sedes
+                      <span class="text-emerald-700 dark:text-emerald-300 font-extrabold flex items-center gap-1 text-[10px] bg-emerald-100 dark:bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-300 dark:border-emerald-700">
+                        <svg class="w-3 h-3 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        Completado
                       </span>
                     ` : `
                       <button onclick="marcarTodasFlash('${t.id}')" type="button"
-                        class="px-1.5 py-0.2 rounded-full text-[9px] font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs">
-                        ⚡ 8 Sedes
+                        class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-blue-600 hover:bg-blue-700 text-white shadow-sm flex items-center gap-1 transition-all active:scale-95"
+                        title="Marcar todas las sedes a la vez">
+                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Marcar todos</span>
                       </button>
                     `}
                   `}
@@ -2066,22 +2074,24 @@
           }
         }).join("");
 
-        // Tarjeta contenedor de la Actividad (con tamaño uniforme y cristal rojo si tiene vencidas)
+        // Tarjeta contenedor de la Actividad (con tamaño uniforme y color de cristal según estado)
         const card = document.createElement("div");
-        card.className = `smart-card p-3 flex flex-col justify-between gap-2.5 ${
-          esActividadCompletadaTotal ? 'card-completada-total' : ''
-        } ${tieneAlgunaVencida ? 'card-vencida-alerta' : ''}`;
+        card.className = `smart-card p-3 flex flex-col justify-between gap-2.5 ${claseColorCristal}`;
 
         card.innerHTML = `
           <div class="space-y-2">
             <!-- HEADER DE ACTIVIDAD: NÚMERO + NOMBRE DE ACTIVIDAD + PROGRESO (SIN ANTES/DESPUES) -->
             <div class="flex items-start justify-between gap-1.5 border-b border-slate-200/70 dark:border-white/10 pb-2">
               <div class="flex items-start gap-1.5 min-w-0">
-                <span class="w-5 h-5 rounded-md ${tieneAlgunaVencida ? 'bg-red-600' : 'bg-blue-600'} text-white font-extrabold text-[10.5px] flex items-center justify-center shrink-0 shadow-xs mt-0.5">
+                <span class="w-5 h-5 rounded-md ${
+                  tieneAlgunaVencida ? 'bg-red-600' : (esActividadCompletadaTotal ? 'bg-emerald-600' : (tieneAlgunaHoy ? 'bg-amber-600' : 'bg-blue-600'))
+                } text-white font-extrabold text-[10.5px] flex items-center justify-center shrink-0 shadow-xs mt-0.5">
                   ${numActividad}
                 </span>
                 <div class="min-w-0">
-                  <h3 class="text-xs font-black ${tieneAlgunaVencida ? 'text-red-900 dark:text-red-200' : 'text-slate-900 dark:text-slate-100'} leading-snug break-words" title="${nombreActividad}">
+                  <h3 class="text-xs font-black ${
+                    tieneAlgunaVencida ? 'text-red-900 dark:text-red-200' : (esActividadCompletadaTotal ? 'text-emerald-900 dark:text-emerald-200' : 'text-slate-900 dark:text-slate-100')
+                  } leading-snug break-words" title="${nombreActividad}">
                     ${nombreActividad}
                   </h3>
                 </div>
@@ -2089,8 +2099,8 @@
               <div class="flex items-center gap-1 shrink-0">
                 <span class="text-[10px] font-mono font-black ${
                   esActividadCompletadaTotal
-                    ? 'text-emerald-600 dark:text-emerald-400'
-                    : (tieneAlgunaVencida ? 'text-red-600 dark:text-red-400' : 'text-blue-600 dark:text-blue-400')
+                    ? 'text-emerald-700 dark:text-emerald-300'
+                    : (tieneAlgunaVencida ? 'text-red-600 dark:text-red-400' : (tieneAlgunaHoy ? 'text-amber-700 dark:text-amber-300' : 'text-blue-600 dark:text-blue-400'))
                 }">
                   ${pctActividad}%
                 </span>
@@ -2113,7 +2123,7 @@
               <div class="smart-progress-fill ${
                 esActividadCompletadaTotal
                   ? 'bg-emerald-500'
-                  : (tieneAlgunaVencida ? 'bg-red-500' : 'bg-blue-600')
+                  : (tieneAlgunaVencida ? 'bg-red-500' : (tieneAlgunaHoy ? 'bg-amber-500' : 'bg-blue-600'))
               }" style="width: ${pctActividad}%;"></div>
             </div>
           </div>
@@ -2910,7 +2920,7 @@
     }
 
     // ==========================================
-    // PROTOCOLO DE EXCEPCIÓN: "NO APLICA" (2 PASOS / RESGUARDO)
+    // PROTOCOLO: "NO APLICA" (SIMPLIFICADO SIN RESTRICCIONES)
     // ==========================================
     function abrirModalNoAplica(tId, sede) {
       let tareaTarget = null;
@@ -2921,53 +2931,18 @@
       if (!tareaTarget) return;
 
       PARTICIPANTE_STATE.tareaEnModalNoAplica = { tarea: tareaTarget, sede: sede };
-
-      // Reiniciar a Paso 1
-      document.getElementById("noaplica-paso-1").classList.remove("hidden");
-      document.getElementById("noaplica-paso-2").classList.add("hidden");
       document.getElementById("modal-noaplica-motivo").value = "";
-      actualizarContadorNoAplica();
 
       const modalTitulo = document.getElementById("modal-noaplica-titulo");
       if (modalTitulo) {
-        modalTitulo.textContent = `Declarar "NO APLICA": ${tareaTarget.descripcion.slice(0, 32)}...`;
+        modalTitulo.textContent = `Declarar No Aplica (${sede === 'TODAS' ? 'Todas las sedes' : 'Sede ' + sede})`;
       }
 
       document.getElementById("modal-noaplica").classList.remove("hidden");
     }
 
-    function actualizarContadorNoAplica() {
-      const val = document.getElementById("modal-noaplica-motivo").value;
-      const countEl = document.getElementById("noaplica-char-count");
-      if (countEl) {
-        countEl.textContent = `${val.length} / 8 caracteres`;
-        countEl.className = val.length >= 8 ? "text-[10px] text-emerald-600 font-bold" : "text-[10px] text-slate-400";
-      }
-    }
-
-    function avanzarConfirmacionNoAplica() {
-      const motivo = document.getElementById("modal-noaplica-motivo").value.trim();
-      if (!motivo || motivo.length < 8) {
-        showToast("Debe ingresar una justificación técnica u operativa detallada (mínimo 8 caracteres).", "error");
-        return;
-      }
-
-      const { sede } = PARTICIPANTE_STATE.tareaEnModalNoAplica;
-      document.getElementById("noaplica-resguardo-sede").textContent = (sede === "TODAS" ? "TODAS LAS SEDES (Nacional)" : `SEDE ${sede}`);
-      document.getElementById("noaplica-resguardo-texto").textContent = `"${motivo}"`;
-
-      // Conmutar a Paso 2 (Segunda Pregunta de Resguardo)
-      document.getElementById("noaplica-paso-1").classList.add("hidden");
-      document.getElementById("noaplica-paso-2").classList.remove("hidden");
-    }
-
-    function volverPaso1NoAplica() {
-      document.getElementById("noaplica-paso-2").classList.add("hidden");
-      document.getElementById("noaplica-paso-1").classList.remove("hidden");
-    }
-
     function confirmarNoAplicaReal() {
-      const motivo = document.getElementById("modal-noaplica-motivo").value.trim();
+      const motivo = (document.getElementById("modal-noaplica-motivo").value || "").trim();
       const { tarea, sede } = PARTICIPANTE_STATE.tareaEnModalNoAplica;
       if (!tarea) return;
 
@@ -2977,21 +2952,14 @@
         SEDES_OFICIALES.forEach(s => {
           tarea.estadoSede[s] = { estado: "NO APLICA", evidencia: null, nota: motivo };
         });
-        showToast("Registrado NO APLICA para todas las sedes", "warning");
+        showToast("Registrado No Aplica para todas las sedes", "warning");
       } else {
         tarea.estadoSede[sede] = { estado: "NO APLICA", evidencia: null, nota: motivo };
-        showToast(`Registrado NO APLICA para Sede ${sede}`, "warning");
+        showToast(`Registrado No Aplica para Sede ${sede}`, "warning");
       }
 
       cerrarModalNoAplica();
       filtrarTarjetas();
-
-      // Intervalo de actualización en tiempo real para temporizadores de cuenta regresiva
-      setInterval(() => {
-        if (PARTICIPANTE_STATE.tipoVista === "TARJETAS") {
-          filtrarTarjetas();
-        }
-      }, 60000); // Actualiza cada 1 minuto
 
       if (typeof google !== 'undefined' && google.script && google.script.run) {
         google.script.run.withFailureHandler(err => {
@@ -3003,8 +2971,6 @@
     function cerrarModalNoAplica() {
       document.getElementById("modal-noaplica").classList.add("hidden");
       document.getElementById("modal-noaplica-motivo").value = "";
-      document.getElementById("noaplica-paso-1").classList.remove("hidden");
-      document.getElementById("noaplica-paso-2").classList.add("hidden");
       PARTICIPANTE_STATE.tareaEnModalNoAplica = null;
     }
 
