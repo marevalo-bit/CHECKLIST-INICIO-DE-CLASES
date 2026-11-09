@@ -420,24 +420,57 @@
       background: linear-gradient(180deg, rgba(6, 78, 59, 0.2) 0%, var(--glass-card-bg) 100%);
     }
 
-    /* FILA DE SUBACTIVIDAD DENTRO DE LA TARJETA */
+    /* FILA DE SUBACTIVIDAD DENTRO DE LA TARJETA (ESTRUCTURA TÁCTICA Y COMPACTA) */
     .subactividad-row {
       border-radius: 0.65rem;
-      border: 1px solid rgba(226, 232, 240, 0.7);
-      background: rgba(248, 250, 252, 0.65);
-      padding: 0.45rem 0.55rem;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      background: rgba(248, 250, 252, 0.7);
+      padding: 0.4rem 0.5rem;
       transition: all 0.15s ease;
     }
     body[data-theme="dark"] .subactividad-row {
-      border-color: rgba(255, 255, 255, 0.06);
-      background: rgba(15, 23, 42, 0.45);
+      border-color: rgba(255, 255, 255, 0.08);
+      background: rgba(15, 23, 42, 0.5);
     }
     .subactividad-row:hover {
       border-color: rgba(59, 130, 246, 0.35);
-      background: rgba(239, 246, 255, 0.5);
+      background: rgba(239, 246, 255, 0.55);
     }
     body[data-theme="dark"] .subactividad-row:hover {
-      background: rgba(30, 58, 138, 0.2);
+      background: rgba(30, 58, 138, 0.22);
+    }
+
+    /* TEXTO DE SUBACTIVIDAD COMPACTO Y ESTRUCTURADO */
+    .subactividad-desc {
+      font-size: 10px;
+      line-height: 1.35;
+      font-weight: 600;
+      color: #334155;
+      text-align: justify;
+      text-justify: inter-word;
+      word-break: break-word;
+      hyphens: auto;
+    }
+    body[data-theme="dark"] .subactividad-desc {
+      color: #cbd5e1;
+    }
+
+    /* EMAILS CHIP COMPACTO */
+    .subactividad-emails {
+      font-size: 9px;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      color: #64748b;
+      background: rgba(241, 245, 249, 0.8);
+      border: 1px dashed rgba(203, 213, 225, 0.9);
+      border-radius: 4px;
+      padding: 2px 4px;
+      line-height: 1.25;
+      word-break: break-all;
+    }
+    body[data-theme="dark"] .subactividad-emails {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
     }
 
     /* GRID SEDES MINI-MATRIX BAR */
@@ -1805,6 +1838,23 @@
         const esActividadCompletadaTotal = (totalCumplidosActividad === totalPuntosActividad && totalPuntosActividad > 0);
         const pctActividad = totalPuntosActividad > 0 ? Math.round((totalCumplidosActividad / totalPuntosActividad) * 100) : 0;
 
+        // Función auxiliar para separar la instrucción de la lista de correos o enlaces si existen
+        const formatearDescripcionEstructurada = (desc) => {
+          if (!desc) return '<span class="text-slate-400 italic">Sin descripción</span>';
+          
+          // Detectar "Dirigido a:" o listas de correos @hnc.pe / @vonex.edu.pe
+          const idxDirigido = desc.search(/Dirigido\s+a\s*:/i);
+          if (idxDirigido !== -1) {
+            const instruccion = desc.substring(0, idxDirigido).trim();
+            const correos = desc.substring(idxDirigido).trim();
+            return `
+              <div class="subactividad-desc">${instruccion}</div>
+              <div class="subactividad-emails mt-1">📬 ${correos}</div>
+            `;
+          }
+          return `<div class="subactividad-desc">${desc}</div>`;
+        };
+
         // Renderizado interno de las subactividades
         const subactividadesHtml = subtareasFiltradas.map(({ t, urg, estadoParaFiltro, conteoCumplidasMulti }) => {
           const correspondeRol = coincideRolUsuario(PARTICIPANTE_STATE.usuario.rol, t.responsable, act.area || act.nombre);
@@ -1813,6 +1863,7 @@
           const fechaFormateada = formatearFechaEspanolMatriz(t.fecha, t.diasRelativos, (PARTICIPANTE_STATE.checklist && PARTICIPANTE_STATE.checklist.fechaInicio));
           const horaFormateada = formatearHoraEspanol(t.hora);
           let respLimpio = (t.responsable || act.area || "Procesos").replace(" - Vonex", "").replace("Gestión de ", "");
+          const descHtml = formatearDescripcionEstructurada(t.descripcion);
 
           if (esVistaMultisede) {
             const todasComp = (conteoCumplidasMulti === SEDES_OFICIALES.length);
@@ -1858,9 +1909,10 @@
 
             return `
               <div class="subactividad-row space-y-1.5 ${esSoloLectura ? 'opacity-50 select-none' : ''}">
-                <div class="flex items-start justify-between gap-1">
-                  <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 truncate max-w-[125px]" title="Responsable: ${respLimpio}">
-                    👤 ${respLimpio}
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[9.5px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1 truncate max-w-[130px]" title="Responsable: ${respLimpio}">
+                    <span class="text-blue-500">👤</span>
+                    <span class="truncate">${respLimpio}</span>
                   </span>
                   <div class="flex items-center gap-1 shrink-0">
                     <span class="text-[8px] font-black px-1.5 py-0.2 rounded-full ${urg.badgeClass}" title="${urg.label}">
@@ -1870,9 +1922,10 @@
                   </div>
                 </div>
 
-                <p class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-snug line-clamp-2" title="${t.descripcion}">
-                  ${t.descripcion}
-                </p>
+                <!-- CONTENIDO JUSTIFICADO Y ESTRUCTURADO -->
+                <div>
+                  ${descHtml}
+                </div>
 
                 <!-- MINI-MATRIX SEDES 4x2 -->
                 <div class="mini-matrix-grid pt-0.5">
@@ -1909,18 +1962,19 @@
 
             return `
               <div class="subactividad-row space-y-1.5 ${esSoloLectura ? 'opacity-50 select-none' : ''}">
-                <div class="flex items-start justify-between gap-1">
-                  <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 truncate max-w-[125px]">
-                    👤 ${respLimpio}
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[9.5px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1 truncate max-w-[130px]">
+                    <span class="text-blue-500">👤</span>
+                    <span class="truncate">${respLimpio}</span>
                   </span>
                   <span class="text-[8px] font-black px-1.5 py-0.2 rounded-full ${urg.badgeClass}">
                     ${urg.label}
                   </span>
                 </div>
 
-                <p class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-snug line-clamp-2" title="${t.descripcion}">
-                  ${t.descripcion}
-                </p>
+                <div>
+                  ${descHtml}
+                </div>
 
                 ${estadoObj.evidencia ? `
                   <div class="text-[9px] flex items-center gap-1 text-blue-600 font-bold truncate">
@@ -1968,27 +2022,29 @@
 
         card.innerHTML = `
           <div class="space-y-2">
-            <!-- HEADER DE ACTIVIDAD: NÚMERO + ETAPA + PROGRESO -->
-            <div class="flex items-center justify-between gap-1 border-b border-slate-200/60 dark:border-white/10 pb-1.5">
-              <div class="flex items-center gap-1.5 truncate">
-                <span class="w-5 h-5 rounded-md bg-blue-600 text-white font-extrabold text-[10.5px] flex items-center justify-center shrink-0 shadow-xs">
+            <!-- HEADER DE ACTIVIDAD: NÚMERO + NOMBRE DE ACTIVIDAD DESTACADO + PROGRESO -->
+            <div class="flex items-start justify-between gap-1.5 border-b border-slate-200/70 dark:border-white/10 pb-2">
+              <div class="flex items-start gap-1.5 min-w-0">
+                <span class="w-5 h-5 rounded-md bg-blue-600 text-white font-extrabold text-[10.5px] flex items-center justify-center shrink-0 shadow-xs mt-0.5">
                   ${numActividad}
                 </span>
-                <span class="text-[9px] font-black uppercase px-1.5 py-0.2 rounded-full border ${etapaColorBadge}">
-                  ${etapaPrincipal}
-                </span>
+                <div class="min-w-0">
+                  <h3 class="text-xs font-black text-slate-900 dark:text-slate-100 leading-snug break-words" title="${nombreActividad}">
+                    ${nombreActividad}
+                  </h3>
+                  <div class="flex items-center gap-1 mt-0.5">
+                    <span class="text-[8.5px] font-bold uppercase px-1.5 py-0.2 rounded-full border ${etapaColorBadge}">
+                      ${etapaPrincipal}
+                    </span>
+                  </div>
+                </div>
               </div>
               <div class="flex items-center gap-1 shrink-0">
-                <span class="text-[9.5px] font-mono font-extrabold ${esActividadCompletadaTotal ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600 dark:text-blue-400'}">
+                <span class="text-[10px] font-mono font-black ${esActividadCompletadaTotal ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600 dark:text-blue-400'}">
                   ${pctActividad}%
                 </span>
               </div>
             </div>
-
-            <!-- TÍTULO DE LA ACTIVIDAD -->
-            <h3 class="text-xs font-black text-slate-900 dark:text-slate-100 leading-snug" title="${nombreActividad}">
-              ${nombreActividad}
-            </h3>
 
             <!-- SUB-ACTIVIDADES AGRUPADAS -->
             <div class="space-y-1.5 pt-0.5">
