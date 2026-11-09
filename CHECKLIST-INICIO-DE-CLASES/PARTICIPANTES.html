@@ -619,6 +619,43 @@
       box-shadow: 0 3px 10px rgba(59, 130, 246, 0.35);
     }
 
+    /* BOTÓN CRISTAL ELEGANTE: NO APLICA (MISMO TAMAÑO QUE MARCAR TODOS) */
+    .btn-glass-noaplica {
+      background: rgba(254, 242, 242, 0.85);
+      border: 1px solid rgba(252, 165, 165, 0.85);
+      color: #b91c1c;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3.5px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 1px 2px rgba(185, 28, 28, 0.05);
+      cursor: pointer;
+    }
+    .btn-glass-noaplica:hover {
+      background: #ef4444;
+      border-color: #dc2626;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(239, 68, 68, 0.25);
+    }
+    body[data-theme="dark"] .btn-glass-noaplica {
+      background: rgba(127, 29, 29, 0.3);
+      border-color: rgba(248, 113, 113, 0.4);
+      color: #fca5a5;
+    }
+    body[data-theme="dark"] .btn-glass-noaplica:hover {
+      background: #dc2626;
+      border-color: #ef4444;
+      color: #ffffff;
+      box-shadow: 0 3px 10px rgba(220, 38, 38, 0.35);
+    }
+
     /* BADGES DE URGENCIA CON CONTRASTE ELEVADO Y ROBUSTO */
     .badge-urg-vence-hoy {
       background: #fef3c7 !important;
@@ -1225,14 +1262,14 @@
         <!-- SELECTOR DE VISTA: TARJETAS vs TABLA MATRIZ & MODO ROL -->
         <div class="flex items-center gap-2">
           <!-- CONMUTADOR VISTA (TABLA vs TARJETAS) -->
-          <div class="flex items-center gap-1 p-0.5 rounded-full bg-slate-200/60 dark:bg-slate-800/60 border border-white/60 dark:border-white/10">
+          <div class="flex items-center gap-1 p-0.5 rounded-full bg-slate-200/60 dark:bg-slate-800/60 border border-white/60 dark:border-white/10" id="contenedor-conmutador-vista">
             <button id="btn-vista-tabla" onclick="conmutarTipoVista('TABLA')" type="button"
-              class="view-toggle-btn active" title="Vista en tabla general de sedes y subactividades (como Excel UNMSM)">
+              class="view-toggle-btn" title="Vista en tabla general de sedes y subactividades (como Excel UNMSM)">
               <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
               <span>Tabla Matriz</span>
             </button>
             <button id="btn-vista-tarjetas" onclick="conmutarTipoVista('TARJETAS')" type="button"
-              class="view-toggle-btn" title="Vista en tarjetas interactivas">
+              class="view-toggle-btn active" title="Vista en tarjetas interactivas">
               <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
               <span>Tarjetas</span>
             </button>
@@ -1312,14 +1349,14 @@
     <!-- ==========================================
          LISTADO DE TARJETAS DE ACTIVIDADES (RESPONSIVO INTELIGENTE 4 A 6 COLS)
          ========================================== -->
-    <section id="contenedor-tarjetas-tareas" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 items-start">
+    <section id="contenedor-tarjetas-tareas" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 items-start">
       <!-- Se inyecta dinámicamente con JS -->
     </section>
 
     <!-- ==========================================
          NUEVA VISTA TABLA MATRIZ (ESTILO CHECKLIST UNMSM EXCEL CONSOLIDADO)
          ========================================== -->
-    <section id="contenedor-tabla-matriz" class="table-vonex-wrapper">
+    <section id="contenedor-tabla-matriz" class="table-vonex-wrapper hidden">
       <div id="tabla-matriz-render">
         <!-- Se inyecta dinámicamente con JS -->
       </div>
@@ -1497,7 +1534,7 @@
         nombre: "Ciclo Regular UNMSM - Inicio 26/10/2026",
         fechaInicio: "2026-10-26"
       },
-      tipoVista: "TABLA", // 'TABLA' (predeterminada) o 'TARJETAS'
+      tipoVista: "TARJETAS", // 'TARJETAS' (predeterminada en Mi Rol) o 'TABLA'
       modoVista: "MIO",
       filtroUrgenciaActual: "TODAS",
       filtroSedeActual: "TODAS",
@@ -1723,8 +1760,8 @@
       if (countdown.vencido) {
         return {
           cod: "VENCIDA",
-          label: "🚨",
-          badgeClass: "badge-urg-vencida animate-pulse",
+          label: "",
+          badgeClass: "hidden",
           countdown: "Vencida",
           esVencida: true,
           esCumplida: false,
@@ -1761,6 +1798,9 @@
 
     // CONMUTAR TIPO DE VISTA: TARJETAS vs TABLA MATRIZ
     function conmutarTipoVista(tipo) {
+      if (tipo === "TARJETAS" && PARTICIPANTE_STATE.modoVista !== "MIO") {
+        tipo = "TABLA";
+      }
       PARTICIPANTE_STATE.tipoVista = tipo;
       const btnTarjetas = document.getElementById("btn-vista-tarjetas");
       const btnTabla = document.getElementById("btn-vista-tabla");
@@ -1769,12 +1809,12 @@
 
       if (tipo === "TABLA") {
         btnTabla.classList.add("active");
-        btnTarjetas.classList.remove("active");
+        if (btnTarjetas) btnTarjetas.classList.remove("active");
         contTarjetas.classList.add("hidden");
         contTabla.classList.remove("hidden");
         showToast("Cambiado a Vista Tabla Matriz 📊", "info");
       } else {
-        btnTarjetas.classList.add("active");
+        if (btnTarjetas) btnTarjetas.classList.add("active");
         btnTabla.classList.remove("active");
         contTabla.classList.add("hidden");
         contTarjetas.classList.remove("hidden");
@@ -1788,14 +1828,22 @@
       PARTICIPANTE_STATE.modoVista = modo;
       const btnMio = document.getElementById("btn-modo-mio");
       const btnTodos = document.getElementById("btn-modo-todos");
+      const btnTarjetas = document.getElementById("btn-vista-tarjetas");
+
       if (modo === "MIO") {
         btnMio.classList.add("glass-pill-active");
         btnTodos.classList.remove("glass-pill-active");
+        if (btnTarjetas) btnTarjetas.classList.remove("hidden");
+        conmutarTipoVista("TARJETAS");
+        return;
       } else {
         btnTodos.classList.add("glass-pill-active");
         btnMio.classList.remove("glass-pill-active");
+        // Para "Todo el Checklist", las tarjetas NO están disponibles; forzar vista Tabla Matriz
+        if (btnTarjetas) btnTarjetas.classList.add("hidden");
+        conmutarTipoVista("TABLA");
+        return;
       }
-      filtrarTarjetas();
     }
 
     // APLICAR FILTRO DE URGENCIA POR PILL DIRECTO (1-TAP)
@@ -2085,13 +2133,12 @@
                 <div class="flex items-center justify-between gap-1">
                   ${badgeRolHtml}
                   <div class="flex items-center gap-1.5 shrink-0 ${esModoMio ? 'w-full justify-between' : ''}">
-                    ${(urg.esNoAplica || todasNoAp) ? '' : `
+                    ${(urg.esNoAplica || todasNoAp || urg.cod === 'VENCIDA' || !urg.label) ? '' : `
                       <span class="text-[8.5px] font-black px-2 py-0.5 rounded-full ${urg.badgeClass} ${urg.cod === 'VENCE_HOY' ? 'live-countdown-badge' : ''}"
                             data-fecha="${t.fecha || ''}" data-hora="${t.hora || ''}" title="${urg.countdown}">
                         ${urg.label}
                       </span>
                     `}
-                    ${t.requiereEvidencia ? `<span class="text-amber-500 text-[10px]" title="Requiere evidencia">📎</span>` : ''}
                   </div>
                 </div>
 
@@ -2114,12 +2161,17 @@
                       <span>🔒</span>
                       <span>No aplica</span>
                     </span>
-                    <button onclick="abrirModalNoAplica('${t.id}', 'TODAS')" type="button" class="text-slate-400 hover:text-blue-500 text-[9px] font-medium">
-                      Editar
+                    <button onclick="abrirModalNoAplica('${t.id}', 'TODAS')" type="button"
+                      class="btn-glass-noaplica !bg-slate-100/80 !border-slate-300/80 !text-slate-600 hover:!bg-slate-600 hover:!text-white dark:!bg-slate-800/80 dark:!border-slate-600 dark:!text-slate-300"
+                      title="Modificar motivo">
+                      <span>Editar</span>
                     </button>
                   ` : `
-                    <button onclick="abrirModalNoAplica('${t.id}', 'TODAS')" type="button" class="text-slate-400 hover:text-red-500 font-bold hover:underline transition-colors">
-                      No Aplica
+                    <button onclick="abrirModalNoAplica('${t.id}', 'TODAS')" type="button"
+                      class="btn-glass-noaplica"
+                      title="Declarar que esta subactividad no aplica">
+                      <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+                      <span>No aplica</span>
                     </button>
                     ${todasComp ? `
                       <span class="text-emerald-700 dark:text-emerald-300 font-extrabold flex items-center gap-1 text-[10px] bg-emerald-100 dark:bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-300 dark:border-emerald-700">
@@ -2149,13 +2201,12 @@
                 <div class="flex items-center justify-between gap-1">
                   ${badgeRolHtml}
                   <div class="flex items-center gap-1.5 shrink-0 ${esModoMio ? 'w-full justify-between' : ''}">
-                    ${esNoAp ? '' : `
+                    ${(esNoAp || urg.cod === 'VENCIDA' || !urg.label) ? '' : `
                       <span class="text-[8.5px] font-black px-2 py-0.5 rounded-full ${urg.badgeClass} ${urg.cod === 'VENCE_HOY' ? 'live-countdown-badge' : ''}"
                             data-fecha="${t.fecha || ''}" data-hora="${t.hora || ''}" title="${urg.countdown}">
                         ${urg.label}
                       </span>
                     `}
-                    ${t.requiereEvidencia ? `<span class="text-amber-500 text-[10px]" title="Requiere evidencia">📎</span>` : ''}
                   </div>
                 </div>
 
@@ -2165,7 +2216,7 @@
 
                 ${estadoObj.evidencia ? `
                   <div class="text-[9px] flex items-center gap-1 text-blue-600 font-bold truncate">
-                    <span>📎</span>
+                    <svg class="w-2.5 h-2.5 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                     <a href="${estadoObj.evidencia}" target="_blank" class="underline truncate">Evidencia adjunta</a>
                   </div>
                 ` : ''}
@@ -2178,16 +2229,22 @@
                       <span>🔒</span>
                       <span>No aplica</span>
                     </span>
-                    <button onclick="abrirModalNoAplica('${t.id}', '${fSede}')" type="button" class="text-slate-400 hover:text-blue-500 text-[9px] font-medium">
-                      Editar
+                    <button onclick="abrirModalNoAplica('${t.id}', '${fSede}')" type="button"
+                      class="btn-glass-noaplica !bg-slate-100/80 !border-slate-300/80 !text-slate-600 hover:!bg-slate-600 hover:!text-white dark:!bg-slate-800/80 dark:!border-slate-600 dark:!text-slate-300"
+                      title="Modificar motivo">
+                      <span>Editar</span>
                     </button>
                   ` : `
                     <div class="flex items-center gap-1.5">
-                      <button onclick="abrirModalNoAplica('${t.id}', '${fSede}')" type="button" class="text-slate-400 hover:text-red-500 font-bold hover:underline transition-colors">
-                        No Aplica
+                      <button onclick="abrirModalNoAplica('${t.id}', '${fSede}')" type="button"
+                        class="btn-glass-noaplica"
+                        title="Declarar que no aplica en sede ${fSede}">
+                        <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+                        <span>No aplica</span>
                       </button>
-                      <button onclick="abrirModalEvidenciaDirecta('${t.id}', '${fSede}')" type="button" class="text-blue-600 font-bold hover:underline">
-                        📷 Evid.
+                      <button onclick="abrirModalEvidenciaDirecta('${t.id}', '${fSede}')" type="button"
+                        class="btn-glass-marcar-todos !text-blue-700 !bg-blue-50/80 !border-blue-300 hover:!bg-blue-600 hover:!text-white">
+                        <span>Evidencia</span>
                       </button>
                     </div>
 
@@ -3196,7 +3253,7 @@
         PARTICIPANTE_STATE.actividades = ctx.actividades;
       }
 
-      filtrarTarjetas();
+      conmutarModoVista(PARTICIPANTE_STATE.modoVista || "MIO");
     }
 
     // RELOJ EN TIEMPO REAL: ACTUALIZA AUTOMÁTICAMENTE HORAS Y MINUTOS CADA 10 SEGUNDOS
@@ -3211,8 +3268,7 @@
           if (!f) return;
           const count = formatearTemporizadorLima(f, h);
           if (count.vencido) {
-            b.className = "text-[8.5px] font-black px-2 py-0.5 rounded-full badge-urg-vencida animate-pulse";
-            b.innerHTML = "🚨";
+            b.style.display = "none";
             const card = b.closest(".smart-card");
             if (card) {
               card.classList.remove("card-vence-hoy-alerta");
@@ -3417,7 +3473,7 @@
         });
       }
 
-      filtrarTarjetas();
+      conmutarModoVista(PARTICIPANTE_STATE.modoVista || "MIO");
       iniciarRelojEnVivo();
 
       if (typeof google !== 'undefined' && google.script && google.script.run) {
