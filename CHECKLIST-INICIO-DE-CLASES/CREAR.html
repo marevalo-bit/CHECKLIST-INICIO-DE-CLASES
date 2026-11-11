@@ -1387,28 +1387,31 @@
   </div>
 
   <!-- ==========================================
-       MODAL: AVISO BREVE DE CONFIRMACIÓN (CANCELAR O OK)
+       MODAL: AVISO BREVE DE CONFIRMACIÓN (CERRAR O OK)
        ========================================== -->
   <div id="modal-confirmar-notificacion" style="z-index: 9999;" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="glass-card max-w-sm w-full p-5 space-y-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-2xl rounded-2xl text-center">
-      <div class="w-12 h-12 mx-auto rounded-full bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400 flex items-center justify-center text-xl shadow-xs">
+      <div class="w-12 h-12 mx-auto rounded-full bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400 flex items-center justify-center text-xl shadow-xs">
         <i class="fa-solid fa-paper-plane"></i>
       </div>
       <div>
         <h4 class="text-base font-black text-slate-900 dark:text-slate-100">
-          ¿Confirmar y Notificar?
+          ¿Confirmar Fechas y Enviar Correo?
         </h4>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-          Se guardarán las fechas y se notificará por correo a todos los involucrados de Sedes y Procesos.
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+          Esta acción activará el checklist y enviará la notificación oficial por correo a todo el directorio:
         </p>
+        <div id="modal-confirmar-detalle-chk" class="mt-2.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-bold text-slate-700 dark:text-slate-200">
+          Checklist seleccionado
+        </div>
       </div>
       <div class="flex items-center justify-center gap-2.5 pt-1">
         <button onclick="cerrarModalConfirmarNotificacion()" type="button" class="glass-pill !py-2 !px-4 text-xs font-bold w-1/2">
-          Cancelar
+          Cerrar
         </button>
         <button id="btn-confirmar-notificar-accion" onclick="ejecutarConfirmacionYNotificacion()" type="button" class="btn-gradient-submit !py-2 !px-4 !text-xs font-black shadow-md w-1/2 flex items-center justify-center gap-1.5">
           <i class="fa-solid fa-check"></i>
-          <span>Aceptar</span>
+          <span>Ok</span>
         </button>
       </div>
     </div>
@@ -2045,6 +2048,13 @@
     }
 
     function solicitarConfirmacionFechas() {
+      const chk = checklistEnEdicionFecha || (MOCK_STATE.historialChecklists && MOCK_STATE.historialChecklists[0]) || MOCK_STATE.checklist;
+      const detalleEl = document.getElementById('modal-confirmar-detalle-chk');
+      if (detalleEl && chk) {
+        const uni = chk.universidad || 'UNMSM';
+        const fIni = chk.fechaInicio || '';
+        detalleEl.textContent = `${uni}${fIni ? ' • Inicio: ' + fIni : ''} (${chk.id || 'CHK'})`;
+      }
       document.getElementById('modal-confirmar-notificacion').classList.remove('hidden');
     }
 
@@ -2053,7 +2063,7 @@
       const btn = document.getElementById('btn-confirmar-notificar-accion');
       if (btn) {
         btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-check"></i><span>Aceptar</span>';
+        btn.innerHTML = '<i class="fa-solid fa-check"></i><span>Ok</span>';
       }
     }
 

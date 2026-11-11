@@ -467,7 +467,7 @@ function enviarCorreosRecordatorioManual() {
     try {
       GmailApp.sendEmail(dirInfo.correo, asunto, "", {
         htmlBody: htmlBody,
-        name: "Gestión de Procesos Vonex"
+        name: "PROCESOS"
       });
       totalEnviados++;
       // Registrar timestamp en columna G de la consola
@@ -481,7 +481,7 @@ function enviarCorreosRecordatorioManual() {
 }
 
 /**
- * Genera el HTML con diseño Cristal (Glassmorphic) Vonex para el correo
+ * Genera el HTML institucional de ancho completo (100%) para el correo de recordatorio
  */
 function generarHtmlEmailCristal(sedeNombre, directorNombre, ciclo, pendientes, urlSheet) {
   let filasTareasHtml = "";
@@ -489,83 +489,58 @@ function generarHtmlEmailCristal(sedeNombre, directorNombre, ciclo, pendientes, 
   pendientes.forEach((t, i) => {
     const descLimpia = t.descripcion.replace(/^-\s*/, "");
     filasTareasHtml += `
-      <div style="background: rgba(255, 255, 255, 0.85); border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px 20px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 4px solid #dc2626; border-radius: 12px; padding: 14px 18px; margin-bottom: 10px;">
         <table width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td style="vertical-align: top;">
-              <span style="background: #e0f2fe; color: #0369a1; font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 20px; font-family: Segoe UI, sans-serif;">ACTIVIDAD ${i + 1}</span>
-              <div style="font-size: 14.5px; font-weight: 700; color: #0f172a; margin-top: 6px; font-family: Segoe UI, sans-serif;">${descLimpia}</div>
+              <span style="background: #e0f2fe; color: #0369a1; font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 6px;">ACTIVIDAD ${i + 1}</span>
+              <div style="font-size: 13.5px; font-weight: 700; color: #0f172a; margin-top: 6px;">${descLimpia}</div>
             </td>
-            <td align="right" style="vertical-align: top; min-width: 110px;">
-              <div style="font-size: 11.5px; font-weight: 800; color: #ef4444; background: #fff1f2; border: 1px solid #ffe4e6; padding: 4px 10px; border-radius: 30px; display: inline-block; font-family: Segoe UI, sans-serif;">
-                ⏰ ${t.hora}
+            <td align="right" style="vertical-align: top; min-width: 100px;">
+              <div style="font-size: 11px; font-weight: 800; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; padding: 4px 10px; border-radius: 9999px; display: inline-block;">
+                &#9200; ${t.hora}
               </div>
-              <div style="font-size: 10px; color: #64748b; font-weight: 700; margin-top: 4px; text-transform: uppercase;">○ PENDIENTE</div>
+              <div style="font-size: 10px; color: #64748b; font-weight: 700; margin-top: 4px; text-transform: uppercase;">PENDIENTE</div>
             </td>
           </tr>
         </table>
       </div>`;
   });
 
-  return `
-    <div style="margin: 0; padding: 30px 10px; background: linear-gradient(135deg, #e0f2fe 0%, #f0f7ff 50%, #f8fafc 100%); font-family: 'Segoe UI', -apple-system, Roboto, sans-serif;">
-      <div style="max-width: 620px; margin: auto; background: #ffffff; border: 1px solid #dbeafe; box-shadow: 0 20px 40px rgba(0, 70, 145, 0.08); border-radius: 24px; overflow: hidden; padding: 32px;">
-        
-        <!-- HEADER -->
-        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 24px;">
-          <tr>
-            <td align="left">
-              <div style="font-size: 20px; font-weight: 800; color: #004691; letter-spacing: -0.5px;">
-                <span style="background: #004691; color: #FFCC00; padding: 4px 10px; border-radius: 8px; font-size: 15px; margin-right: 6px;">V</span>ACADEMIA VONEX
-              </div>
-              <div style="font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px;">
-                Gestión de Procesos e Inicio de Clases
-              </div>
-            </td>
-            <td align="right">
-              <span style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; font-size: 11px; font-weight: 800; padding: 6px 14px; border-radius: 50px; text-transform: uppercase;">
-                🚨 VENCE HOY 18:00 H
-              </span>
-            </td>
-          </tr>
-        </table>
+  const contenidoHtml = `
+    <div style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px 20px; margin-bottom:16px;">
+      <p style="margin:0 0 8px 0; font-size:14.5px; font-weight:700; color:#0f172a;">
+        Buen d&#237;a, ${directorNombre}. &#128075;
+      </p>
+      <p style="margin:0; font-size:13.5px; color:#334155; line-height:1.55;">
+        Le recordamos que <strong>HOY a las 6:00 p. m.</strong> vence el plazo para el cumplimiento de las siguientes actividades operativas correspondientes al ciclo <strong>${ciclo}</strong>:
+      </p>
+    </div>
 
-        <!-- TARJETA SEDE -->
-        <div style="background: linear-gradient(135deg, #ffffff 0%, #f1f7fe 100%); border: 1px solid #dbeafe; border-radius: 18px; padding: 18px 22px; margin-bottom: 22px;">
-          <table width="100%" cellpadding="0" cellspacing="0">
-            <tr>
-              <td>
-                <div style="font-size: 10px; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 0.8px;">Sede Asignada</div>
-                <div style="font-size: 17px; font-weight: 800; color: #0f172a; margin-top: 2px;">${sedeNombre}</div>
-              </td>
-              <td align="right">
-                <div style="font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px;">Director(a)</div>
-                <div style="font-size: 14px; font-weight: 700; color: #1e293b; margin-top: 2px;">${directorNombre}</div>
-              </td>
-            </tr>
-          </table>
-        </div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom:16px;">
+      <tr>
+        <td width="49%" valign="top" style="background-color:#ffffff; border:1px solid #e2e8f0; border-top:3px solid #0d3b99; border-radius:12px; padding:16px 18px;">
+          <div style="font-size:11px; font-weight:800; color:#0d3b99; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Sede Asignada</div>
+          <div style="font-size:16px; font-weight:800; color:#0f172a;">${sedeNombre}</div>
+        </td>
+        <td width="2%">&nbsp;</td>
+        <td width="49%" valign="top" style="background-color:#ffffff; border:1px solid #e2e8f0; border-top:3px solid #facc15; border-radius:12px; padding:16px 18px;">
+          <div style="font-size:11px; font-weight:800; color:#854d0e; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Pendientes Hoy</div>
+          <div style="font-size:18px; font-weight:900; color:#dc2626;">${pendientes.length}</div>
+        </td>
+      </tr>
+    </table>
 
-        <p style="font-size: 13.5px; color: #475569; line-height: 1.5; margin-bottom: 18px;">
-          Estimado(a) Director(a), le recordamos que <strong>HOY a las 6:00 p. m.</strong> vence el plazo para el cumplimiento y registro de las siguientes actividades operativas correspondientes al ciclo <strong>${ciclo}</strong>:
-        </p>
+    ${filasTareasHtml}
+  `;
 
-        <!-- LISTA TAREAS -->
-        ${filasTareasHtml}
-
-        <!-- CTA BUTTON -->
-        <div style="text-align: center; margin: 32px 0 16px 0;">
-          <a href="${urlSheet}" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #004691 0%, #1d4ed8 100%); color: #ffffff; padding: 16px 36px; border-radius: 50px; font-size: 14.5px; font-weight: 800; text-decoration: none; box-shadow: 0 12px 28px rgba(0, 70, 145, 0.32);">
-            REGISTRAR CUMPLIMIENTO EN CHECKLIST →
-          </a>
-        </div>
-
-        <div style="text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid #f1f5f9; color: #94a3b8; font-size: 11px;">
-          Sistema Integrado de Control Operativo © 2026 Academia Vonex | Todos los derechos reservados.
-        </div>
-
-      </div>
-    </div>`;
+  return construirCorreoVonexFullWidth({
+    titulo: "RECORDATORIO DE VENCIMIENTO HOY (18:00 H)",
+    subtituloHtml: `SEDE: <span style="color: #fde047;">${sedeNombre}</span> &nbsp;|&nbsp; CICLO: <span style="color: #fde047;">${ciclo}</span>`,
+    contenidoHtml: contenidoHtml,
+    urlBoton: urlSheet,
+    textoBoton: "REGISTRAR CUMPLIMIENTO"
+  });
 }
 
 /**

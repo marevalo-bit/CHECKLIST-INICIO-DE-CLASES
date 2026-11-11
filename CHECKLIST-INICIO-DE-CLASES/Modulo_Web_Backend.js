@@ -1006,6 +1006,59 @@ function apiGuardarConfiguracionTareas(idChecklist, tareasModificadas) {
 }
 
 /**
+ * Construye una plantilla HTML institucional de ancho completo (100%)
+ * con banner superior azul marino, línea dorada, insignia Vonex, tarjetas y firma GPMC.
+ */
+function construirCorreoVonexFullWidth(opts) {
+  const titulo = (opts && opts.titulo) || "CHECKLIST DE GESTI&#211;N DE INICIO DE CLASES";
+  const subtituloHtml = (opts && opts.subtituloHtml) || "";
+  const contenidoHtml = (opts && opts.contenidoHtml) || "";
+  const urlBoton = (opts && opts.urlBoton) || "";
+  const textoBoton = (opts && opts.textoBoton) || "ABRIR CHECKLIST";
+
+  const botonHtml = urlBoton ? `
+    <div style="text-align: center; margin: 22px 0 20px 0;">
+      <a href="${urlBoton}" target="_blank" style="display: inline-block; background-color: #133c94; background: linear-gradient(180deg, #1b4bb5 0%, #0e2d75 100%); color: #ffffff !important; font-size: 13px; font-weight: 800; text-decoration: none; padding: 13px 34px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.7px; box-shadow: 0 4px 12px rgba(19, 60, 148, 0.25);">
+        ${textoBoton}
+      </a>
+    </div>
+  ` : "";
+
+  return `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; width: 100%; margin: 0; padding: 0; background-color: #f1f5f9;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; background-color: #ffffff; border: 1px solid #dbeafe; border-radius: 14px; overflow: hidden; border-collapse: separate;">
+        <tr>
+          <td style="background-color: #092c74; background: linear-gradient(180deg, #0d3b99 0%, #071e54 100%); border-bottom: 3px solid #facc15; padding: 24px 24px 20px 24px; text-align: center;">
+            <div style="display: inline-block; background-color: #ffe600; color: #071e54; font-weight: 900; font-size: 13px; padding: 7px 18px; border-radius: 8px; letter-spacing: 0.5px; margin-bottom: 12px;">
+              ACADEMIA VONEX
+            </div>
+            <div style="color: #ffffff; font-size: 19px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; margin: 0 0 8px 0;">
+              ${titulo}
+            </div>
+            ${subtituloHtml ? `<div style="color: #e2e8f0; font-size: 12px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;">${subtituloHtml}</div>` : ""}
+          </td>
+        </tr>
+        <tr>
+          <td style="background-color: #f8fafc; padding: 24px 26px;">
+            ${contenidoHtml}
+            ${botonHtml}
+            <div style="border-top: 1px solid #e2e8f0; padding-top: 14px; font-size: 12.5px; color: #334155; line-height: 1.5;">
+              Saludos,<br>
+              <strong style="color: #0d3b99;">GPMC | Academia Vonex</strong>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 12px 20px; text-align: center; font-size: 11px; color: #94a3b8;">
+            Notificaci&#243;n autom&#225;tica del Sistema de Checklist Operativo &bull; Academia Vonex
+          </td>
+        </tr>
+      </table>
+    </div>
+  `;
+}
+
+/**
  * Confirma formalmente las fechas ajustadas del checklist,
  * actualiza su ciclo de vida a "Activo" en BD_CHECKLISTS
  * y crea el hilo oficial de correo con asunto corporativo y en copia (CC)
@@ -1096,98 +1149,62 @@ function apiConfirmarFechasYNotificar(idChecklist, tareasModificadas, checklistI
   const urlBase = obtenerUrlWebApp();
   const urlParticipantes = `${urlBase}?page=participantes&chk=${encodeURIComponent(idChecklist)}`;
 
-  // Cuerpo del correo moderno 100% ancho completo (estilo institucional banner azul + tarjetas)
-  const cuerpoHtml = `
-    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; width: 100%; margin: 0; padding: 0; background-color: #f1f5f9;">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; background-color: #ffffff; border: 1px solid #dbeafe; border-radius: 14px; overflow: hidden; border-collapse: separate;">
-        <!-- BANNER SUPERIOR AZUL MARINO CON LÍNEA DORADA -->
-        <tr>
-          <td style="background-color: #092c74; background: linear-gradient(180deg, #0d3b99 0%, #071e54 100%); border-bottom: 3px solid #facc15; padding: 24px 24px 20px 24px; text-align: center;">
-            <div style="display: inline-block; background-color: #ffe600; color: #071e54; font-weight: 900; font-size: 13px; padding: 7px 18px; border-radius: 8px; letter-spacing: 0.5px; margin-bottom: 12px;">
-              ACADEMIA VONEX
-            </div>
-            <div style="color: #ffffff; font-size: 19px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; margin: 0 0 8px 0;">
-              CHECKLIST DE GESTI&#211;N DE INICIO DE CLASES
-            </div>
-            <div style="color: #e2e8f0; font-size: 12px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;">
-              UNIVERSIDAD: <span style="color: #fde047;">${universidad}</span> &nbsp;|&nbsp; INICIO DE CLASES: <span style="color: #fde047;">${fechaFormateada}</span>
-            </div>
-          </td>
-        </tr>
+  // Cuerpo del correo moderno 100% ancho completo usando la plantilla institucional compartida
+  const contenidoConfirmarHtml = `
+    <!-- SALUDO E INTRODUCCIÓN -->
+    <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px;">
+      <p style="margin: 0 0 8px 0; font-size: 14.5px; font-weight: 700; color: #0f172a;">
+        Buen d&#237;a, estimados(as). &#128075;
+      </p>
+      <p style="margin: 0; font-size: 13.5px; color: #334155; line-height: 1.55;">
+        Se comparte el <strong>CHECKLIST de Gesti&#243;n de Inicio de Clases</strong> para que cada responsable registre el avance de las actividades asignadas.
+      </p>
+    </div>
 
-        <!-- CUERPO DEL CORREO (ANCHO COMPLETO CON TARJETAS MODERNAS) -->
-        <tr>
-          <td style="background-color: #f8fafc; padding: 24px 26px;">
-            <!-- SALUDO E INTRODUCCIÓN -->
-            <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px;">
-              <p style="margin: 0 0 8px 0; font-size: 14.5px; font-weight: 700; color: #0f172a;">
-                Buen d&#237;a, estimados(as). &#128075;
-              </p>
-              <p style="margin: 0; font-size: 13.5px; color: #334155; line-height: 1.55;">
-                Se comparte el <strong>CHECKLIST de Gesti&#243;n de Inicio de Clases</strong> para que cada responsable registre el avance de las actividades asignadas.
-              </p>
-            </div>
+    <!-- DOS TARJETAS PARALELAS (UNIVERSIDAD + FECHA DE INICIO) -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 16px;">
+      <tr>
+        <td width="49%" valign="top" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-top: 3px solid #0d3b99; border-radius: 12px; padding: 16px 18px;">
+          <div style="font-size: 11px; font-weight: 800; color: #0d3b99; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+            &#127891; Universidad
+          </div>
+          <div style="font-size: 17px; font-weight: 800; color: #0f172a;">
+            ${universidad}
+          </div>
+        </td>
+        <td width="2%">&nbsp;</td>
+        <td width="49%" valign="top" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-top: 3px solid #facc15; border-radius: 12px; padding: 16px 18px;">
+          <div style="margin-bottom: 8px;">
+            <span style="display: inline-block; background-color: #fef9c3; color: #854d0e; font-size: 10.5px; font-weight: 800; padding: 3px 9px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.4px;">
+              &#128197; Fecha de inicio de clases
+            </span>
+          </div>
+          <div style="font-size: 17px; font-weight: 800; color: #0f172a;">
+            ${fechaFormateada}
+          </div>
+        </td>
+      </tr>
+    </table>
 
-            <!-- DOS TARJETAS PARALELAS (UNIVERSIDAD + FECHA DE INICIO) -->
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 16px;">
-              <tr>
-                <td width="49%" valign="top" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-top: 3px solid #0d3b99; border-radius: 12px; padding: 16px 18px;">
-                  <div style="font-size: 11px; font-weight: 800; color: #0d3b99; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
-                    &#127891; Universidad
-                  </div>
-                  <div style="font-size: 17px; font-weight: 800; color: #0f172a;">
-                    ${universidad}
-                  </div>
-                </td>
-                <td width="2%">&nbsp;</td>
-                <td width="49%" valign="top" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-top: 3px solid #facc15; border-radius: 12px; padding: 16px 18px;">
-                  <div style="margin-bottom: 8px;">
-                    <span style="display: inline-block; background-color: #fef9c3; color: #854d0e; font-size: 10.5px; font-weight: 800; padding: 3px 9px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.4px;">
-                      &#128197; Fecha de inicio de clases
-                    </span>
-                  </div>
-                  <div style="font-size: 17px; font-weight: 800; color: #0f172a;">
-                    ${fechaFormateada}
-                  </div>
-                </td>
-              </tr>
-            </table>
-
-            <!-- TARJETA DE MONITOREO Y CONSULTAS (ACENTO LATERAL AZUL) -->
-            <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 4px solid #0d3b99; border-radius: 12px; padding: 16px 20px; margin-bottom: 22px;">
-              <div style="font-size: 13px; color: #1e293b; line-height: 1.55;">
-                Este checklist cuenta con <strong>monitoreo continuo</strong> para asegurar el cumplimiento dentro de los plazos establecidos.
-              </div>
-              <div style="border-top: 1px dashed #cbd5e1; margin: 12px 0;"></div>
-              <div style="font-size: 13px; color: #334155; font-weight: 600;">
-                Quedamos atentos ante cualquier consulta &#128172;
-              </div>
-            </div>
-
-            <!-- BOTÓN CTA PÍLDORA CENTRADO -->
-            <div style="text-align: center; margin: 22px 0 20px 0;">
-              <a href="${urlParticipantes}" target="_blank" style="display: inline-block; background-color: #133c94; background: linear-gradient(180deg, #1b4bb5 0%, #0e2d75 100%); color: #ffffff !important; font-size: 13px; font-weight: 800; text-decoration: none; padding: 13px 34px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.7px; box-shadow: 0 4px 12px rgba(19, 60, 148, 0.25);">
-                ABRIR CHECKLIST
-              </a>
-            </div>
-
-            <!-- FIRMA CONCISA -->
-            <div style="border-top: 1px solid #e2e8f0; padding-top: 14px; font-size: 12.5px; color: #334155; line-height: 1.5;">
-              Saludos,<br>
-              <strong style="color: #0d3b99;">GPMC | Academia Vonex</strong>
-            </div>
-          </td>
-        </tr>
-
-        <!-- PIE DE PÁGINA INSTITUCIONAL -->
-        <tr>
-          <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 12px 20px; text-align: center; font-size: 11px; color: #94a3b8;">
-            Notificaci&#243;n autom&#225;tica del Sistema de Checklist Operativo &bull; Academia Vonex
-          </td>
-        </tr>
-      </table>
+    <!-- TARJETA DE MONITOREO Y CONSULTAS (ACENTO LATERAL AZUL) -->
+    <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 4px solid #0d3b99; border-radius: 12px; padding: 16px 20px; margin-bottom: 8px;">
+      <div style="font-size: 13px; color: #1e293b; line-height: 1.55;">
+        Este checklist cuenta con <strong>monitoreo continuo</strong> para asegurar el cumplimiento dentro de los plazos establecidos.
+      </div>
+      <div style="border-top: 1px dashed #cbd5e1; margin: 12px 0;"></div>
+      <div style="font-size: 13px; color: #334155; font-weight: 600;">
+        Quedamos atentos ante cualquier consulta &#128172;
+      </div>
     </div>
   `;
+
+  const cuerpoHtml = construirCorreoVonexFullWidth({
+    titulo: "CHECKLIST DE GESTI&#211;N DE INICIO DE CLASES",
+    subtituloHtml: `UNIVERSIDAD: <span style="color: #fde047;">${universidad}</span> &nbsp;|&nbsp; INICIO DE CLASES: <span style="color: #fde047;">${fechaFormateada}</span>`,
+    contenidoHtml: contenidoConfirmarHtml,
+    urlBoton: urlParticipantes,
+    textoBoton: "ABRIR CHECKLIST"
+  });
 
   // Destinatario principal: remitente / procesos
   let destinatarioTo = remitenteEmail;
@@ -1431,80 +1448,75 @@ function apiEnviarReporteEtapa(etapa, idChecklist) {
     `<th style="padding:6px 4px; background:#004691; color:#ffffff; font-weight:800; font-size:11px; border:1px solid #003875; text-align:center; min-width:42px;">${s}</th>`
   ).join("");
 
-  // Cuerpo HTML del correo institucional
-  const cuerpoHtml = `
-    <div style="font-family:'Segoe UI', Arial, sans-serif; max-width:820px; margin:auto; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:24px; color:#1e293b;">
-      <div style="border-bottom:2px solid #004691; padding-bottom:12px; margin-bottom:18px;">
-        <h2 style="margin:0 0 4px 0; font-size:16px; font-weight:800; color:#004691; letter-spacing:0.5px;">
-          REPORTE SEMANAL DE KPI - ${mesNombre} - 2026
-        </h2>
-        <div style="font-size:12.5px; font-weight:700; color:#64748b;">
-          A-SERV-P01 ‘GESTIÓN DE INICIO DE CLASES’ • ${datosReporte.nombreEtapa}
-        </div>
-      </div>
-
-      <p style="font-size:13px; line-height:1.6; margin:0 0 16px 0;">
-        Buen día,<br><br>
-        Se remite el Reporte de KPI asociado al proceso <strong>A-SERV-P01 – Gestión de Inicio de Clases</strong>.
+  // Cuerpo HTML del correo institucional (ancho completo 100%)
+  const contenidoReporteHtml = `
+    <div style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px 20px; margin-bottom:16px;">
+      <p style="margin:0 0 8px 0; font-size:14.5px; font-weight:700; color:#0f172a;">
+        Buen d&#237;a, estimados(as). &#128075;
       </p>
-
-      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px 16px; margin-bottom:20px;">
-        <div style="font-size:13px; font-weight:800; color:#0f172a; margin-bottom:10px;">
-          🎯 Nivel de Cumplimiento de Actividades: Corte ${fechaCorteStr}
-        </div>
-        <table style="width:100%; border-collapse:collapse; font-size:12.5px;">
-          ${lineasSedes}
-        </table>
-      </div>
-
-      <!-- MATRIZ VISUAL DE EVIDENCIA -->
-      <div style="margin-bottom:22px;">
-        <div style="font-size:12.5px; font-weight:800; color:#0f172a; margin-bottom:8px;">
-          📊 Matriz de Cumplimiento por Sede (Evidencia Digital en Vivo):
-        </div>
-        <div style="overflow-x:auto;">
-          <table style="width:100%; border-collapse:collapse; font-size:11px; border:1px solid #cbd5e1;">
-            <thead>
-              <tr>
-                <th style="padding:6px 8px; background:#004691; color:#ffffff; font-weight:800; font-size:11px; border:1px solid #003875; width:30px;">N°</th>
-                <th style="padding:6px 8px; background:#004691; color:#ffffff; font-weight:800; font-size:11px; border:1px solid #003875; text-align:left;">Actividad (${datosReporte.tareas.length})</th>
-                <th style="padding:6px 8px; background:#004691; color:#ffffff; font-weight:800; font-size:11px; border:1px solid #003875; text-align:left;">Responsable</th>
-                ${thSedes}
-              </tr>
-            </thead>
-            <tbody>
-              ${filasMatriz}
-            </tbody>
-          </table>
-        </div>
-        <div style="font-size:10.5px; color:#64748b; margin-top:6px; display:flex; gap:16px;">
-          <span><strong>Leyenda:</strong></span>
-          <span style="color:#166534;">✔️ Cumplido a tiempo</span>
-          <span style="color:#991b1b;">❌ No marcado / Pendiente</span>
-          <span style="color:#64748b;">➖ No aplica</span>
-        </div>
-      </div>
-
-      <div style="background:#fffbeb; border-left:4px solid #f59e0b; padding:12px 14px; margin-bottom:20px; font-size:12px; line-height:1.6; color:#78350f;">
-        <strong style="display:block; margin-bottom:4px;">📌 Recomendaciones:</strong>
-        <ul style="margin:0; padding-left:18px;">
-          <li>Dado que muchas actividades se realizaron en el plazo pero no fueron marcadas, se recuerda a cada área marcar cumplimiento ni bien se culmine con la asignación.</li>
-          <li>Cuando una actividad no aplique en una sede, igualmente marcar el checkbox y registrar su justificación correspondiente.</li>
-        </ul>
-      </div>
-
-      <p style="font-size:12.5px; color:#334155; margin:0 0 16px 0;">
-        Saludos,<br>
-        <strong>Gestión de Procesos y Operaciones</strong><br>
-        <span style="font-size:11px; color:#64748b;">Academia Vonex • Sistema de Gobernanza Operativa</span>
+      <p style="margin:0; font-size:13.5px; color:#334155; line-height:1.55;">
+        Se remite el <strong>Reporte de KPI</strong> asociado al proceso <strong>A-SERV-P01 &ndash; Gesti&#243;n de Inicio de Clases</strong>.
       </p>
     </div>
+
+    <div style="background-color:#ffffff; border:1px solid #e2e8f0; border-top:3px solid #0d3b99; border-radius:12px; padding:16px 20px; margin-bottom:16px;">
+      <div style="font-size:12.5px; font-weight:800; color:#0d3b99; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:10px;">
+        &#127919; Nivel de Cumplimiento por Sede (Corte ${fechaCorteStr})
+      </div>
+      <table style="width:100%; border-collapse:collapse; font-size:12.5px;">
+        ${lineasSedes}
+      </table>
+    </div>
+
+    <!-- MATRIZ VISUAL DE EVIDENCIA -->
+    <div style="background-color:#ffffff; border:1px solid #e2e8f0; border-top:3px solid #facc15; border-radius:12px; padding:16px 20px; margin-bottom:16px;">
+      <div style="font-size:12.5px; font-weight:800; color:#0f172a; margin-bottom:10px;">
+        &#128202; Matriz de Cumplimiento por Sede (Evidencia Digital en Vivo):
+      </div>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:11px; border:1px solid #cbd5e1;">
+          <thead>
+            <tr>
+              <th style="padding:6px 8px; background:#092c74; color:#ffffff; font-weight:800; font-size:11px; border:1px solid #071e54; width:30px;">N&#176;</th>
+              <th style="padding:6px 8px; background:#092c74; color:#ffffff; font-weight:800; font-size:11px; border:1px solid #071e54; text-align:left;">Actividad (${datosReporte.tareas.length})</th>
+              <th style="padding:6px 8px; background:#092c74; color:#ffffff; font-weight:800; font-size:11px; border:1px solid #071e54; text-align:left;">Responsable</th>
+              ${thSedes}
+            </tr>
+          </thead>
+          <tbody>
+            ${filasMatriz}
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:10.5px; color:#64748b; margin-top:8px;">
+        <span><strong>Leyenda:</strong></span> &nbsp;
+        <span style="color:#166534;">&#10004;&#65039; Cumplido a tiempo</span> &nbsp;&bull;&nbsp;
+        <span style="color:#991b1b;">&#10060; No marcado / Pendiente</span> &nbsp;&bull;&nbsp;
+        <span style="color:#64748b;">&#10134; No aplica</span>
+      </div>
+    </div>
+
+    <div style="background-color:#ffffff; border:1px solid #e2e8f0; border-left:4px solid #f59e0b; border-radius:12px; padding:14px 18px; margin-bottom:8px; font-size:12px; line-height:1.6; color:#78350f;">
+      <strong style="display:block; margin-bottom:4px;">&#128204; Recomendaciones:</strong>
+      <ul style="margin:0; padding-left:18px;">
+        <li>Dado que muchas actividades se realizaron en el plazo pero no fueron marcadas, se recuerda a cada &#225;rea marcar cumplimiento ni bien se culmine con la asignaci&#243;n.</li>
+        <li>Cuando una actividad no aplique en una sede, registrar la excepci&#243;n con su justificaci&#243;n correspondiente.</li>
+      </ul>
+    </div>
   `;
+
+  const cuerpoHtml = construirCorreoVonexFullWidth({
+    titulo: `REPORTE SEMANAL DE KPI - ${mesNombre} - 2026`,
+    subtituloHtml: `PROCESO: <span style="color: #fde047;">A-SERV-P01 GESTI&#211;N DE INICIO DE CLASES</span> &nbsp;|&nbsp; ETAPA: <span style="color: #fde047;">${datosReporte.nombreEtapa}</span>`,
+    contenidoHtml: contenidoReporteHtml,
+    urlBoton: `${obtenerUrlWebApp()}?page=crear`,
+    textoBoton: "ABRIR PANEL DE GESTI&#211;N"
+  });
 
   try {
     GmailApp.sendEmail(destinos.join(","), asunto, "", {
       htmlBody: cuerpoHtml,
-      name: "Gestión de Procesos Vonex"
+      name: "PROCESOS"
     });
   } catch (e) {
     Logger.log("Error al enviar correo: " + e.message);
@@ -1883,47 +1895,60 @@ function apiEnviarRecordatorioManual(idChecklist) {
       `<li style="margin-bottom:6px;"><strong>Actividad ${t.orden}:</strong> ${t.actividad} <span style="color:#64748b; font-size:11px;">(${t.etapa})</span></li>`
     ).join("");
 
-    const cuerpoHtml = `
-      <div style="font-family:'Segoe UI', Arial, sans-serif; max-width:600px; margin:auto; background:#ffffff; border-radius:12px; border:1px solid #e2e8f0; padding:22px; color:#1e293b;">
-        <div style="border-bottom:2px solid #d97706; padding-bottom:10px; margin-bottom:14px;">
-          <span style="font-size:11px; font-weight:800; color:#d97706; text-transform:uppercase; letter-spacing:0.5px;">Gestión de Procesos Vonex</span>
-          <h3 style="margin:4px 0 0 0; font-size:15px; color:#0f172a;">Recordatorio de Cumplimiento de Actividades</h3>
-        </div>
-        
-        <p style="font-size:13px; color:#334155; line-height:1.5;">
-          Estimado(a) <strong>${dest.nombre}</strong> (${dest.rol} - Sede ${dest.codigoSede}):
+    const contenidoRecordatorioHtml = `
+      <div style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px 20px; margin-bottom:16px;">
+        <p style="margin:0 0 8px 0; font-size:14.5px; font-weight:700; color:#0f172a;">
+          Buen d&#237;a, ${dest.nombre}. &#128075;
         </p>
-
-        <p style="font-size:12.5px; color:#475569; line-height:1.6;">
-          Se le recuerda que a la fecha registra <strong>${dest.totalPendientes} actividad(es) pendiente(s)</strong> de cumplimiento en el proceso de Inicio de Clases:
+        <p style="margin:0; font-size:13.5px; color:#334155; line-height:1.55;">
+          Se le recuerda que a la fecha registra <strong>${dest.totalPendientes} actividad(es) pendiente(s)</strong> en el Checklist de Gesti&#243;n de Inicio de Clases:
         </p>
+      </div>
 
-        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:12px 14px; margin:14px 0; font-size:12px; color:#92400e;">
-          <ul style="margin:0; padding-left:18px;">
-            ${listaTareasHtml}
-          </ul>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom:16px;">
+        <tr>
+          <td width="49%" valign="top" style="background-color:#ffffff; border:1px solid #e2e8f0; border-top:3px solid #facc15; border-radius:12px; padding:16px 18px;">
+            <div style="font-size:11px; font-weight:800; color:#854d0e; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+              &#9200; Actividades Pendientes
+            </div>
+            <div style="font-size:22px; font-weight:900; color:#d97706;">
+              ${dest.totalPendientes}
+            </div>
+          </td>
+          <td width="2%">&nbsp;</td>
+          <td width="49%" valign="top" style="background-color:#ffffff; border:1px solid #e2e8f0; border-top:3px solid #0d3b99; border-radius:12px; padding:16px 18px;">
+            <div style="font-size:11px; font-weight:800; color:#0d3b99; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+              &#128100; Rol / Sede
+            </div>
+            <div style="font-size:14px; font-weight:800; color:#0f172a;">
+              ${dest.rol} &bull; ${dest.codigoSede}
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <div style="background-color:#ffffff; border:1px solid #e2e8f0; border-left:4px solid #d97706; border-radius:12px; padding:16px 20px; margin-bottom:8px; font-size:12.5px; color:#334155; line-height:1.6;">
+        <div style="font-size:11.5px; font-weight:800; color:#b45309; text-transform:uppercase; margin-bottom:8px;">
+          &#128203; Detalle de actividades por registrar:
         </div>
-
-        <p style="font-size:12.5px; color:#475569; line-height:1.5;">
-          Agradeceremos ingresar al módulo institucional o a la hoja de cálculo y registrar el avance:
-        </p>
-
-        <div style="text-align:center; margin:20px 0;">
-          <a href="${obtenerUrlWebApp()}?p=participantes" target="_blank" style="display:inline-block; background:#004691; color:#ffffff; font-weight:700; font-size:12.5px; padding:10px 22px; border-radius:6px; text-decoration:none;">
-            🚀 Ir a mi Módulo de Participante
-          </a>
-        </div>
-
-        <div style="border-top:1px solid #f1f5f9; padding-top:12px; font-size:11px; color:#94a3b8; text-align:center;">
-          Academia Vonex • Dirección de Gestión de Procesos & Calidad (A-SERV-P01)
-        </div>
+        <ul style="margin:0; padding-left:18px;">
+          ${listaTareasHtml}
+        </ul>
       </div>
     `;
+
+    const cuerpoHtml = construirCorreoVonexFullWidth({
+      titulo: "RECORDATORIO DE CUMPLIMIENTO DE ACTIVIDADES",
+      subtituloHtml: `RESPONSABLE: <span style="color: #fde047;">${dest.nombre}</span> &nbsp;|&nbsp; SEDE: <span style="color: #fde047;">${dest.codigoSede}</span>`,
+      contenidoHtml: contenidoRecordatorioHtml,
+      urlBoton: `${obtenerUrlWebApp()}?page=participantes`,
+      textoBoton: "ABRIR MI CHECKLIST"
+    });
 
     try {
       GmailApp.sendEmail(dest.email, asunto, "", {
         htmlBody: cuerpoHtml,
-        name: "Gestión de Procesos Vonex"
+        name: "PROCESOS"
       });
       enviados++;
     } catch (e) {
