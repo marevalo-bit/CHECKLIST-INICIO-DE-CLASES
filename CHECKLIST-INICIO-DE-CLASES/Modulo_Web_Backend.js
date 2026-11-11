@@ -1091,55 +1091,101 @@ function apiConfirmarFechasYNotificar(idChecklist, tareasModificadas, checklistI
 
   // Remitente
   const remitenteEmail = usuario.email || "procesos@hnc.pe";
-  const remitenteNombre = usuario.nombre || (usuario.esDirectorZonal ? "Erick Ronald Velasquez Guevara" : "Gustavo Adolfo Vallejo Contreras");
-  const remitenteCargo = usuario.esDirectorZonal ? "Director Zonal" : "Analista de Gestión de Procesos";
 
   // URL para ingresar al módulo de participantes
   const urlBase = obtenerUrlWebApp();
   const urlParticipantes = `${urlBase}?page=participantes&chk=${encodeURIComponent(idChecklist)}`;
 
-  // Cuerpo del correo con diseño horizontal (ancho 740px), entidades HTML seguras para emojis, texto concreto y botón destacado
+  // Cuerpo del correo moderno 100% ancho completo (estilo institucional banner azul + tarjetas)
   const cuerpoHtml = `
-    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 13.5px; line-height: 1.5; color: #1e293b; max-width: 740px; margin: 0 auto; padding: 22px 28px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px;">
-      
-      <p style="margin: 0 0 12px 0; font-size: 14px; color: #0f172a;">
-        Buen d&#237;a, estimados(as) &#128075;
-      </p>
-
-      <p style="margin: 0 0 16px 0; color: #334155;">
-        Se comparte el <strong>Checklist de Gesti&#243;n de Inicio de Clases</strong> para el registro y seguimiento de las actividades asignadas:
-      </p>
-
-      <!-- FILA HORIZONTAL: DATOS CLAVE (IZQUIERDA) + BOTÓN DE ACCIÓN DESTACADO (DERECHA) -->
-      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #004691; border-radius: 8px;">
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; width: 100%; margin: 0; padding: 0; background-color: #f1f5f9;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; background-color: #ffffff; border: 1px solid #dbeafe; border-radius: 14px; overflow: hidden; border-collapse: separate;">
+        <!-- BANNER SUPERIOR AZUL MARINO CON LÍNEA DORADA -->
         <tr>
-          <td style="padding: 14px 18px; vertical-align: middle;">
-            <div style="font-size: 13px; color: #475569; margin-bottom: 4px;">
-              &#127891; Universidad: <strong style="color: #0f172a; font-size: 14px;">${universidad}</strong>
+          <td style="background-color: #092c74; background: linear-gradient(180deg, #0d3b99 0%, #071e54 100%); border-bottom: 3px solid #facc15; padding: 24px 24px 20px 24px; text-align: center;">
+            <div style="display: inline-block; background-color: #ffe600; color: #071e54; font-weight: 900; font-size: 13px; padding: 7px 18px; border-radius: 8px; letter-spacing: 0.5px; margin-bottom: 12px;">
+              ACADEMIA VONEX
             </div>
-            <div style="font-size: 13px; color: #475569;">
-              &#128197; Inicio de clases: <strong style="color: #0f172a; font-size: 14px;">${fechaFormateada}</strong>
+            <div style="color: #ffffff; font-size: 19px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; margin: 0 0 8px 0;">
+              CHECKLIST DE GESTI&#211;N DE INICIO DE CLASES
+            </div>
+            <div style="color: #e2e8f0; font-size: 12px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;">
+              UNIVERSIDAD: <span style="color: #fde047;">${universidad}</span> &nbsp;|&nbsp; INICIO DE CLASES: <span style="color: #fde047;">${fechaFormateada}</span>
             </div>
           </td>
-          <td style="padding: 14px 18px; text-align: right; vertical-align: middle; white-space: nowrap;">
-            <a href="${urlParticipantes}" target="_blank" style="display: inline-block; background-color: #004691; color: #ffffff !important; font-size: 13px; font-weight: 800; text-decoration: none; padding: 11px 22px; border-radius: 6px; border: 1px solid #003366; box-shadow: 0 2px 6px rgba(0,70,145,0.3); text-transform: uppercase; letter-spacing: 0.5px;">
-              VER CHECKLIST &rarr;
-            </a>
+        </tr>
+
+        <!-- CUERPO DEL CORREO (ANCHO COMPLETO CON TARJETAS MODERNAS) -->
+        <tr>
+          <td style="background-color: #f8fafc; padding: 24px 26px;">
+            <!-- SALUDO E INTRODUCCIÓN -->
+            <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px;">
+              <p style="margin: 0 0 8px 0; font-size: 14.5px; font-weight: 700; color: #0f172a;">
+                Buen d&#237;a, estimados(as). &#128075;
+              </p>
+              <p style="margin: 0; font-size: 13.5px; color: #334155; line-height: 1.55;">
+                Se comparte el <strong>CHECKLIST de Gesti&#243;n de Inicio de Clases</strong> para que cada responsable registre el avance de las actividades asignadas.
+              </p>
+            </div>
+
+            <!-- DOS TARJETAS PARALELAS (UNIVERSIDAD + FECHA DE INICIO) -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 16px;">
+              <tr>
+                <td width="49%" valign="top" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-top: 3px solid #0d3b99; border-radius: 12px; padding: 16px 18px;">
+                  <div style="font-size: 11px; font-weight: 800; color: #0d3b99; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+                    &#127891; Universidad
+                  </div>
+                  <div style="font-size: 17px; font-weight: 800; color: #0f172a;">
+                    ${universidad}
+                  </div>
+                </td>
+                <td width="2%">&nbsp;</td>
+                <td width="49%" valign="top" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-top: 3px solid #facc15; border-radius: 12px; padding: 16px 18px;">
+                  <div style="margin-bottom: 8px;">
+                    <span style="display: inline-block; background-color: #fef9c3; color: #854d0e; font-size: 10.5px; font-weight: 800; padding: 3px 9px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.4px;">
+                      &#128197; Fecha de inicio de clases
+                    </span>
+                  </div>
+                  <div style="font-size: 17px; font-weight: 800; color: #0f172a;">
+                    ${fechaFormateada}
+                  </div>
+                </td>
+              </tr>
+            </table>
+
+            <!-- TARJETA DE MONITOREO Y CONSULTAS (ACENTO LATERAL AZUL) -->
+            <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 4px solid #0d3b99; border-radius: 12px; padding: 16px 20px; margin-bottom: 22px;">
+              <div style="font-size: 13px; color: #1e293b; line-height: 1.55;">
+                Este checklist cuenta con <strong>monitoreo continuo</strong> para asegurar el cumplimiento dentro de los plazos establecidos.
+              </div>
+              <div style="border-top: 1px dashed #cbd5e1; margin: 12px 0;"></div>
+              <div style="font-size: 13px; color: #334155; font-weight: 600;">
+                Quedamos atentos ante cualquier consulta &#128172;
+              </div>
+            </div>
+
+            <!-- BOTÓN CTA PÍLDORA CENTRADO -->
+            <div style="text-align: center; margin: 22px 0 20px 0;">
+              <a href="${urlParticipantes}" target="_blank" style="display: inline-block; background-color: #133c94; background: linear-gradient(180deg, #1b4bb5 0%, #0e2d75 100%); color: #ffffff !important; font-size: 13px; font-weight: 800; text-decoration: none; padding: 13px 34px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.7px; box-shadow: 0 4px 12px rgba(19, 60, 148, 0.25);">
+                ABRIR CHECKLIST
+              </a>
+            </div>
+
+            <!-- FIRMA CONCISA -->
+            <div style="border-top: 1px solid #e2e8f0; padding-top: 14px; font-size: 12.5px; color: #334155; line-height: 1.5;">
+              Saludos,<br>
+              <strong style="color: #0d3b99;">GPMC | Academia Vonex</strong>
+            </div>
+          </td>
+        </tr>
+
+        <!-- PIE DE PÁGINA INSTITUCIONAL -->
+        <tr>
+          <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 12px 20px; text-align: center; font-size: 11px; color: #94a3b8;">
+            Notificaci&#243;n autom&#225;tica del Sistema de Checklist Operativo &bull; Academia Vonex
           </td>
         </tr>
       </table>
-
-      <!-- NOTA DE MONITOREO BREVE -->
-      <div style="background-color: #fefce8; border: 1px solid #fef08a; border-left: 3px solid #ca8a04; padding: 8px 14px; border-radius: 6px; font-size: 12px; color: #854d0e; margin-bottom: 18px;">
-        Este checklist cuenta con <strong>monitoreo continuo</strong> para asegurar el cumplimiento dentro de los plazos establecidos.
-      </div>
-
-      <!-- FIRMA -->
-      <div style="border-top: 1px solid #e2e8f0; padding-top: 10px; color: #64748b; font-size: 11.5px; line-height: 1.4;">
-        <strong style="color: #004691; font-size: 12.5px;">${remitenteNombre}</strong><br>
-        <span>${remitenteCargo} | Academia Vonex</span>
-      </div>
-
     </div>
   `;
 
@@ -1161,7 +1207,7 @@ function apiConfirmarFechasYNotificar(idChecklist, tareasModificadas, checklistI
     GmailApp.sendEmail(destinatarioTo, asunto, "", {
       cc: listaCc.join(","),
       htmlBody: cuerpoHtml,
-      name: remitenteNombre + " (Gestión de Procesos Vonex)"
+      name: "PROCESOS"
     });
     enviado = true;
 
